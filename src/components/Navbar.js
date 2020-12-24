@@ -23,6 +23,8 @@ const Navbar = () => {
     let local_authority = authority;
 
     useEffect(() => {
+        console.log(location);
+        console.log(window.location.pathname);
         Axios.get('https://rt-foto-editor.herokuapp.com/loginStatus').then((response) => {
             checkLegalRoute(response).then(function (message) {
                 console.log(message);
