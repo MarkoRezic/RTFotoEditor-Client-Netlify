@@ -18,12 +18,10 @@ const Navbar = () => {
     Axios.defaults.withCredentials = true;
 
     const [legalRoute, setLegalRoute] = useState(true);
-    let location = window.location.pathname;
     let local_loginStatus = loginStatus;
     let local_authority = authority;
 
     useEffect(() => {
-        console.log(location);
         console.log(window.location.pathname);
         Axios.get('https://rt-foto-editor.herokuapp.com/loginStatus').then((response) => {
             checkLegalRoute(response).then(function (message) {
@@ -99,7 +97,7 @@ const Navbar = () => {
     function setRealValues(legalRouteList) {
         let flag = true;
         for (var i = 0; i < legalRouteList.length; i++) {
-            if (location === legalRouteList[i]) {
+            if (window.location.pathname === legalRouteList[i]) {
                 flag = false;
                 setLegalRoute(true);
                 console.log('route is legal');
