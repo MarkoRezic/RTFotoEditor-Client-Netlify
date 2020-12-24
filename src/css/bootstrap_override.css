@@ -1,0 +1,377 @@
+/*Klase*/
+.nav-link, .alink{
+	font-family: Verdana;
+}
+.dropdown{
+  position: relative;
+  padding: .5rem;
+  font-weight: 500;
+}
+.dropdown-item{
+	background-color: #333333 !important;
+	font-family: Verdana;
+	text-decoration: none;
+	color: white;
+}
+.dropdown-item:hover{
+	background-color: #999999 !important;
+	font-family: Verdana;
+	text-decoration: none;
+	color: black;
+}
+.nav-link:hover{
+  -webkit-animation: glow 1s ease-in-out infinite alternate;
+  -moz-animation: glow 1s ease-in-out infinite alternate;
+  animation: glow 1s ease-in-out infinite alternate;
+}
+.break{
+	height: 195px;
+}
+.teh{
+	border: 2px solid rgba(210,210,230, 0.2);
+	border-radius: 8px;
+	min-width: 120px;
+	text-align: center;
+	padding-bottom: 20px;
+}
+.exp{
+	padding-top: 20px;
+}
+.teh:hover{
+	opacity: 0.7;
+}
+.html{box-shadow: 0px 0px 10px red inset;}
+.css3{box-shadow: 0px 0px 10px #4444FF inset;}
+.javascript{box-shadow: 0px 0px 10px yellow inset;}
+.sql{box-shadow: 0px 0px 10px white inset;}
+.node{box-shadow: 0px 0px 10px #00FF00 inset;}
+.atom{box-shadow: 0px 0px 8px white inset, 0px 0px 15px green inset, 0px 0px 15px green inset;}
+.boot{box-shadow: 0px 0px 10px #BA55D3 inset;}
+.react{box-shadow: 0px 0px 10px cyan inset;}
+.mysql{box-shadow: 0px 0px 6px white inset, 0px 0px 18px orange inset;}
+.exp{box-shadow: 0px 0px 6px white inset, 0px 0px 14px yellow inset;}
+.logo{
+	height: 5rem;
+}
+.blog-post, .btrans{
+	background: rgba(10,10,30, 0.5);
+	padding: 25px;
+	border: 2px solid rgba(210,210,230, 0.2);
+	border-radius: 8px;
+}
+.btrans{
+	background: rgba(0,0,0, 0.5);
+	max-width: 33rem;
+}
+.blog-post-meta{
+	font-family: Courier;
+}
+.blog-post-title, h1.text-center{
+	text-shadow: 0px 0px 22px #DDDDDD;
+}
+.autori{
+	border: 3px solid rgba(210,210,230, 0.5);
+	border-radius: 5px;
+	height: 100;
+	width: 100;
+	width: 100%;
+	height: inherit;
+}
+.placeholder{
+	width: 25rem !important;
+	height: 25rem !important;
+	background-color: black !important;
+	margin: auto !important;
+	border: 3px solid rgba(210,210,230, 0.2) !important;
+}
+.holder-buttons, .holder-sliders {
+	height: 25rem;
+	background: rgba(10,10,30, 0.5);
+	margin: auto;
+	border: 3px solid rgba(210,210,230, 0.2);
+	border-radius: 8px;
+	padding: 0.4rem;
+	padding-left: 0.3rem !important;
+}
+.edit-button{
+	width: 1.5rem !important;
+	height: 1.5rem !important;
+	border-radius: 4px;
+	margin-left: 0;
+}
+.slider{
+	width: 100% !important;
+}
+.white-text{
+	color: white !important;
+	font-family: monospace !important;
+}
+.tehimg{
+	margin:auto; 
+	display:block;
+	height: 80px;
+}
+.expimg{
+	margin-bottom: 20px;
+	height: 40px;
+	width: 100px;
+}
+.framew{
+	font-size: 22px;
+}
+.Register{
+	justify-content: center;
+}
+.registerButton{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 22px;
+	border-radius: 5px;
+	background-color: #4CAF50;
+	color: white;
+	padding: 16px 20px;
+	margin: 8px 0;
+	border: none;
+	cursor: pointer;
+	width: 100%;
+	opacity: 0.9;
+}
+.registerButton:hover{
+	opacity: 1;
+}
+.registerButton:active{
+	opacity: 0.6;
+}
+.append{
+	width: 85px;
+	font-size: 15px !important;
+}
+.checkbox{
+	color: #999999;
+}
+.underlined{
+	text-decoration: underline;
+}
+.errorText{
+	color: rgb(223, 61, 61) !important;
+}
+.fileUpload{
+	color:#999999;
+}
+.form-control-file{
+	border: 2px solid #999999;
+	border-radius: 2px;
+}
+
+
+/*Element, Element.klasa*/
+body{
+	background:
+  linear-gradient(135deg, black 48%, transparent 75%) -50px 0,
+  linear-gradient(225deg, black 48%, transparent 25%) -50px 0,
+  linear-gradient(315deg, black 15%, transparent 55%),
+  linear-gradient(45deg, black 15%, transparent 35%) !important;
+  background-size: 2em 2em !important;
+  background-color: #333355 !important;
+	background-attachment: fixed !important;
+}
+p, li{
+	font-family: "Lucida Console";
+}
+button.dropdown-toggle{
+  background-color: #070707;
+  border-color: #222222;
+  border-width: 2px;
+}
+button.dropdown-toggle:hover, button.dropdown{
+  background-color: #333333;
+  border-color: #555555;
+  border-width: 2px;
+}
+div.dropdown-menu{
+	background-color: #333333;
+	font-family: Verdana;
+	text-decoration: none;
+}
+div.row.justify-content-around{
+	background: rgba(0,0,0, 0.5);
+	padding: 25px;
+	border: 3px solid rgba(210,210,230, 0.5);
+  border-radius: 8px;
+}
+a.item-link.dropdown-item{
+	color: white;
+	text-decoration: none;
+}
+a.item-link.dropdown-item:hover{
+	color: black;
+	text-decoration: none;
+}
+a.item-link.dropdown-item:active{
+	background-color: #666666;
+	color: white;
+	text-decoration: none;
+}
+a.item-link.dropdown-item:focus{
+	background-color: #666666;
+	color: white;
+	text-decoration: none;
+}
+a.text-center{
+	font-family: "Lucida Console";
+	text-decoration: none;
+	color: #bbb;
+}
+a.text-center:hover{
+	font-family: "Lucida Console";
+	text-decoration: none;
+	color: white;
+}
+h1.text-center, h1, h2.w, h3, h4.w, h5.w, .blog-post-title , p, p.blog-post-meta, li {
+	color: #bbb;
+	text-shadow: 1px 1px 8px #000099;
+}
+
+hr.round{
+	border: 5px solid rgba(210,210,230, 0.5);
+  border-radius: 8px;
+}
+
+svg{
+	padding-top: 2px;
+}
+
+
+
+/*ID*/
+#html{
+	text-shadow: 0px 0px 20px #FF4444, 0px 0px 20px #FF4444, 0px 0px 20px #FF4444;
+}
+#html:hover{
+	text-shadow: 0px 0px 30px white, 0px 0px 30px white, 0px 0px 30px white, 0px 0px 20px white, 0px 0px 10px white;
+}
+#css3{
+	text-shadow: 0px 0px 25px #2222FF, 0px 0px 25px #AAAAFF, 0px 0px 25px#AAAAFF, 0px 0px 25px#AAAAFF, 0px 0px 25px#AAAAFF;
+}
+#css3:hover{
+	text-shadow: 0px 0px 30px white, 0px 0px 30px white, 0px 0px 30px white, 0px 0px 20px white, 0px 0px 10px white;
+}
+#javascript{
+	text-shadow: 0px 0px 20px yellow, 0px 0px 20px yellow, 0px 0px 20px yellow;
+}
+#javascript:hover{
+	text-shadow: 0px 0px 30px white, 0px 0px 30px white, 0px 0px 30px white, 0px 0px 20px white, 0px 0px 10px white;
+}
+#sql{
+	text-shadow: 0px 0px 20px white, 0px 0px 20px white, 0px 0px 20px white;
+}
+#sql:hover{
+	text-shadow: 0px 0px 30px white, 0px 0px 30px white, 0px 0px 30px white, 0px 0px 20px white, 0px 0px 10px white;
+}
+#node{
+	text-shadow: 0px 0px 20px #00FF00, 0px 0px 20px #00FF00, 0px 0px 20px #00FF00;
+}
+#node:hover{
+	text-shadow: 0px 0px 30px white, 0px 0px 30px white, 0px 0px 30px white, 0px 0px 20px white, 0px 0px 10px white;
+}
+#atom{
+	text-shadow: 0px 0px 10px white, 0px 0px 20px #00FF00, 0px 0px 20px #00FF00;
+}
+#atom:hover{
+	text-shadow: 0px 0px 30px white, 0px 0px 30px white, 0px 0px 30px white, 0px 0px 20px white, 0px 0px 10px white;
+}
+#boot{
+	text-shadow: 0px 0px 20px #BA55D3, 0px 0px 20px #BA55D3, 0px 0px 20px #BA55D3;
+}
+#boot:hover{
+	text-shadow: 0px 0px 30px white, 0px 0px 30px white, 0px 0px 30px white, 0px 0px 20px white, 0px 0px 10px white;
+}
+#react{
+	text-shadow: 0px 0px 20px cyan, 0px 0px 20px cyan, 0px 0px 20px cyan;
+}
+#react:hover{
+	text-shadow: 0px 0px 30px white, 0px 0px 30px white, 0px 0px 30px white, 0px 0px 20px white, 0px 0px 10px white;
+}
+#mysql{
+	text-shadow: 0px 0px 15px MediumTurquoise, 0px 0px 15px MediumTurquoise, 0px 0px 20px MediumTurquoise, 0px 0px 20px navy, 0px 0px 20px navy, 0px 0px 30px orange, 0px 0px 30px orange, 0px 0px 30px orange;
+}
+#mysql:hover{
+	text-shadow: 0px 0px 30px white, 0px 0px 30px white, 0px 0px 30px white, 0px 0px 20px white, 0px 0px 10px white;
+}
+#exp{
+	text-shadow: 0px 0px 20px yellow, 0px 0px 20px yellow, 0px 0px 20px yellow;
+}
+#exp:hover{
+	text-shadow: 0px 0px 30px white, 0px 0px 30px white, 0px 0px 30px white, 0px 0px 20px white, 0px 0px 10px white;
+}
+
+#toni, #marko{
+	background: rgba(10,10,90, 0.2);
+	padding: 25px;
+	border: 3px solid rgba(210,210,230, 0.5);
+  border-radius: 8px;
+}
+
+
+/*Scrollbar*/
+::-webkit-scrollbar {
+	width: 8px;
+}
+::-webkit-scrollbar-track {
+	background: black;
+	box-shadow: inset 0 0 5px grey;
+}
+::-webkit-scrollbar-thumb {
+	background: #333;
+}
+::-webkit-scrollbar-thumb:hover {
+	background: #777;
+}
+::-webkit-scrollbar-thumb:active {
+	background: #555;
+}
+
+
+/*Animacije*/
+@keyframes glow {
+  from {
+    text-shadow: 0 0 5px #fff, 0 0 20px #fff, 0 0 10px #0044ff, 0 0 10px #0044ff, 0 0 20px #0044ff, 0 0 30px #0044ff, 0 0 40px #0044ff;
+  }
+  to {
+    text-shadow: 0 0 10px #fff, 0 0 30px #adc3ff, 0 0 15px #adc3ff, 0 0 20px #adc3ff, 0 0 30px #adc3ff, 0 0 40px #adc3ff, 0 0 50px #adc3ff;
+  }
+}
+/*Media Queries*/
+@media only screen and (min-width: 356px) {
+  /* For mobile phones: */
+  [class*="break"] {
+    height: 130px;
+  }
+  [class*="append"] {
+	width: 105px;
+	font-size: inherit !important;
+  }
+}
+@media screen and (min-width: 367px) and (max-width: 756px) {
+  /* For mobile phones: */
+  [class*="teh"] {
+    min-width: 140px !important;
+    max-width: 220px !important;
+  }
+  [class*="tehimg"] {
+    min-width: 40px !important;
+  }
+}
+@media only screen and (min-width: 673px) {
+  /* Desktop: */
+  [class*="break"] {
+    height: 65px;
+  }
+	[class*="edit-button"] {
+    height: 2.5rem !important;
+		width: 2.5rem !important;
+  }
+	[class*="holder-buttons"] {
+    padding: 0.6rem;
+		padding-left: 0.5rem !important;
+  }
+}
