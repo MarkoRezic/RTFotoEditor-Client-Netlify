@@ -7,7 +7,6 @@ export const AuthorityProvider = (props) => {
     const [{ loginStatus, authority }, setAuthority] = useState({ loginStatus: false, authority: 'guest' });
     const [userList, setUserList] = useState([]);
     const [currentUser, setCurrentUser] = useState({});
-
     Axios.defaults.withCredentials = true;
 
     useEffect(() => {
