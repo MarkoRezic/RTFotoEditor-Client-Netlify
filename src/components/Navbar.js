@@ -135,8 +135,9 @@ const Navbar = () => {
             setCurrentUser(response.data);
             Authorize(false, 'guest');
             setLegalRoute(true);
-            window.history.pushState({}, '', '/login');
-            window.location.reload();
+            window.history.pushState({}, '', '/login').then((response)=>{
+                window.location.reload();
+            });
         })
     }
 
