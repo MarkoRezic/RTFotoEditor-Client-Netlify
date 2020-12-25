@@ -129,13 +129,20 @@ const Navbar = () => {
             .then(validate)
     }
 
+    function redirectReload(redirectPath){
+        window.history.pushState({}, '', redirectPath);
+        return new Promise(function (resolve, reject) {
+            resolve();
+        })
+    }
+
 
     function logout() {
         Axios.get('https://rt-foto-editor.herokuapp.com/logout').then((response) => {
             setCurrentUser(response.data);
             Authorize(false, 'guest');
             setLegalRoute(true);
-            window.history.pushState({}, '', '/login').then((response)=>{
+            redirectReload('/login').then((response)=>{
                 window.location.reload();
             });
         })
