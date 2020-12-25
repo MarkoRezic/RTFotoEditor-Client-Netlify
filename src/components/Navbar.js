@@ -110,12 +110,14 @@ const Navbar = () => {
     }
 
     function validate(flag) {
+        let message = 'no redirect necessary';
         if (flag) {
             setLegalRoute(false);
             console.log('route is illegal');
+            message = 'redirecting';
         }
         return new Promise(function (resolve, reject) {
-            resolve();
+            resolve(message);
         })
     }
 
