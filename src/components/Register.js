@@ -118,11 +118,11 @@ const Register = () => {
                             password: password
                         }).then((response) => {
                             let userMatch = response.data.result;
+                            console.log('user logged in');
                             localStorage.setItem('token', response.data.token);
                             setCurrentUser(userMatch);
                             setAuthority({ loginStatus: true, authority: userMatch.authority });
                             setRedirect(true);
-                            window.location.reload();
                         });
                     }
                     else window.location.reload();
