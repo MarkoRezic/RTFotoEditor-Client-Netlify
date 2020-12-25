@@ -17,6 +17,19 @@ const Login = () => {
         passwordError: ''
     });
 
+    var caps = document.getElementById("caps");
+    let CapsLock = false;
+
+    caps.addEventListener("keyup", function(event) {
+
+        // If "caps lock" is pressed, display the warning text
+        if (event.getModifierState("CapsLock")) {
+          CapsLock = true;
+        } else {
+          CapsLock = false;
+        }
+    });
+
     useEffect(() => {
         if (loginStatus) {
             console.log('user logged in');
@@ -116,6 +129,7 @@ const Login = () => {
                                             </InputGroup.Append>
                                         </InputGroup>
                                         <Form.Text className="errorText">{errorText.passwordError}</Form.Text>
+                                        <Form.Text id="caps">{CapsLock ? "Warning: Caps Lock is on" : null}</Form.Text>
                                     </Form.Group>
                                     <Form.Group className="justify-content-center">
                                         <button className="registerButton" type="submit" onClick={userLogin} name="button">Login</button>
