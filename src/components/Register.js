@@ -22,19 +22,6 @@ const Register = () => {
         repasswordError: ''
     });
 
-    var caps = document.getElementById("caps");
-    let CapsLock = false;
-
-    caps.addEventListener("keyup", function(event) {
-
-        // If "caps lock" is pressed, display the warning text
-        if (event.getModifierState("CapsLock")) {
-          CapsLock = true;
-        } else {
-          CapsLock = false;
-        }
-    });
-
 
     useEffect(() => {
         Axios.get('https://rt-foto-editor.herokuapp.com/users').then((response) => {
@@ -216,7 +203,6 @@ const Register = () => {
                                         <Form.Text muted>
                                             Your password must be at least 8 characters long
                                         </Form.Text>
-                                        <Form.Text id="caps">{CapsLock ? "Warning: Caps Lock is on" : null}</Form.Text>
                                     </Form.Group>
                                     <Form.Group controlId="formBasicCheckbox">
                                         <Form.Check className="checkbox" checked={autoLogin} onChange={() => { setAutoLogin(!autoLogin) }} type="checkbox" label="Login after registration" />
