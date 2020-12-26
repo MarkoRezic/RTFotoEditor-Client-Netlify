@@ -18,6 +18,11 @@ const Login = () => {
         usernameError: '',
         passwordError: ''
     });
+    const headers = {
+        'Access-Control-Allow-Origin': 'https://rt-foto-editor.netlify.app',
+        'Access-Control-Allow-Methods': "*",
+        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+    }
 
     useEffect(() => {
         if (loginStatus) {
@@ -33,11 +38,6 @@ const Login = () => {
 
         var validUsername = 1, validPassword = 1;
         let newErrorText = ['', ''];
-        const headers = {
-            'Access-Control-Allow-Origin': 'https://rt-foto-editor.netlify.app',
-            'Access-Control-Allow-Methods': "*",
-            'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
-        }
 
         Axios.post('https://rt-foto-editor.herokuapp.com/login', {
             username: username,
