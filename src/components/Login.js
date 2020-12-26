@@ -33,7 +33,6 @@ const Login = () => {
         let newErrorText = ['', ''];
 
         Axios.post('https://rt-foto-editor.herokuapp.com/login', {
-            "Access-Control-Allow-Origin": ORIGIN_NETLIFY,
             username: username,
             password: password
         }).then((response) => {
