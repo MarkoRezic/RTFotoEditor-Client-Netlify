@@ -34,7 +34,7 @@ const Login = () => {
         var validUsername = 1, validPassword = 1;
         let newErrorText = ['', ''];
 
-        Axios.post(proxyurl + 'https://rt-foto-editor.herokuapp.com/login', {
+        Axios.post('https://rt-foto-editor.herokuapp.com/login', {
             username: username,
             password: password
         }).then((response) => {
