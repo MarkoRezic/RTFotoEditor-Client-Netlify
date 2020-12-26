@@ -7,7 +7,7 @@ import { AuthorityContext } from './AuthorityContext';
 const Login = () => {
     // eslint-disable-next-line
     const [{ loginStatus, authority }, setAuthority, userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
-    Axios.defaults.withCredentials = false;
+    Axios.defaults.withCredentials = true;
 
     const url = "https://rt-foto-editor.herokuapp.com";
     //const url = "https://localhost:3001";
@@ -19,10 +19,6 @@ const Login = () => {
         usernameError: '',
         passwordError: ''
     });
-
-    const headers = {
-        'Access-Control-Allow-Origin': '*'
-    }
 
     /*function performSignIn() {
     let headers = new Headers();
@@ -61,8 +57,6 @@ const Login = () => {
         Axios.post(url+'/login', {
             username: username,
             password: password,
-        }, {
-            headers: headers
         }).then((response) => {
             console.log(response);
             let userMatch = response.data.result;

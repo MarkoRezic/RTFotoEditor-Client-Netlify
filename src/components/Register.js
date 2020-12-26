@@ -7,7 +7,7 @@ import { AuthorityContext } from './AuthorityContext';
 const Register = () => {
     // eslint-disable-next-line
     const [{ loginStatus, authority }, setAuthority, userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
-    Axios.defaults.withCredentials = false;
+    Axios.defaults.withCredentials = true;
 
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');

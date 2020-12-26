@@ -15,7 +15,7 @@ import Error403 from './Error403';
 const Navbar = () => {
     // eslint-disable-next-line
     const [{ loginStatus, authority }, setAuthority, userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
-    Axios.defaults.withCredentials = false;
+    Axios.defaults.withCredentials = true;
 
     const [legalRoute, setLegalRoute] = useState(true);
     let local_loginStatus = loginStatus;
