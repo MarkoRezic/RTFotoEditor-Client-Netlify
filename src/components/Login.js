@@ -19,7 +19,6 @@ const Login = () => {
         passwordError: ''
     });
     const headers = {
-        'Origin': 'https://rt-foto-editor.netlify.app',
         'Access-Control-Allow-Origin': 'https://rt-foto-editor.netlify.app',
         'Access-Control-Allow-Methods': "*",
         'Access-Control-Allow-Credentials': true,
