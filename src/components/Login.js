@@ -19,7 +19,7 @@ const Login = () => {
         passwordError: ''
     });
     const headers = {
-        'Access-Control-Allow-Origin': 'https://rt-foto-editor.herokuapp.com',
+        'Access-Control-Allow-Origin': 'https://rt-foto-editor.netlify.app/',
         'Access-Control-Allow-Methods': "*",
         'Access-Control-Allow-Credentials': true,
         'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
