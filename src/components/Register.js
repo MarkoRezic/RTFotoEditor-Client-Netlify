@@ -8,6 +8,8 @@ const Register = () => {
     // eslint-disable-next-line
     const [{ loginStatus, authority }, setAuthority, userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
     Axios.defaults.withCredentials = true;
+    //let url = 'https://rt-foto-editor.herokuapp.com';
+    let url = 'http://localhost:3001';
 
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
@@ -24,7 +26,7 @@ const Register = () => {
 
 
     useEffect(() => {
-        Axios.get('https://rt-foto-editor.herokuapp.com/users').then((response) => {
+        Axios.get(url+'/users').then((response) => {
             setUserList([...response.data]);
         });
         if (loginStatus) {
@@ -42,7 +44,7 @@ const Register = () => {
         var validEmail = 1, validUsername = 1, validPassword = 1, validRepassword = 1;
         let newErrorText = ['', '', '', ''];
 
-        Axios.get('https://rt-foto-editor.herokuapp.com/users').then((response) => {
+        Axios.get(url+'/users').then((response) => {
             setUserList([...response.data]);
             if (email.length === 0) {
                 validEmail = -1;
@@ -101,19 +103,19 @@ const Register = () => {
             });
 
             if (validEmail === 1 && validUsername === 1 && validPassword === 1 && validRepassword === 1) {
-                Axios.post('https://rt-foto-editor.herokuapp.com/register/user', {
+                Axios.post(url+'/register/user', {
                     email: email,
                     username: username,
                     password: password,
                     authority: 3
                 }).then(() => {
-                    Axios.get('https://rt-foto-editor.herokuapp.com/users').then((response) => {
+                    Axios.get(url+'/users').then((response) => {
                         setUserList([...response.data]);
                     });
                     console.log('user registered');
                     window.scrollTo(0, 0);
                     if (autoLogin) {
-                        Axios.post('https://rt-foto-editor.herokuapp.com/login', {
+                        Axios.post(url+'/login', {
                             username: username,
                             password: password
                         }).then((response) => {

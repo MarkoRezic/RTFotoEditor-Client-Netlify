@@ -16,6 +16,8 @@ const Navbar = () => {
     // eslint-disable-next-line
     const [{ loginStatus, authority }, setAuthority, userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
     Axios.defaults.withCredentials = true;
+    //let url = 'https://rt-foto-editor.herokuapp.com';
+    let url = 'http://localhost:3001';
 
     const [legalRoute, setLegalRoute] = useState(true);
     let local_loginStatus = loginStatus;
@@ -23,14 +25,14 @@ const Navbar = () => {
 
     useEffect(() => {
         console.log(window.location.pathname);
-        Axios.get('https://rt-foto-editor.herokuapp.com/loginStatus').then((response) => {
+        Axios.get(url+'/loginStatus').then((response) => {
             checkLegalRoute(response).then(function (message) {
                 console.log(message);
             })
         })
         window.onpopstate = function (event) {
             window.location.reload();
-            Axios.get('https://rt-foto-editor.herokuapp.com/loginStatus').then((response) => {
+            Axios.get(url+'/loginStatus').then((response) => {
                 checkLegalRoute(response).then(function (message) {
                     console.log(message);
                 })
@@ -138,7 +140,7 @@ const Navbar = () => {
 
 
     function logout() {
-        Axios.get('https://rt-foto-editor.herokuapp.com/logout').then((response) => {
+        Axios.get(url+'/logout').then((response) => {
             setCurrentUser(response.data);
             Authorize(false, 'guest');
             setLegalRoute(true);
