@@ -6,7 +6,7 @@ import { Form } from 'react-bootstrap';
 const Profil = () => {
     // eslint-disable-next-line
     const [{ loginStatus, authority }, setAuthority, userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
-    Axios.defaults.withCredentials = true;
+    Axios.defaults.withCredentials = false;
 
     const checkAuth = () => {
         Axios.get('https://rt-foto-editor.herokuapp.com/userAuthentication', {
