@@ -9,7 +9,8 @@ const Login = () => {
     const [{ loginStatus, authority }, setAuthority, userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
     Axios.defaults.withCredentials = false;
 
-    const proxyurl = "https://cors-anywhere.herokuapp.com/";
+    const url = "https://rt-foto-editor.herokuapp.com";
+    //const url = "https://localhost:3001";
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -22,6 +23,25 @@ const Login = () => {
     const headers = {
         'Access-Control-Allow-Origin': '*'
     }
+
+    /*function performSignIn() {
+    let headers = new Headers();
+
+    headers.append('Content-Type', 'application/json');
+    headers.append('Accept', 'application/json');
+    headers.append('Authorization', 'Basic ' + base64.encode(username + ":" +  password));
+    headers.append('Origin','http://localhost:3000');
+
+    fetch(sign_in, {
+        mode: 'cors',
+        credentials: 'include',
+        method: 'POST',
+        headers: headers
+    })
+    .then(response => response.json())
+    .then(json => console.log(json))
+    .catch(error => console.log('Authorization failed : ' + error.message));
+    } MAYBE TRY THIS INSTEAD */
 
     useEffect(() => {
         if (loginStatus) {
@@ -38,7 +58,7 @@ const Login = () => {
         var validUsername = 1, validPassword = 1;
         let newErrorText = ['', ''];
 
-        Axios.post('https://rt-foto-editor.herokuapp.com/login', {
+        Axios.post(url+'/login', {
             username: username,
             password: password,
         }, {
