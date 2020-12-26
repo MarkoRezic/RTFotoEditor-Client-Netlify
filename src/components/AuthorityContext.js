@@ -10,7 +10,9 @@ export const AuthorityProvider = (props) => {
     Axios.defaults.withCredentials = true;
 
     useEffect(() => {
-        Axios.get('https://rt-foto-editor.herokuapp.com/loginStatus').then((response => {
+        Axios.get('https://rt-foto-editor.herokuapp.com/loginStatus', {
+            "Access-Control-Allow-Origin": ORIGIN_NETLIFY
+        }).then((response => {
             if (response.data.loggedIn) {
                 let userMatch = response.data;
                 window.scrollTo(0, 0);
