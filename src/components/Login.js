@@ -33,15 +33,10 @@ const Login = () => {
 
         var validUsername = 1, validPassword = 1;
         let newErrorText = ['', ''];
-        const headers = {
-            'Access-Control-Allow-Origin': 'https://rt-foto-editor.netlify.app'
-        }
 
         Axios.post('https://rt-foto-editor.herokuapp.com/login', {
             username: username,
             password: password,
-        }, {
-            headers: headers
         }).then((response) => {
             console.log(response);
             let userMatch = response.data.result;
