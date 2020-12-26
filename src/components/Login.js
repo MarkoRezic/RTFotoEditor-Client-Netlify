@@ -19,6 +19,10 @@ const Login = () => {
         passwordError: ''
     });
 
+    const headers = {
+        'Access-Control-Allow-Origin': '*'
+    }
+
     useEffect(() => {
         if (loginStatus) {
             console.log('user logged in');
@@ -37,6 +41,8 @@ const Login = () => {
         Axios.post('https://rt-foto-editor.herokuapp.com/login', {
             username: username,
             password: password,
+        }, {
+            headers: headers
         }).then((response) => {
             console.log(response);
             let userMatch = response.data.result;
