@@ -8,7 +8,7 @@ import Axios from 'axios';
 
 function App() {
 
-  axios.defaults.headers.common["Access-Control-Allow-Origin"] = "https://rt-foto-editor.netlify.app";
+  Axios.defaults.headers.common["Access-Control-Allow-Origin"] = "https://rt-foto-editor.netlify.app";
 
   return (
     <AuthorityProvider>
