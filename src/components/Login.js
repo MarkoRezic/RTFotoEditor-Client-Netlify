@@ -9,6 +9,8 @@ const Login = () => {
     const [{ loginStatus, authority }, setAuthority, userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
     Axios.defaults.withCredentials = true;
 
+    const proxyurl = "https://cors-anywhere.herokuapp.com/";
+
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [redirect, setRedirect] = useState(false);
@@ -32,7 +34,7 @@ const Login = () => {
         var validUsername = 1, validPassword = 1;
         let newErrorText = ['', ''];
 
-        Axios.post('https://rt-foto-editor.herokuapp.com/login', {
+        Axios.post(proxyurl + 'https://rt-foto-editor.herokuapp.com/login', {
             username: username,
             password: password
         }).then((response) => {
