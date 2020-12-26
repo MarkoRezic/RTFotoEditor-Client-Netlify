@@ -11,7 +11,7 @@ export const AuthorityProvider = (props) => {
     const proxyurl = "https://cors-anywhere.herokuapp.com/";
 
     useEffect(() => {
-        Axios.get(proxyurl + 'https://rt-foto-editor.herokuapp.com/loginStatus').then((response => {
+        Axios.get('https://rt-foto-editor.herokuapp.com/loginStatus').then((response => {
             if (response.data.loggedIn) {
                 let userMatch = response.data;
                 window.scrollTo(0, 0);
