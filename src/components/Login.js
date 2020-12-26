@@ -7,7 +7,7 @@ import { AuthorityContext } from './AuthorityContext';
 const Login = () => {
     // eslint-disable-next-line
     const [{ loginStatus, authority }, setAuthority, userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
-    Axios.defaults.withCredentials = true;
+    Axios.defaults.withCredentials = false;
 
     const proxyurl = "https://cors-anywhere.herokuapp.com/";
 
