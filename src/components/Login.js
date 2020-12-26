@@ -18,9 +18,6 @@ const Login = () => {
         usernameError: '',
         passwordError: ''
     });
-    const headers = {
-        'Content-Type':'application/x-www-urlencoded'
-    }
 
     useEffect(() => {
         if (loginStatus) {
@@ -40,8 +37,6 @@ const Login = () => {
         Axios.post('https://rt-foto-editor.herokuapp.com/login', {
             username: username,
             password: password,
-        }, {
-            headers: headers
         }).then((response) => {
             console.log(response);
             let userMatch = response.data.result;
