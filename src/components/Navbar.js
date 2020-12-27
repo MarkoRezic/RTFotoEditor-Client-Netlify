@@ -142,6 +142,7 @@ const Navbar = () => {
 
 
     function logout() {
+        localStorage.removeItem('sessionID');
         Axios.get(url+'/logout').then((response) => {
             setCurrentUser(response.data);
             Authorize(false, 'guest');
