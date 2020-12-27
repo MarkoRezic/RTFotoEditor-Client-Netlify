@@ -90,6 +90,7 @@ const Login = () => {
                 localStorage.setItem('token', response.data.token);
                 setAuthority({ loginStatus: true, authority: userMatch.authority });
                 setCurrentUser(userMatch);
+                console.log(userMatch);
                 window.scrollTo(0, 0);
                 setRedirect(true);
             }
