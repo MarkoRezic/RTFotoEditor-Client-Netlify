@@ -57,11 +57,9 @@ const Login = () => {
             username: username,
             password: password,
         }).then((response) => {
-            let cookie = response.headers['userInfo']
             console.log(response);
             let userMatch = response.data.result;
             console.log(userMatch);
-            console.log(cookie);
             if (username.length === 0) {
                 validUsername = -1;
                 newErrorText[0] = 'Username is required';
