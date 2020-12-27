@@ -22,10 +22,11 @@ const Navbar = () => {
     const [legalRoute, setLegalRoute] = useState(true);
     let local_loginStatus = loginStatus;
     let local_authority = authority;
+    let userMatch = null;
 
     useEffect(() => {
         console.log(window.location.pathname);
-        Axios.get(url+'/loginStatus').then((response) => {
+        Axios.get(url+'/loginStatus', {sessionID: userMatch.sessionID}).then((response) => {
             checkLegalRoute(response).then(function (message) {
                 console.log(message);
             })
@@ -50,7 +51,7 @@ const Navbar = () => {
     //The set of functions that I want to call in order
     function checkLoginStatus(response) {
         if (response.data.loggedIn) {
-            let userMatch = response.data;
+            userMatch = response.data;
             console.log('user already logged in ' + response.data.loggedIn);
             window.scrollTo(0, 0);
             Authorize(true, userMatch.authority);
