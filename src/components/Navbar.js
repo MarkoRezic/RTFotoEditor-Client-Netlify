@@ -27,7 +27,7 @@ const Navbar = () => {
     useEffect(() => {
         console.log(window.location.pathname);
         console.log(sessionStorage.getItem('sessionID'));
-        Axios.get(url+'/loginStatus', {sessionID: local_sessionID}).then((response) => {
+        Axios.get(url+'/loginStatus', {currentSession: local_sessionID}).then((response) => {
             checkLegalRoute(response).then(function (message) {
                 console.log(message);
             })
