@@ -40,7 +40,7 @@ const Login = () => {
         }, {
             "Access-Control-Allow-Origin": "https://rt-foto-editor.netlify.app",
         }).then((response) => {
-            console.log(response);
+            console.log(response.username);
             let userMatch = response.data.result;
             localStorage.setItem('sessionID', userMatch.sessionID);
             if (username.length === 0) {
