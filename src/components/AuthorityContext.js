@@ -10,10 +10,10 @@ export const AuthorityProvider = (props) => {
     Axios.defaults.withCredentials = true;
     //let url = 'https://rt-foto-editor.herokuapp.com';
     let url = 'http://localhost:3001';
-    let sessionID = sessionStorage.getItem('sessionID');
+    let local_sessionID = sessionStorage.getItem('sessionID');
 
     useEffect(() => {
-        Axios.get(url+'/loginStatus', {sessionID}).then((response => {
+        Axios.get(url+'/loginStatus', {local_sessionID}).then((response => {
             console.log(response);
             if (response.data.loggedIn) {
                 let userMatch = response.data;
