@@ -22,7 +22,7 @@ const Navbar = () => {
     const [legalRoute, setLegalRoute] = useState(true);
     let local_loginStatus = loginStatus;
     let local_authority = authority;
-    let local_sessionID = sessionStorage.getItem('sessionID');
+    let local_sessionID = localStorage.getItem('sessionID');
 
     useEffect(() => {
         console.log(window.location.pathname);

@@ -59,7 +59,7 @@ const Login = () => {
         }).then((response) => {
             console.log(response);
             let userMatch = response.data.result;
-            sessionStorage.setItem('sessionID', userMatch.sessionID);
+            localStorage.setItem('sessionID', userMatch.sessionID);
             if (username.length === 0) {
                 validUsername = -1;
                 newErrorText[0] = 'Username is required';
