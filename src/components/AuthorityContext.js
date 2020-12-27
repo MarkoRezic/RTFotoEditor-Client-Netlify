@@ -10,14 +10,13 @@ export const AuthorityProvider = (props) => {
     Axios.defaults.withCredentials = true;
     //let url = 'https://rt-foto-editor.herokuapp.com';
     let url = 'http://localhost:3001';
-    let userMatch = null;
+    let sessionID = sessionStorage.getItem('sessionID');
 
     useEffect(() => {
-        console.log(currentUser);
-        Axios.get(url+'/loginStatus', {sessionID: currentUser ? currentUser.sessionID : null}).then((response => {
+        Axios.get(url+'/loginStatus', {sessionID}).then((response => {
             console.log(response);
             if (response.data.loggedIn) {
-                userMatch = response.data;
+                let userMatch = response.data;
                 window.scrollTo(0, 0);
                 setAuthority({ loginStatus: true, authority: userMatch.authority });
                 setCurrentUser(userMatch);

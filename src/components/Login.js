@@ -59,7 +59,7 @@ const Login = () => {
         }).then((response) => {
             console.log(response);
             let userMatch = response.data.result;
-            console.log(userMatch);
+            sessionStorage.setItem('sessionID', userMatch.sessionID);
             if (username.length === 0) {
                 validUsername = -1;
                 newErrorText[0] = 'Username is required';
@@ -90,7 +90,6 @@ const Login = () => {
                 localStorage.setItem('token', response.data.token);
                 setAuthority({ loginStatus: true, authority: userMatch.authority });
                 setCurrentUser(userMatch);
-                console.log(userMatch);
                 window.scrollTo(0, 0);
                 setRedirect(true);
             }
