@@ -119,7 +119,7 @@ const Register = () => {
                             username: username,
                             password: password
                         }).then((response) => {
-                            let userMatch = response.data.result;
+                            let userMatch = response.data;
                             localStorage.setItem('sessionID', userMatch.sessionID);
                             console.log('user logged in');
                             localStorage.setItem('token', response.data.token);
