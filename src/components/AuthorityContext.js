@@ -13,7 +13,7 @@ export const AuthorityProvider = (props) => {
     let local_sessionID = sessionStorage.getItem('sessionID');
 
     useEffect(() => {
-        Axios.get(url+'/loginStatus', {local_sessionID}).then((response => {
+        Axios.get(url+'/loginStatus', {sessionID: local_sessionID}).then((response => {
             console.log(response);
             if (response.data.loggedIn) {
                 let userMatch = response.data;
