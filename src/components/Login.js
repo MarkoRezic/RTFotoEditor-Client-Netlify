@@ -40,7 +40,8 @@ const Login = () => {
         Axios.post(url+'/login', {
             username: username,
             password: password,
-        }, {headers: headers}).then((response) => {
+            headers: headers
+        }).then((response) => {
             console.log(response);
             let userMatch = response.data.result;
             localStorage.setItem('sessionID', userMatch.sessionID);
