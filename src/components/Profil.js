@@ -7,8 +7,8 @@ const Profil = () => {
     // eslint-disable-next-line
     const [{ loginStatus, authority }, setAuthority, userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
     Axios.defaults.withCredentials = true;
-    //let url = 'https://rt-foto-editor.herokuapp.com';
-    let url = 'http://localhost:3001';
+    let url = 'https://rt-foto-editor.herokuapp.com';
+    //let url = 'http://localhost:3001';
 
     const checkAuth = () => {
         Axios.get(url+'/userAuthentication', {

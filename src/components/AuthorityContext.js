@@ -8,8 +8,8 @@ export const AuthorityProvider = (props) => {
     const [userList, setUserList] = useState([]);
     const [currentUser, setCurrentUser] = useState({});
     Axios.defaults.withCredentials = true;
-    //let url = 'https://rt-foto-editor.herokuapp.com';
-    let url = 'http://localhost:3001';
+    let url = 'https://rt-foto-editor.herokuapp.com';
+    //let url = 'http://localhost:3001';
     let local_sessionID = localStorage.getItem('sessionID');
 
     useEffect(() => {
