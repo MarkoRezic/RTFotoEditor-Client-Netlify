@@ -10,6 +10,9 @@ const Login = () => {
     Axios.defaults.withCredentials = true;
     let url = 'https://rt-foto-editor.herokuapp.com';
     //let url = 'http://localhost:3001';
+    let headers = {
+        "Access-Control-Allow-Origin": "https://rt-foto-editor.netlify.app",
+    }
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -37,7 +40,7 @@ const Login = () => {
         Axios.post(url+'/login', {
             username: username,
             password: password,
-        }).then((response) => {
+        }, {headers: headers}).then((response) => {
             console.log(response);
             let userMatch = response.data.result;
             localStorage.setItem('sessionID', userMatch.sessionID);
