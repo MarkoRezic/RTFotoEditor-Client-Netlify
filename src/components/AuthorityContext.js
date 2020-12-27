@@ -13,7 +13,7 @@ export const AuthorityProvider = (props) => {
     let userMatch = null;
 
     useEffect(() => {
-        Axios.get(url+'/loginStatus', {sessionID: userMatch ? userMatch.sessionID : null}).then((response => {
+        Axios.get(url+'/loginStatus', {sessionID: currentUser ? currentUser.sessionID : null}).then((response => {
             if (response.data.loggedIn) {
                 userMatch = response.data;
                 window.scrollTo(0, 0);
