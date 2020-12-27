@@ -14,6 +14,7 @@ export const AuthorityProvider = (props) => {
 
     useEffect(() => {
         Axios.get(url+'/loginStatus', {sessionID: currentUser ? currentUser.sessionID : null}).then((response => {
+            console.log(response);
             if (response.data.loggedIn) {
                 userMatch = response.data;
                 window.scrollTo(0, 0);
