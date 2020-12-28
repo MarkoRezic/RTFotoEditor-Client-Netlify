@@ -22,11 +22,11 @@ const Navbar = () => {
     const [legalRoute, setLegalRoute] = useState(true);
     let local_loginStatus = loginStatus;
     let local_authority = authority;
-    let local_sessionID = localStorage.getItem('sessionID');
+    let local_sessionID = sessionStorage.getItem('sessionID');
 
     useEffect(() => {
         console.log(window.location.pathname);
-        console.log(localStorage.getItem('sessionID'));
+        console.log(sessionStorage.getItem('sessionID'));
         Axios.post(url+'/loginStatus', {currentSession: local_sessionID}).then((response) => {
             checkLegalRoute(response).then(function (message) {
                 console.log(message);

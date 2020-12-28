@@ -10,7 +10,7 @@ export const AuthorityProvider = (props) => {
     Axios.defaults.withCredentials = true;
     let url = 'https://rt-foto-editor.herokuapp.com';
     //let url = 'http://localhost:3001';
-    let local_sessionID = localStorage.getItem('sessionID');
+    let local_sessionID = sessionStorage.getItem('sessionID');
 
     useEffect(() => {
         Axios.post(url+'/loginStatus', {currentSession: local_sessionID}).then((response => {
