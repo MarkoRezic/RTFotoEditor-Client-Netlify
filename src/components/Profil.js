@@ -13,7 +13,7 @@ const Profil = () => {
     const checkAuth = () => {
         Axios.get(url+'/userAuthentication', {
             headers: {
-                'X-Access-Token': localStorage.getItem('token')
+                'x-access-token': localStorage.getItem('token')
             }
         }).then((response) => {
             console.log(response);
