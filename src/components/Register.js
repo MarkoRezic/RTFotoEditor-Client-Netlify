@@ -26,7 +26,7 @@ const Register = () => {
 
 
     useEffect(() => {
-        Axios.get(url+'/users').then((response) => {
+        Axios.get(url + '/users').then((response) => {
             setUserList([...response.data]);
         });
         if (loginStatus) {
@@ -37,85 +37,106 @@ const Register = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    function addUser(e) {
-        e.preventDefault();
+    function regexTest(email, username, password, repassword, users) {
 
-        var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+        var patternEmail = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
         var validEmail = 1, validUsername = 1, validPassword = 1, validRepassword = 1;
         let newErrorText = ['', '', '', ''];
 
-        Axios.get(url+'/users').then((response) => {
-            setUserList([...response.data]);
-            if (email.length === 0) {
-                validEmail = -1;
-                newErrorText[0] = 'Email is required';
+        if (email.length === 0) {
+            validEmail = -1;
+            newErrorText[0] = 'Email is required';
+        }
+        else if (!patternEmail.test(email)) {
+            validEmail = 0;
+            newErrorText[0] = 'Email is invalid';
+        }
+        else validEmail = 1;
+        if (username.length === 0) {
+            validUsername = -1;
+            newErrorText[1] = 'Username is required';
+        }
+        else if (username.length < 3) {
+            validUsername = 0;
+            newErrorText[1] = 'Username is too short';
+        }
+        else validUsername = 1;
+        if (password.length === 0) {
+            validPassword = -1;
+            newErrorText[2] = 'Password is required';
+        }
+        else if (password.length < 8) {
+            validPassword = 0;
+            newErrorText[2] = 'Password is too short';
+        }
+        else {
+            validPassword = 1;
+            if (repassword.length === 0) {
+                validRepassword = -1;
+                newErrorText[3] = 'Please repeat your password';
             }
-            else if (!pattern.test(email)) {
-                validEmail = 0;
-                newErrorText[0] = 'Email is invalid';
+            else if (repassword !== password) {
+                validRepassword = 0;
+                newErrorText[3] = 'Passwords do not match';
             }
-            else validEmail = 1;
-            if (username.length === 0) {
-                validUsername = -1;
-                newErrorText[1] = 'Username is required';
-            }
-            else if (username.length < 3) {
-                validUsername = 0;
-                newErrorText[1] = 'Username is too short';
-            }
-            else validUsername = 1;
-            if (password.length === 0) {
-                validPassword = -1;
-                newErrorText[2] = 'Password is required';
-            }
-            else if (password.length < 8) {
-                validPassword = 0;
-                newErrorText[2] = 'Password is too short';
-            }
-            else {
-                validPassword = 1;
-                if (repassword.length === 0) {
-                    validRepassword = -1;
-                    newErrorText[3] = 'Please repeat your password';
-                }
-                else if (repassword !== password) {
-                    validRepassword = 0;
-                    newErrorText[3] = 'Passwords do not match';
-                }
-                else validRepassword = 1;
-            }
+            else validRepassword = 1;
+        }
 
-            for (var i = 0; i < userList.length; i++) {
-                if (email === userList[i].email) {
-                    validEmail = 2;
-                    newErrorText[0] = 'Email is already taken';
-                }
-                if (username === userList[i].username) {
-                    validUsername = 2;
-                    newErrorText[1] = 'Username is already taken';
-                }
+        for (var i = 0; i < users.length; i++) {
+            if (email === users[i].email) {
+                validEmail = 2;
+                newErrorText[0] = 'Email is already taken';
             }
-            setErrorText({
-                emailError: newErrorText[0],
-                usernameError: newErrorText[1],
-                passwordError: newErrorText[2],
-                repasswordError: newErrorText[3]
-            });
+            if (username === userList[i].username) {
+                validUsername = 2;
+                newErrorText[1] = 'Username is already taken';
+            }
+        }
+
+        return {
+            validEmail: validEmail,
+            emailError: newErrorText[0],
+            validUsername: validUsername,
+            usernameError: newErrorText[1],
+            validPassword: validPassword,
+            passwordError: newErrorText[2],
+            validRepassword: validRepassword,
+            repasswordError: newErrorText[3]
+        }
+    }
+
+    function addUser(e) {
+        e.preventDefault();
+
+        Axios.get(url + '/users').then((response) => {
+            setUserList([...response.data]);
+            var {
+                validEmail,
+                emailError,
+                validUsername,
+                usernameError,
+                validPassword,
+                passwordError,
+                validRepassword,
+                repasswordError
+            } = regexTest(email, username, password, repassword, userList);
+
+            setErrorText({ emailError, usernameError, passwordError, repasswordError, });
 
             if (validEmail === 1 && validUsername === 1 && validPassword === 1 && validRepassword === 1) {
-                Axios.post(url+'/register/user', {
+                Axios.post(url + '/register/user', {
                     email: email,
                     username: username,
                     password: password,
                     authority: 3
                 }).then(() => {
-                    Axios.get(url+'/users').then((response) => {
+                    Axios.get(url + '/users').then((response) => {
                         setUserList([...response.data]);
                     });
                     console.log('user registered');
                     window.scrollTo(0, 0);
                     if (autoLogin) {
-                        Axios.post(url+'/login', {
+                        Axios.post(url + '/login', {
                             username: username,
                             password: password
                         }).then((response) => {

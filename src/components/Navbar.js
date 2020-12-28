@@ -25,8 +25,6 @@ const Navbar = () => {
     let local_sessionID = sessionStorage.getItem('sessionID');
 
     useEffect(() => {
-        console.log(window.location.pathname);
-        console.log(sessionStorage.getItem('sessionID'));
         Axios.post(url+'/loginStatus', {currentSession: local_sessionID}).then((response) => {
             checkLegalRoute(response).then(function (message) {
                 console.log(message);
@@ -177,7 +175,7 @@ const Navbar = () => {
                                 <NavLink className="item-link dropdown-item" to="/profil"><BootstrapIcon type={6} /> Profil</NavLink>
 
                                 <Dropdown.Divider className="dropdown-divider"></Dropdown.Divider>
-                                <NavLink to="#" className="item-link dropdown-item"><BootstrapIcon type={7} /> Postavke</NavLink>
+                                <NavLink to="/postavke" className="item-link dropdown-item"><BootstrapIcon type={7} /> Postavke</NavLink>
 
                                 <Dropdown.Divider className="dropdown-divider"></Dropdown.Divider>
                                 <NavLink to="/login" onClick={logout} className="item-link dropdown-item"><BootstrapIcon type={8} /> Log Out</NavLink>
