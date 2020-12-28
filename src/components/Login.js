@@ -37,8 +37,6 @@ const Login = () => {
         Axios.post(url+'/login', {
             username: username,
             password: password,
-        }, {
-            "Access-Control-Allow-Origin": "https://rt-foto-editor.netlify.app",
         }).then((response) => {
             console.log(response.data);
             let userMatch = response.data;
