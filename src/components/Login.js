@@ -35,31 +35,19 @@ const Login = () => {
         let newErrorText = ['', ''];
 
         Axios.post(url+'/login', {
-            username: username,
+            username: username.toLowerCase(),
             password: password,
         }).then((response) => {
             console.log(response.data);
             let userMatch = response.data;
             sessionStorage.setItem('sessionID', userMatch.sessionID);
-            if (username.length === 0) {
-                validUsername = -1;
-                newErrorText[0] = 'Username is required';
-            }
-            else if (userMatch.username === null) {
+            if (username.length === 0 || userMatch.username === null) {
                 validUsername = 0;
-                newErrorText[0] = 'Username not recognized';
+                newErrorText[0] = username.length === 0 ? 'Username is required' : 'Username not recognized';
             }
-            else {
-                validUsername = 1;
-                if (password.length === 0) {
-                    validPassword = -1;
-                    newErrorText[1] = 'Password is required';
-                }
-                else if (userMatch.id === null) {
+            else if (password.length === 0 || userMatch.id === null) {
                     validPassword = 0;
-                    newErrorText[1] = 'Password is incorrect';
-                }
-                else validPassword = 1;
+                    newErrorText[1] = password.length === 0 ? 'Password is required' : 'Password is incorrect';
             }
             setErrorText({
                 usernameError: newErrorText[0],

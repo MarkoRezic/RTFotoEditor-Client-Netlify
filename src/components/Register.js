@@ -47,36 +47,34 @@ const Register = () => {
 
         if (!patternEmail.test(email)){
             validEmail = 0;
-            if(email.length===0) newErrorText[0] = 'Email is required';
-            else newErrorText[0] = 'Email is invalid';
+            newErrorText[0] = email.length===0 ? 'Email is required' : 'Email is invalid';
         }
         if (!patternUsername.test(username)){
             validUsername = 0;
-            if(username.length===0) newErrorText[1] = 'Username is required';
-            else if(username.length<4) newErrorText[1] = 'Username is too short';
-            else if(username.length>20) newErrorText[1] = 'Username is too long';
-            else newErrorText[1] = 'Username is invalid';
+            newErrorText[1] = username.length===0 ? 'Username is required'
+            : username.length<4 ? 'Username is too short'
+            : username.length>20 ? 'Username is too long'
+            : 'Username is invalid';
         }
         if (!patternPassword.test(password)){
             validPassword = 0;
-            if(password.length===0) newErrorText[2] = 'Password is required';
-            else if(password.length<8) newErrorText[2] = 'Password is too short';
-            else if(password.length>32) newErrorText[2] = 'Password is too long';
-            else newErrorText[2] = 'Password is invalid';
+            newErrorText[2] = password.length===0 ? 'Password is required'
+            : password.length<8 ? 'Password is too short'
+            : password.length>32 ? 'Password is too long'
+            : 'Password is invalid';
         }
         else{
             if (repassword !== password) {
                 validRepassword = 0;
-                if (repassword.length === 0) newErrorText[3] = 'Please repeat your password';
-                else newErrorText[3] = 'Passwords do not match';
+                newErrorText[3] = repassword.length === 0 ? 'Please repeat your password' : 'Passwords do not match';
             }
         }
         for (var i = 0; i < users.length; i++) {
-            if (email === users[i].email) {
+            if (email.toLowerCase() === users[i].email.toLowerCase()) {
                 validEmail = 0;
                 newErrorText[0] = 'Email is already taken';
             }
-            if (username === userList[i].username) {
+            if (username.toLowerCase() === userList[i].username.toLowerCase()) {
                 validUsername = 0;
                 newErrorText[1] = 'Username is already taken';
             }
@@ -152,8 +150,8 @@ const Register = () => {
 
             if (validEmail === 1 && validUsername === 1 && validPassword === 1 && validRepassword === 1) {
                 Axios.post(url + '/register/user', {
-                    email: email,
-                    username: username,
+                    email: email.toLowerCase(),
+                    username: username.toLowerCase(),
                     password: password,
                     authority: 3
                 }).then(() => {
@@ -164,7 +162,7 @@ const Register = () => {
                     window.scrollTo(0, 0);
                     if (autoLogin) {
                         Axios.post(url + '/login', {
-                            username: username,
+                            username: username.toLowerCase(),
                             password: password
                         }).then((response) => {
                             let userMatch = response.data;
