@@ -40,7 +40,7 @@ const Login = () => {
         }).then((response) => {
             console.log(response.data);
             let userMatch = response.data;
-            sessionStorage.setItem('sessionID', userMatch.sessionID);
+            localStorage.setItem('sessionID', userMatch.sessionID);
             if (username.length === 0 || userMatch.username === null) {
                 validUsername = 0;
                 newErrorText[0] = username.length === 0 ? 'Username is required' : 'Username not recognized';

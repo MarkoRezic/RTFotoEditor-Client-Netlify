@@ -22,7 +22,7 @@ const Navbar = () => {
     const [legalRoute, setLegalRoute] = useState(true);
     let local_loginStatus = loginStatus;
     let local_authority = authority;
-    let local_sessionID = sessionStorage.getItem('sessionID');
+    let local_sessionID = localStorage.getItem('sessionID');
 
     useEffect(() => {
         Axios.post(url+'/loginStatus', {currentSession: local_sessionID}).then((response) => {
@@ -140,7 +140,7 @@ const Navbar = () => {
 
 
     function logout() {
-        sessionStorage.removeItem('sessionID');
+        localStorage.removeItem('sessionID');
         localStorage.removeItem('token');
         Axios.get(url+'/logout').then((response) => {
             setCurrentUser(response.data);
