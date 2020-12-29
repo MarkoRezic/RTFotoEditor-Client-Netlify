@@ -60,8 +60,8 @@ const Register = () => {
         if (!patternPassword.test(password)){
             validPassword = 0;
             if(password.length===0) newErrorText[2] = 'Password is required';
-            else if(username.length<8) newErrorText[2] = 'Password is too short';
-            else if(username.length>32) newErrorText[2] = 'Password is too long';
+            else if(password.length<8) newErrorText[2] = 'Password is too short';
+            else if(password.length>32) newErrorText[2] = 'Password is too long';
             else newErrorText[2] = 'Password is invalid';
         }
         else{
