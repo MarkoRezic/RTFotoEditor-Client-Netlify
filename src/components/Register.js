@@ -40,10 +40,48 @@ const Register = () => {
     function regexTest(email, username, password, repassword, users) {
 
         var patternEmail = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+        var patternUsername = new RegExp(/^[a-zA-Z0-9]{4,20}$/i);
+        var patternPassword = new RegExp(/^([a-zA-Z0-9@*#]{8,32})$/i);
         var validEmail = 1, validUsername = 1, validPassword = 1, validRepassword = 1;
         let newErrorText = ['', '', '', ''];
 
-        if (email.length === 0) {
+        if (!patternEmail.test(email)){
+            validEmail = 0;
+            if(email.length===0) newErrorText[0] = 'Email is required';
+            else newErrorText[0] = 'Email is invalid';
+        }
+        if (!patternUsername.test(username)){
+            validUsername = 0;
+            if(username.length===0) newErrorText[1] = 'Username is required';
+            else if(username.length<4) newErrorText[1] = 'Username is too short';
+            else if(username.length>20) newErrorText[1] = 'Username is too long';
+            else newErrorText[1] = 'Username is invalid';
+        }
+        if (!patternPassword.test(password)){
+            validPassword = 0;
+            if(password.length===0) newErrorText[2] = 'Password is required';
+            else if(username.length<8) newErrorText[2] = 'Password is too short';
+            else if(username.length>32) newErrorText[2] = 'Password is too long';
+            else newErrorText[2] = 'Password is invalid';
+        }
+        else{
+            if (repassword !== password) {
+                validRepassword = 0;
+                if (repassword.length === 0) newErrorText[3] = 'Please repeat your password';
+                else newErrorText[3] = 'Passwords do not match';
+            }
+        }
+        for (var i = 0; i < users.length; i++) {
+            if (email === users[i].email) {
+                validEmail = 0;
+                newErrorText[0] = 'Email is already taken';
+            }
+            if (username === userList[i].username) {
+                validUsername = 0;
+                newErrorText[1] = 'Username is already taken';
+            }
+        }
+        /*if (email.length === 0) {
             validEmail = -1;
             newErrorText[0] = 'Email is required';
         }
@@ -56,7 +94,7 @@ const Register = () => {
             validUsername = -1;
             newErrorText[1] = 'Username is required';
         }
-        else if (username.length < 3) {
+        else if (username.length < 4) {
             validUsername = 0;
             newErrorText[1] = 'Username is too short';
         }
@@ -80,18 +118,7 @@ const Register = () => {
                 newErrorText[3] = 'Passwords do not match';
             }
             else validRepassword = 1;
-        }
-
-        for (var i = 0; i < users.length; i++) {
-            if (email === users[i].email) {
-                validEmail = 2;
-                newErrorText[0] = 'Email is already taken';
-            }
-            if (username === userList[i].username) {
-                validUsername = 2;
-                newErrorText[1] = 'Username is already taken';
-            }
-        }
+        }*/
 
         return {
             validEmail: validEmail,
@@ -202,7 +229,7 @@ const Register = () => {
                                         </InputGroup>
                                         <Form.Text className="errorText">{errorText.usernameError}</Form.Text>
                                         <Form.Text muted>
-                                            Your username must be at least 3 characters long
+                                            Your username must be 4-20 characters long (letters and numbers only)
                                         </Form.Text>
                                     </Form.Group>
                                     <Form.Group>
@@ -225,7 +252,7 @@ const Register = () => {
                                         </InputGroup>
                                         <Form.Text className="errorText">{errorText.repasswordError}</Form.Text>
                                         <Form.Text muted>
-                                            Your password must be at least 8 characters long
+                                            Your password must be 8-32 characters long (letters, numbers and characters: @, *, #)
                                         </Form.Text>
                                     </Form.Group>
                                     <Form.Group controlId="formBasicCheckbox">
