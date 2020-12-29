@@ -79,45 +79,6 @@ const Register = () => {
                 newErrorText[1] = 'Username is already taken';
             }
         }
-        /*if (email.length === 0) {
-            validEmail = -1;
-            newErrorText[0] = 'Email is required';
-        }
-        else if (!patternEmail.test(email)) {
-            validEmail = 0;
-            newErrorText[0] = 'Email is invalid';
-        }
-        else validEmail = 1;
-        if (username.length === 0) {
-            validUsername = -1;
-            newErrorText[1] = 'Username is required';
-        }
-        else if (username.length < 4) {
-            validUsername = 0;
-            newErrorText[1] = 'Username is too short';
-        }
-        else validUsername = 1;
-        if (password.length === 0) {
-            validPassword = -1;
-            newErrorText[2] = 'Password is required';
-        }
-        else if (password.length < 8) {
-            validPassword = 0;
-            newErrorText[2] = 'Password is too short';
-        }
-        else {
-            validPassword = 1;
-            if (repassword.length === 0) {
-                validRepassword = -1;
-                newErrorText[3] = 'Please repeat your password';
-            }
-            else if (repassword !== password) {
-                validRepassword = 0;
-                newErrorText[3] = 'Passwords do not match';
-            }
-            else validRepassword = 1;
-        }*/
-
         return {
             validEmail: validEmail,
             emailError: newErrorText[0],
@@ -151,7 +112,7 @@ const Register = () => {
             if (validEmail === 1 && validUsername === 1 && validPassword === 1 && validRepassword === 1) {
                 Axios.post(url + '/register/user', {
                     email: email.toLowerCase(),
-                    username: username.toLowerCase(),
+                    username: username,
                     password: password,
                     authority: 3
                 }).then(() => {

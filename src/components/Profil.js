@@ -38,7 +38,7 @@ const Profil = () => {
 
                         <div className="blog-post Profil">
                             <hr className="round" />
-                            <p className="text-center">Username: {currentUser.username}</p>
+                            <p className="text-center">Username: {currentUser.displayname}</p>
                             <hr className="round" />
                             <p>Email: {currentUser.email}</p>
                             <p>Account type: {currentUser.authority}</p>
