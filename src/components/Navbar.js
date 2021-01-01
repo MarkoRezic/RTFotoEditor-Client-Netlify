@@ -25,7 +25,7 @@ const Navbar = () => {
     let local_sessionID = localStorage.getItem('sessionID');
 
     useEffect(() => {
-        Axios.post(url+'/loginStatus', {currentSession: local_sessionID}).then((response) => {
+        Axios.post(url+'/loginStatus', {withCredentials: true, currentSession: local_sessionID}).then((response) => {
             checkLegalRoute(response).then(function (message) {
                 console.log(message);
             })

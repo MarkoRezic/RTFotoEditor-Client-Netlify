@@ -35,6 +35,7 @@ const Login = () => {
         let newErrorText = ['', ''];
 
         Axios.post(url+'/login', {
+            withCredentials: true,
             username: username.toLowerCase(),
             password: password,
         }).then((response) => {
