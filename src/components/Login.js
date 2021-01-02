@@ -35,13 +35,11 @@ const Login = () => {
         let newErrorText = ['', ''];
 
         Axios.post(url+'/login', {
-            withCredentials: true,
             username: username.toLowerCase(),
             password: password,
         }).then((response) => {
             console.log(response.data);
             let userMatch = response.data;
-            localStorage.setItem('sessionID', userMatch.sessionID);
             if (username.length === 0 || userMatch.username === null) {
                 validUsername = 0;
                 newErrorText[0] = username.length === 0 ? 'Username is required' : 'Username not recognized';
@@ -57,7 +55,6 @@ const Login = () => {
 
             if (validUsername === 1 && validPassword === 1) {
                 console.log('user logged in');
-                localStorage.setItem('token', response.data.token);
                 setAuthority({ loginStatus: true, authority: userMatch.authority });
                 setCurrentUser(userMatch);
                 window.scrollTo(0, 0);

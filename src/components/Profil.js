@@ -11,11 +11,7 @@ const Profil = () => {
     //let url = 'http://localhost:3001';
 
     const checkAuth = () => {
-        Axios.get(url+'/userAuthentication', {
-            headers: {
-                'X-Access-Token': localStorage.getItem('token')
-            }
-        }).then((response) => {
+        Axios.get(url+'/userAuthentication').then((response) => {
             console.log(response);
         }).catch(error => {
             console.log(error);

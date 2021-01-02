@@ -22,10 +22,9 @@ const Navbar = () => {
     const [legalRoute, setLegalRoute] = useState(true);
     let local_loginStatus = loginStatus;
     let local_authority = authority;
-    let local_sessionID = localStorage.getItem('sessionID');
 
     useEffect(() => {
-        Axios.post(url+'/loginStatus', {withCredentials: true, currentSession: local_sessionID}).then((response) => {
+        Axios.post(url+'/loginStatus').then((response) => {
             checkLegalRoute(response).then(function (message) {
                 console.log(message);
             })
@@ -140,8 +139,6 @@ const Navbar = () => {
 
 
     function logout() {
-        localStorage.removeItem('sessionID');
-        localStorage.removeItem('token');
         Axios.get(url+'/logout').then((response) => {
             setCurrentUser(response.data);
             Authorize(false, 'guest');
