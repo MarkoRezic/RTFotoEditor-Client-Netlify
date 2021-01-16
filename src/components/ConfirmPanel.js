@@ -3,7 +3,7 @@ import Axios from 'axios';
 import { AuthorityContext } from './AuthorityContext';
 
 const ConfirmPanel = () => {
-    
+
     const [{ loginStatus, authority }, setAuthority, userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
     Axios.defaults.withCredentials = true;
     let url = 'https://rt-foto-editor.herokuapp.com';
@@ -11,7 +11,7 @@ const ConfirmPanel = () => {
     let email = currentUser.email;
     const [sent, setSent] = useState(false);
 
-    function resendEmail(){
+    function resendEmail() {
         Axios.post(url + '/confirmation/send', {
             id: id,
             email: email
@@ -25,9 +25,11 @@ const ConfirmPanel = () => {
             <div className="container btrans no-padding">
                 <h4 className="text-center text-white"><strong>Please confirm your email</strong></h4>
                 <h6 className="text-center">
-                    <strong>Didn't recieve an email?</strong>
-                    <button className="resendButton" onClick={resendEmail}>Resend email</button>
-                    {sent ? <strong><br></br> Check your email</strong> : <strong></strong>}
+                    {sent ? <strong><br></br> Check your email</strong>
+                        : <div>
+                            <strong>Didn't recieve an email?</strong>
+                            <button className="resendButton" onClick={resendEmail}>Resend email</button>
+                        </div>}
                 </h6>
 
             </div>
