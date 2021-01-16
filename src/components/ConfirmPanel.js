@@ -25,7 +25,7 @@ const ConfirmPanel = () => {
                 <h6 className="text-center">
                     <strong>Didn't recieve an email?</strong>
                     <button className="resendButton" onClick={resendEmail}>Resend email</button>
-                    {sent ? 'Check your email' : null}
+                    {sent ? <strong>Check your email</strong> : <strong></strong>}
                 </h6>
 
             </div>
