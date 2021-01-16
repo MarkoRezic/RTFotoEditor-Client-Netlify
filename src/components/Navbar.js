@@ -26,14 +26,14 @@ const Navbar = () => {
     let verified = 'guest';
 
     useEffect(() => {
-        Axios.post(url+'/loginStatus').then((response) => {
+        Axios.post(url + '/loginStatus').then((response) => {
             checkLegalRoute(response).then(function (message) {
                 console.log(message);
             })
         })
         window.onpopstate = function (event) {
             window.location.reload();
-            Axios.get(url+'/loginStatus').then((response) => {
+            Axios.get(url + '/loginStatus').then((response) => {
                 checkLegalRoute(response).then(function (message) {
                     console.log(message);
                 })
@@ -134,7 +134,7 @@ const Navbar = () => {
             .then(validate)
     }
 
-    function redirectReload(redirectPath){
+    function redirectReload(redirectPath) {
         window.history.pushState({}, '', redirectPath);
         return new Promise(function (resolve, reject) {
             resolve();
@@ -143,12 +143,12 @@ const Navbar = () => {
 
 
     function logout() {
-        Axios.get(url+'/logout').then((response) => {
+        Axios.get(url + '/logout').then((response) => {
             setCurrentUser(response.data);
             verified = null;
             Authorize(false, 'guest');
             setLegalRoute(true);
-            redirectReload('/login').then((response)=>{
+            redirectReload('/login').then((response) => {
                 window.location.reload();
             });
         })
@@ -192,7 +192,9 @@ const Navbar = () => {
 
             {legalRoute
                 ? <div>
-                    { ((verified === 'guest') || (verified === 'verified')) ? null : <ConfirmPanel />}
+                    <div>
+                        {((verified === 'guest') || (verified === 'verified')) ? <div></div> : <ConfirmPanel />}
+                    </div>
                     <Route exact path='/home' component={Home}></Route>
                     <Route exact path='/editor' component={Editor}></Route>
                     <Route exact path='/login' component={Login}></Route>
