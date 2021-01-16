@@ -28,7 +28,6 @@ const Navbar = () => {
         Axios.post(url + '/loginStatus').then((response) => {
             checkLegalRoute(response).then(function (message) {
                 console.log(message);
-                console.log('verified = ' + toString(currentUser.verified));
             })
         })
         window.onpopstate = function (event) {
