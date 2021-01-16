@@ -45,25 +45,25 @@ const Register = () => {
         var validEmail = 1, validUsername = 1, validPassword = 1, validRepassword = 1;
         let newErrorText = ['', '', '', ''];
 
-        if (!patternEmail.test(email)){
+        if (!patternEmail.test(email)) {
             validEmail = 0;
-            newErrorText[0] = email.length===0 ? 'Email is required' : 'Email is invalid';
+            newErrorText[0] = email.length === 0 ? 'Email is required' : 'Email is invalid';
         }
-        if (!patternUsername.test(username)){
+        if (!patternUsername.test(username)) {
             validUsername = 0;
-            newErrorText[1] = username.length===0 ? 'Username is required'
-            : username.length<4 ? 'Username is too short'
-            : username.length>20 ? 'Username is too long'
-            : 'Username is invalid';
+            newErrorText[1] = username.length === 0 ? 'Username is required'
+                : username.length < 4 ? 'Username is too short'
+                    : username.length > 20 ? 'Username is too long'
+                        : 'Username is invalid';
         }
-        if (!patternPassword.test(password)){
+        if (!patternPassword.test(password)) {
             validPassword = 0;
-            newErrorText[2] = password.length===0 ? 'Password is required'
-            : password.length<8 ? 'Password is too short'
-            : password.length>32 ? 'Password is too long'
-            : 'Password is invalid';
+            newErrorText[2] = password.length === 0 ? 'Password is required'
+                : password.length < 8 ? 'Password is too short'
+                    : password.length > 32 ? 'Password is too long'
+                        : 'Password is invalid';
         }
-        else{
+        else {
             if (repassword !== password) {
                 validRepassword = 0;
                 newErrorText[3] = repassword.length === 0 ? 'Please repeat your password' : 'Passwords do not match';
@@ -121,19 +121,26 @@ const Register = () => {
                     });
                     console.log('user registered');
                     window.scrollTo(0, 0);
-                    if (autoLogin) {
-                        Axios.post(url + '/login', {
-                            username: username.toLowerCase(),
-                            password: password
-                        }).then((response) => {
+                    Axios.post(url + '/login', {
+                        username: username.toLowerCase(),
+                        password: password
+                    }).then((response) => {
+                        Axios.post(url + '/confirmation/send', {
+                            id: response.data.id,
+                            email: email.toLowerCase(),
+                        }).then(() => {
+                            console.log('email sent');
+                        });
+
+                        if (autoLogin) {
                             let userMatch = response.data;
                             console.log('user logged in');
                             setCurrentUser(userMatch);
                             setAuthority({ loginStatus: true, authority: userMatch.authority });
                             setRedirect(true);
-                        });
-                    }
-                    else window.location.reload();
+                        }
+                        else window.location.reload();
+                    });
                 })
             }
         });
