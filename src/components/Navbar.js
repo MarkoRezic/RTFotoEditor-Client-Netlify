@@ -11,6 +11,7 @@ import Profil from './Profil';
 import Register from './Register';
 import { AuthorityContext } from './AuthorityContext';
 import Error403 from './Error403';
+import ConfirmPanel from './ConfirmPanel';
 
 const Navbar = () => {
     // eslint-disable-next-line
@@ -22,6 +23,7 @@ const Navbar = () => {
     const [legalRoute, setLegalRoute] = useState(true);
     let local_loginStatus = loginStatus;
     let local_authority = authority;
+    let confirmed = false;
 
     useEffect(() => {
         Axios.post(url+'/loginStatus').then((response) => {
@@ -187,6 +189,7 @@ const Navbar = () => {
 
             {legalRoute
                 ? <div>
+                    {confirmed ? null : <ConfirmPanel />}
                     <Route exact path='/home' component={Home}></Route>
                     <Route exact path='/editor' component={Editor}></Route>
                     <Route exact path='/login' component={Login}></Route>

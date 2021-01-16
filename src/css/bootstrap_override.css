@@ -161,6 +161,23 @@
 	border: 2px solid #999999;
 	border-radius: 2px;
 }
+.no-border{
+	border: none !important;
+}
+.no-padding{
+	max-width: 35rem !important;
+	padding: 0.5rem !important;
+}
+.no-margin{
+	margin: 0 !important;
+}
+.resendButton{
+	background-color: #222;
+	color: #BBB;
+	border-radius: 2px;
+	border: 2px solid #555;
+	margin-left: 1rem;
+}
 
 
 /*Element, Element.klasa*/
