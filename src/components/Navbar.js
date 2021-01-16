@@ -192,7 +192,7 @@ const Navbar = () => {
 
             {legalRoute
                 ? <div>
-                    { verified === 'no' ? <ConfirmPanel /> : <ConfirmPanel />}
+                    { verified === 'no' ? <ConfirmPanel /> : null}
                     <Route exact path='/home' component={Home}></Route>
                     <Route exact path='/editor' component={Editor}></Route>
                     <Route exact path='/login' component={Login}></Route>
