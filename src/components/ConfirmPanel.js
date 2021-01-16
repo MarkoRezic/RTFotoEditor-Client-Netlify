@@ -9,14 +9,14 @@ const ConfirmPanel = () => {
     let url = 'https://rt-foto-editor.herokuapp.com';
     let id = currentUser.id;
     let email = currentUser.email;
-    let sent = false;
+    const [sent, setSent] = useState(false);
 
     function resendEmail(){
         Axios.post(url + '/confirmation/send', {
             id: id,
             email: email
         }).then(() => {
-            sent = true;
+            setSent(true);
         });
     }
 
