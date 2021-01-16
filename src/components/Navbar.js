@@ -61,6 +61,7 @@ const Navbar = () => {
         }
         else {
             Authorize(false, 'guest');
+            verified = 'guest';
         }
         return new Promise(function (resolve, reject) {
             resolve()
@@ -145,7 +146,7 @@ const Navbar = () => {
     function logout() {
         Axios.get(url + '/logout').then((response) => {
             setCurrentUser(response.data);
-            verified = null;
+            verified = 'guest';
             Authorize(false, 'guest');
             setLegalRoute(true);
             redirectReload('/login').then((response) => {
@@ -192,9 +193,7 @@ const Navbar = () => {
 
             {legalRoute
                 ? <div>
-                    <div>
-                        {((verified === 'guest') || (verified === 'verified')) ? <div></div> : <ConfirmPanel />}
-                    </div>
+                    {((verified === 'guest') || (verified === 'verified') || (verified === 'no')) ? <ConfirmPanel /> : <ConfirmPanel />}
                     <Route exact path='/home' component={Home}></Route>
                     <Route exact path='/editor' component={Editor}></Route>
                     <Route exact path='/login' component={Login}></Route>
