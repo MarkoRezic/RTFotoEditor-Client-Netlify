@@ -52,12 +52,12 @@ const Navbar = () => {
     function checkLoginStatus(response) {
         if (response.data.loggedIn) {
             let userMatch = response.data;
+            setCurrentUser(userMatch);
             verified = response.data.verified;
             console.log('verified = ' + currentUser.verified);
             console.log('user already logged in ' + response.data.loggedIn);
             window.scrollTo(0, 0);
             Authorize(true, userMatch.authority);
-            setCurrentUser(userMatch);
         }
         else {
             Authorize(false, 'guest');
@@ -193,7 +193,7 @@ const Navbar = () => {
 
             {legalRoute
                 ? <div>
-                    {(currentUser.verified === null) ? '' : <ConfirmPanel />}
+                    {(currentUser.verified === null || currentUser.verified === undefined) ? '' : <ConfirmPanel />}
                     <Route exact path='/home' component={Home}></Route>
                     <Route exact path='/editor' component={Editor}></Route>
                     <Route exact path='/login' component={Login}></Route>
