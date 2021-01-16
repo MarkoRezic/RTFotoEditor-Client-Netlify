@@ -23,7 +23,7 @@ const Navbar = () => {
     const [legalRoute, setLegalRoute] = useState(true);
     let local_loginStatus = loginStatus;
     let local_authority = authority;
-    let confirmed = false;
+    let verified = null;
 
     useEffect(() => {
         Axios.post(url+'/loginStatus').then((response) => {
@@ -52,6 +52,7 @@ const Navbar = () => {
     function checkLoginStatus(response) {
         if (response.data.loggedIn) {
             let userMatch = response.data;
+            let verified = userMatch.verified;
             console.log('user already logged in ' + response.data.loggedIn);
             window.scrollTo(0, 0);
             Authorize(true, userMatch.authority);
@@ -143,6 +144,7 @@ const Navbar = () => {
     function logout() {
         Axios.get(url+'/logout').then((response) => {
             setCurrentUser(response.data);
+            verified = null;
             Authorize(false, 'guest');
             setLegalRoute(true);
             redirectReload('/login').then((response)=>{
@@ -189,7 +191,7 @@ const Navbar = () => {
 
             {legalRoute
                 ? <div>
-                    {confirmed ? null : <ConfirmPanel />}
+                    { (verified == 'no') ? <ConfirmPanel /> : null}
                     <Route exact path='/home' component={Home}></Route>
                     <Route exact path='/editor' component={Editor}></Route>
                     <Route exact path='/login' component={Login}></Route>
