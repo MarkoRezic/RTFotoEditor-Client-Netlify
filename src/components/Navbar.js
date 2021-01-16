@@ -53,6 +53,7 @@ const Navbar = () => {
         if (response.data.loggedIn) {
             let userMatch = response.data;
             verified = userMatch.verified;
+            console.log('verified = ' + verified);
             console.log('user already logged in ' + response.data.loggedIn);
             window.scrollTo(0, 0);
             Authorize(true, userMatch.authority);
@@ -191,7 +192,7 @@ const Navbar = () => {
 
             {legalRoute
                 ? <div>
-                    { (verified == 'no') ? <ConfirmPanel /> : null}
+                    { verified == 'no' ? <ConfirmPanel /> : null}
                     <Route exact path='/home' component={Home}></Route>
                     <Route exact path='/editor' component={Editor}></Route>
                     <Route exact path='/login' component={Login}></Route>
