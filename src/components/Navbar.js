@@ -23,7 +23,7 @@ const Navbar = () => {
     const [legalRoute, setLegalRoute] = useState(true);
     let local_loginStatus = loginStatus;
     let local_authority = authority;
-    let verified = null;
+    let verified = 'guest';
 
     useEffect(() => {
         Axios.post(url+'/loginStatus').then((response) => {
@@ -192,7 +192,7 @@ const Navbar = () => {
 
             {legalRoute
                 ? <div>
-                    { verified == 'no' ? <ConfirmPanel /> : null}
+                    { verified === 'no' ? <ConfirmPanel /> : <ConfirmPanel />}
                     <Route exact path='/home' component={Home}></Route>
                     <Route exact path='/editor' component={Editor}></Route>
                     <Route exact path='/login' component={Login}></Route>
