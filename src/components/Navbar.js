@@ -193,7 +193,7 @@ const Navbar = () => {
 
             {legalRoute
                 ? <div>
-                    {((verified === 'guest') || (verified === 'verified') || (verified === 'no')) ? <ConfirmPanel /> : <ConfirmPanel />}
+                    {((verified === 'guest') || (verified === 'verified') || (verified === 'no')) ? <ConfirmPanel /> : ''}
                     <Route exact path='/home' component={Home}></Route>
                     <Route exact path='/editor' component={Editor}></Route>
                     <Route exact path='/login' component={Login}></Route>
