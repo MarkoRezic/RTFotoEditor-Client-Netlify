@@ -52,7 +52,7 @@ const Navbar = () => {
     function checkLoginStatus(response) {
         if (response.data.loggedIn) {
             let userMatch = response.data;
-            verified = userMatch.verified;
+            verified = response.data.verified;
             console.log('verified = ' + verified);
             console.log('user already logged in ' + response.data.loggedIn);
             window.scrollTo(0, 0);
