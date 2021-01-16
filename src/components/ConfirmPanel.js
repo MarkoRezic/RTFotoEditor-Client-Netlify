@@ -1,4 +1,6 @@
+import { useState, useContext, useEffect } from 'react';
 import Axios from 'axios';
+import { AuthorityContext } from './AuthorityContext';
 
 const ConfirmPanel = () => {
     
