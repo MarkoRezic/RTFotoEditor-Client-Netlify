@@ -23,12 +23,12 @@ const Navbar = () => {
     const [legalRoute, setLegalRoute] = useState(true);
     let local_loginStatus = loginStatus;
     let local_authority = authority;
-    let verified = 'guest';
 
     useEffect(() => {
         Axios.post(url + '/loginStatus').then((response) => {
             checkLegalRoute(response).then(function (message) {
                 console.log(message);
+                console.log('verified = ' + currentUser.verified);
             })
         })
         window.onpopstate = function (event) {
@@ -53,15 +53,12 @@ const Navbar = () => {
         if (response.data.loggedIn) {
             let userMatch = response.data;
             setCurrentUser(userMatch);
-            verified = response.data.verified;
-            console.log('verified = ' + currentUser.verified);
             console.log('user already logged in ' + response.data.loggedIn);
             window.scrollTo(0, 0);
             Authorize(true, userMatch.authority);
         }
         else {
             Authorize(false, 'guest');
-            verified = 'guest';
         }
         return new Promise(function (resolve, reject) {
             resolve()
@@ -146,7 +143,6 @@ const Navbar = () => {
     function logout() {
         Axios.get(url + '/logout').then((response) => {
             setCurrentUser(response.data);
-            verified = 'guest';
             Authorize(false, 'guest');
             setLegalRoute(true);
             redirectReload('/login').then((response) => {
@@ -193,7 +189,7 @@ const Navbar = () => {
 
             {legalRoute
                 ? <div>
-                    {(currentUser.verified === null || currentUser.verified === undefined) ? '' : <ConfirmPanel />}
+                    {(currentUser.verified === 'no') ? <ConfirmPanel /> : ''}
                     <Route exact path='/home' component={Home}></Route>
                     <Route exact path='/editor' component={Editor}></Route>
                     <Route exact path='/login' component={Login}></Route>
