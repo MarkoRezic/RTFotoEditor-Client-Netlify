@@ -6,13 +6,11 @@ const Users = () =>{
     const [{ loginStatus, authority }, setAuthority, userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
     Axios.defaults.withCredentials = true;
     let url = 'https://rt-foto-editor.herokuapp.com';
-    let users = [];
 
     useEffect(() => {
         Axios.get(url + '/users').then((response) => {
             setUserList([...response.data]);
-            users = [...response.data];
-            console.log(users);
+            console.log(userList);
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -20,10 +18,17 @@ const Users = () =>{
     function showUsers(){
         Axios.get(url + '/users').then((response) => {
             setUserList([...response.data]);
-            users = [...response.data];
-            console.log(users);
-        }).then(
-            users.map(user => {
+            console.log(userList);
+        });
+    }
+
+    return (
+        <div>
+            {
+                showUsers
+            }
+            { userList.length 
+            ? userList.map(user => {
                 <div key={user.id}>
                     <p>Username: {user.displayname}</p>
                     <p>Email: {user.email}</p>
@@ -32,13 +37,7 @@ const Users = () =>{
                     <button>Update</button>
                 </div>
             })
-        );
-    }
-
-    return (
-        <div>
-            {
-                showUsers
+            : null
             }
         </div>
     )
