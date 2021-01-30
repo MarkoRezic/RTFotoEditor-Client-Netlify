@@ -11,7 +11,7 @@ const Users = () => {
     useEffect(() => {
         Axios.get(url + '/users').then((response) => {
             setUserList([...response.data]);
-            SetUsers([...response.data]);
+            console.log(userList);
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -20,6 +20,7 @@ const Users = () => {
         <div>
             {
                 users.map(user => {
+                    SetUsers([...userList]);
                     <div key={user.id}>
                         <p>Username: {user.displayname}</p>
                         <p>Email: {user.email}</p>
