@@ -288,6 +288,8 @@ hr.round{
 
 svg{
 	padding-top: 2px;
+	margin-top: 0.07rem;
+	vertical-align: text-top;
 }
 
 
