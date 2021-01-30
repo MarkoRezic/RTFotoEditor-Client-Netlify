@@ -200,6 +200,7 @@
 .large-border{
 	max-width: 12rem;
 	max-height: 12rem;
+	margin: auto;
 }
 .profile-icon{
 	width: 100%;
