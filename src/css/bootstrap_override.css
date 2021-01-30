@@ -178,6 +178,13 @@
 	border: 2px solid #555;
 	margin-left: 1rem;
 }
+.user-card button{
+	background-color: #222;
+	color: #BBB;
+	border-radius: 2px;
+	border: 2px solid #555;
+	margin-left: 1rem;
+}
 
 
 /*Element, Element.klasa*/
