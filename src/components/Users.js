@@ -11,8 +11,7 @@ const Users = () => {
     useEffect(() => {
         Axios.get(url + '/users').then((response) => {
             setUserList([...response.data]);
-            console.log(userList);
-        });
+        }).then(()=>{console.log(userList);});
         // eslint-disable-next-line
     }, []);
 
