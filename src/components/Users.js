@@ -20,9 +20,10 @@ const Users = () => {
                 userList.map(user => {
                     return (
                         <div className="user-card btrans" key={user.id}>
-                            <p>Username: {user.displayname}</p>
-                            <br />Email: {user.email}
-                            <br />ID: {user.id}
+                            <p>Username: {user.displayname}
+                                <br />Email: {user.email}
+                                <br />ID: {user.id}
+                            </p>
                             <button>Remove</button>
                             <button>Update</button>
                         </div>
