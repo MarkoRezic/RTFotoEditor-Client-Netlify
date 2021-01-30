@@ -194,6 +194,7 @@
 	border: 2px solid #999;
 	max-width: 6.5rem;
 	max-height: 6.5rem;
+	overflow: hidden;
 }
 .profile-icon{
 	width: 100%;
