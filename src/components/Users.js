@@ -27,6 +27,7 @@ const Users = () => {
                             <div className="profile-text display-inline">
                                 <p>Username: {user.displayname}
                                     <br />Email: {user.email}
+                                    <br />Role: {user.authority}
                                     <br />ID: {user.id}
                                 </p>
                             </div>
