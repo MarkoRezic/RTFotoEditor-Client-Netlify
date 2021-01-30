@@ -393,9 +393,6 @@ svg{
 /*Media Queries*/
 @media only screen and (min-width: 356px) {
   /* For mobile phones: */
-  [class*="break"] {
-    height: 130px;
-  }
   [class*="append"] {
 	width: 105px;
 	font-size: inherit !important;
@@ -411,6 +408,12 @@ svg{
     min-width: 40px !important;
   }
 }
+@media only screen and (min-width: 464px) {
+	/* For mobile phones: */
+	[class*="break"] {
+	  height: 130px;
+	}
+  }
 @media only screen and (min-width: 673px) {
   /* Desktop: */
   [class*="break"] {
