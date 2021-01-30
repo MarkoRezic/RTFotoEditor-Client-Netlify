@@ -17,18 +17,28 @@ const Users = () =>{
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    function showUsers(){
+        Axios.get(url + '/users').then((response) => {
+            setUserList([...response.data]);
+            users = [...response.data];
+            console.log(users);
+        }).then(
+            users.map(user => {
+                <div key={user.id}>
+                    <p>Username: {user.displayname}</p>
+                    <p>Email: {user.email}</p>
+                    <p>ID: {user.id}</p>
+                    <button>Remove</button>
+                    <button>Update</button>
+                </div>
+            })
+        );
+    }
+
     return (
         <div>
             {
-                users.map(user => {
-                    <div key={user.id}>
-                        <p>Username: {user.displayname}</p>
-                        <p>Email: {user.email}</p>
-                        <p>ID: {user.id}</p>
-                        <button>Remove</button>
-                        <button>Update</button>
-                    </div>
-                })
+                showUsers
             }
         </div>
     )
