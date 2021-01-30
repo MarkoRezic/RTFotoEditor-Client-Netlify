@@ -189,8 +189,11 @@
 	border: 2px solid #555;
 }
 .profile-border{
+	float: inline-end;
 	border-radius: 50%;
 	border: 2px solid #999;
+	max-width: 10rem;
+	max-height: 10rem;
 }
 .profile-icon{
 	width: 100%;
