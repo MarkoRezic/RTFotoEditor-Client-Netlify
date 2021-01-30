@@ -27,10 +27,6 @@ const Navbar = () => {
     let local_authority = authority;
 
     useEffect(() => {
-        Axios.get(url + '/users').then((response) => {
-            setUserList([...response.data]);
-            console.log(userList);
-        });
         Axios.post(url + '/loginStatus').then((response) => {
             checkLegalRoute(response).then(function (message) {
                 console.log(message);
@@ -194,9 +190,7 @@ const Navbar = () => {
                     <Switch>
                         <Route path='/home' component={Home}></Route>
                         <Route path='/editor' component={Editor}></Route>
-                        <Route path='/users' render={(userList) => (
-                            <Dashboard users={userList} />
-                        )}></Route>
+                        <Route path='/users' component={Users}></Route>
                         <Route path='/login' component={Login}></Route>
                         <Route path='/register' component={Register}></Route>
                         <Route path='/contact' component={Contact}></Route>
