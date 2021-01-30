@@ -195,6 +195,7 @@
 	max-width: 6.5rem;
 	max-height: 6.5rem;
 	overflow: hidden;
+	margin-right: 25px;
 }
 .profile-icon{
 	width: 100%;
@@ -202,6 +203,8 @@
 }
 .display-inline{
 	display: inline-block;
+	vertical-align: top;
+	margin-bottom: 15px;
 }
 
 
