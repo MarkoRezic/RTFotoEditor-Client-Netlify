@@ -159,7 +159,7 @@ const Navbar = () => {
                     <Nav className="d-flex justify-content-center row">
 
                         <View authority={local_authority} />
-
+                        <Nav className="d-flex justify-content-center row">
                         {local_loginStatus
                             ? <Dropdown className="dropdown open">
                                 <Dropdown.Toggle className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -179,6 +179,7 @@ const Navbar = () => {
 
                             : null
                         }
+                        </Nav>
 
                     </Nav>
                 </div>
