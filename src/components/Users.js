@@ -22,13 +22,15 @@ const Users = () => {
                     return (
                         <div className="user-card btrans" key={user.id}>
                             <div>
-                            <p>Username: {user.displayname}
-                                <br />Email: {user.email}
-                                <br />ID: {user.id}
-                            </p>
-                            <div className="profile-border">
-                                <img alt="" src={PROFILEICON} className="profile-icon" />
+                                <div className="profile-border display-inline">
+                                    <img alt="" src={PROFILEICON} className="profile-icon" />
+                                </div>
                             </div>
+                            <div className="profile-text display-inline">
+                                <p>Username: {user.displayname}
+                                    <br />Email: {user.email}
+                                    <br />ID: {user.id}
+                                </p>
                             </div>
                             <button>Remove</button>
                             <button>Update</button>
