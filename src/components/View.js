@@ -1,5 +1,7 @@
-import AdminView from "../views/AdminView";
-import {UserView, AdminView, SuperAdminView, GuestView} from '../views';
+import UserView from '../views/UserView';
+import AdminView from '../views/AdminView';
+import SuperAdminView from '../views/SuperAdminView';
+import GuestView from '../views/GuestView';
 
 const View = (props) => {
     if (props) {
