@@ -21,10 +21,8 @@ const Users = () => {
                 userList.map(user => {
                     return (
                         <div className="user-card btrans" key={user.id}>
-                            <div>
-                                <div className="profile-border display-inline">
-                                    <img alt="" src={PROFILEICON} className="profile-icon" />
-                                </div>
+                            <div className="profile-border display-inline">
+                                <img alt="" src={PROFILEICON} className="profile-icon" />
                             </div>
                             <div className="profile-text display-inline">
                                 <p>Username: {user.displayname}
