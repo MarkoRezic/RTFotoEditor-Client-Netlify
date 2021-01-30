@@ -2,13 +2,13 @@ import { useContext, useState, useEffect } from 'react';
 import { Dropdown, Nav } from 'react-bootstrap';
 import { NavLink, BrowserRouter, Route, Redirect } from 'react-router-dom';
 import Axios from 'axios';
-import BootstrapIcon from '../svg icons/BootstrapIcon';
 import Contact from './Contact';
 import Editor from './Editor';
 import Home from './Home';
 import Login from './Login';
 import Profil from './Profil';
 import Register from './Register';
+import View from './View';
 import { AuthorityContext } from './AuthorityContext';
 import Error403 from './Error403';
 import ConfirmPanel from './ConfirmPanel';
@@ -157,7 +157,7 @@ const Navbar = () => {
                     <Nav className="d-flex justify-content-center row">
 
                         <View authority={local_authority} />
-                        
+
                     </Nav>
                 </div>
             </div>

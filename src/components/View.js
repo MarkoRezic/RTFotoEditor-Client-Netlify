@@ -16,3 +16,5 @@ const View = (props) => {
     }
     else return null;
 }
+
+export default View;
