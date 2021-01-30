@@ -30,9 +30,11 @@ const Users = () => {
                                     <br />ID: {user.id}
                                 </p>
                             </div>
-                            <button>Remove</button>
-                            <button>Update</button>
-                            <button>Send Message</button>
+                            <div className="profile-buttons">
+                                <button>Remove</button>
+                                <button>Update</button>
+                                <button>Send Message</button>
+                            </div>
                         </div>
                     )
                 })

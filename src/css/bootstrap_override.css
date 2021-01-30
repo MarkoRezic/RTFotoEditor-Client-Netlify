@@ -201,7 +201,7 @@
 	height: 100%;
 }
 .display-inline{
-	display: inline !important;
+	display: inline-block;
 }
 
 
