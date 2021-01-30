@@ -2,6 +2,7 @@ import Axios from 'axios';
 import { useContext } from 'react';
 import { AuthorityContext } from './AuthorityContext';
 import { Form } from 'react-bootstrap';
+import PROFILEICON from '../images/profile-icon.png';
 
 const Profil = () => {
     // eslint-disable-next-line
