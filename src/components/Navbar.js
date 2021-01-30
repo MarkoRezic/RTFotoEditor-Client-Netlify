@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect } from 'react';
 import { Dropdown, Nav } from 'react-bootstrap';
-import { NavLink, BrowserRouter, Route, Redirect } from 'react-router-dom';
+import { NavLink, BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 import Axios from 'axios';
 import BootstrapIcon from '../svg icons/BootstrapIcon';
 import Contact from './Contact';
@@ -9,6 +9,7 @@ import Home from './Home';
 import Login from './Login';
 import Profil from './Profil';
 import Register from './Register';
+import Users from './Users';
 import View from './View';
 import { AuthorityContext } from './AuthorityContext';
 import Error403 from './Error403';
@@ -186,12 +187,15 @@ const Navbar = () => {
             {legalRoute
                 ? <div>
                     {(currentUser.verified === 'no') ? <ConfirmPanel /> : ''}
-                    <Route exact path='/home' component={Home}></Route>
-                    <Route exact path='/editor' component={Editor}></Route>
-                    <Route exact path='/login' component={Login}></Route>
-                    <Route exact path='/register' component={Register}></Route>
-                    <Route exact path='/contact' component={Contact}></Route>
-                    <Route exact path='/profil' component={Profil}></Route>
+                    <Switch>
+                        <Route path='/home' component={Home}></Route>
+                        <Route path='/editor' component={Editor}></Route>
+                        <Route path='/users' component={Users}></Route>
+                        <Route path='/login' component={Login}></Route>
+                        <Route path='/register' component={Register}></Route>
+                        <Route path='/contact' component={Contact}></Route>
+                        <Route path='/profil' component={Profil}></Route>
+                    </Switch>
                 </div>
                 : <Error403 path={window.location.pathname} />}
             {local_loginStatus && (window.location.pathname === '/login' || window.location.pathname === '/register') ? <Redirect to='/home' /> : null}
