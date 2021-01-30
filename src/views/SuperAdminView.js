@@ -2,6 +2,7 @@ import { Dropdown } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 
 const SuperAdminView = () => {
+    console.log("super-admin view");
     return <div>
         <NavLink activeClassName="active" className="nav-link" to="/home"><BootstrapIcon type={0} /> Home</NavLink>
 

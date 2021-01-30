@@ -3,6 +3,7 @@ import {UserView, AdminView, SuperAdminView, GuestView} from '../views';
 
 const View = (props) => {
     if (props) {
+        console.log("props exists, authority: " + props.authority);
         switch (props.authority) {
             case "user":
                 return <UserView />
