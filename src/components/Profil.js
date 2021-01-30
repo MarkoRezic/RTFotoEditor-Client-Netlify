@@ -52,6 +52,9 @@ const Profil = () => {
                         <div className="blog-post Profil">
                             <hr className="round" />
                             <p className="text-center">Profile picture { }</p>
+                            <div className="profile-border large-border">
+                                <img alt="" src={PROFILEICON} className="profile-icon" />
+                            </div>
                             <Form>
                                 <Form.Group>
                                     <Form.File className="fileUpload" id="exampleFormControlFile1" label="Upload photo" />
