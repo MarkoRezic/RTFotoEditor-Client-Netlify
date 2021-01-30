@@ -179,8 +179,8 @@
 	margin-left: 1rem;
 }
 .user-card{
-	max-width: 20rem;
-	margin: auto;
+	max-width: 35rem;
+	margin-left: 10rem;
 }
 .user-card button{
 	background-color: #222;
