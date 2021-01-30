@@ -25,7 +25,7 @@
   animation: glow 1s ease-in-out infinite alternate;
 }
 .break{
-	height: 195px;
+	min-height: 65px;
 }
 .teh{
 	border: 2px solid rgba(210,210,230, 0.2);
@@ -408,17 +408,8 @@ svg{
     min-width: 40px !important;
   }
 }
-@media only screen and (min-width: 464px) {
-	/* For mobile phones: */
-	[class*="break"] {
-	  height: 130px;
-	}
-  }
 @media only screen and (min-width: 673px) {
   /* Desktop: */
-  [class*="break"] {
-    height: 65px;
-  }
 	[class*="edit-button"] {
     height: 2.5rem !important;
 		width: 2.5rem !important;
