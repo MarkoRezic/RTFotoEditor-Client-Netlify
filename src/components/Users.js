@@ -37,7 +37,7 @@ const Users = () => {
                             <div className="profile-text display-inline">
                                 <p>Username: {user.displayname}
                                     <br />Email: {user.email}
-                                    <br />Role: {user.authority}, <BootstrapIcon type={user.verified === 'verified' ? 18 : 19} /> {user.verified === 'verified' ? 'verified' : 'not verified'}
+                                    <br />Role: {user.authority}, <BootstrapIcon type={user.verified === 'verified' ? 18 : 19} />{user.verified === 'verified' ? 'verified' : 'not verified'}
                                     <br />ID: {user.id}
                                 </p>
                             </div>
