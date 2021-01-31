@@ -8,7 +8,7 @@ import { useEffect } from 'react';
 
 function App() {
   useEffect(() => {
-    document.title = "new title"
+    document.title = "RT Foto Editor"
   }, []);
 
   return (
