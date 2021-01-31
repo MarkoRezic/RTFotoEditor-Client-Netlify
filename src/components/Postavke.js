@@ -59,12 +59,7 @@ const Postavke = () => {
         var patternPassword = new RegExp(/^([a-zA-Z0-9@*#]{8,32})$/i);
         var validCurrentPassword = 1, validNewPassword = 1, validRepassword = 1;
         let newErrorText = ['', '', ''];
-
-        console.log(response.data);
         let userMatch = response.data;
-        console.log('currentpassword length = ' + currentpassword.length + ', userMatch id = ' + userMatch.id);
-        console.log(currentpassword.length === 0);
-        console.log(userMatch.id === null);
         if (currentpassword.length === 0 || userMatch.id === null) {
             validCurrentPassword = 0;
             newErrorText[0] = currentpassword.length === 0 ? 'Current password is required' : 'Current Password is incorrect';
@@ -104,7 +99,6 @@ const Postavke = () => {
         if (validUsername === 1) {
             Axios.put(url + '/update-username', { data: { username: username, userID: currentUser.id } }).then((response) => {
                 console.log(response);
-                window.location.reload();
             })
         }
     }
@@ -128,7 +122,6 @@ const Postavke = () => {
             if (validCurrentPassword === 1 && validNewPassword === 1 && validRepassword === 1) {
                 Axios.put(url + '/update-password', { data: { password: newpassword, userID: currentUser.id } }).then((response) => {
                     console.log(response);
-                    window.location.reload();
                 })
             }
         });
@@ -146,7 +139,7 @@ const Postavke = () => {
 
                 <div className="row justify-content-center">
 
-                    <div className="col-md-6 blog-main">
+                    <div className="col-md-8 blog-main">
 
                         <div className="blog-post Postavke">
                             <hr className="round" />
@@ -216,7 +209,7 @@ const Postavke = () => {
                                 </Form>
                                 : <button onClick={() => { changePasswordToggle(true) }}>Change password</button>}
                             <hr className="round" />
-                            <p className="text-center">Note: To see the changes requires you to login again</p>
+                            <p className="text-center">Note: Changes will take effect on next login</p>
                         </div>
 
                     </div>
