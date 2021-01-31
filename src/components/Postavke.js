@@ -73,29 +73,29 @@ const Postavke = () => {
                 validCurrentPassword = 0;
                 newErrorText[1] = currentpassword.length === 0 ? 'Current password is required' : 'Current Password is incorrect';
             }
-        });
 
-        if (!patternPassword.test(newpassword)) {
-            validNewPassword = 0;
-            newErrorText[2] = newpassword.length === 0 ? 'New Password is required'
-                : newpassword.length < 8 ? 'New Password is too short'
-                    : newpassword.length > 32 ? 'New Password is too long'
-                        : 'New Password is invalid';
-        }
-        else {
-            if (repassword !== newpassword) {
-                validRepassword = 0;
-                newErrorText[3] = repassword.length === 0 ? 'Please repeat your password' : 'Passwords do not match';
+            if (!patternPassword.test(newpassword)) {
+                validNewPassword = 0;
+                newErrorText[2] = newpassword.length === 0 ? 'New Password is required'
+                    : newpassword.length < 8 ? 'New Password is too short'
+                        : newpassword.length > 32 ? 'New Password is too long'
+                            : 'New Password is invalid';
             }
-        }
-        return {
-            validCurrentPassword: validCurrentPassword,
-            currentpasswordError: newErrorText[1],
-            validNewPassword: validNewPassword,
-            newpasswordError: newErrorText[2],
-            validRepassword: validRepassword,
-            repasswordError: newErrorText[3]
-        }
+            else {
+                if (repassword !== newpassword) {
+                    validRepassword = 0;
+                    newErrorText[3] = repassword.length === 0 ? 'Please repeat your password' : 'Passwords do not match';
+                }
+            }
+            return {
+                validCurrentPassword: validCurrentPassword,
+                currentpasswordError: newErrorText[1],
+                validNewPassword: validNewPassword,
+                newpasswordError: newErrorText[2],
+                validRepassword: validRepassword,
+                repasswordError: newErrorText[3]
+            }
+        });
     }
 
     function changeUsername() {
