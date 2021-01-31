@@ -2,6 +2,7 @@ import { useState, useContext, useEffect } from 'react';
 import Axios from 'axios';
 import { AuthorityContext } from './AuthorityContext';
 import PROFILEICON from '../images/profile-icon.png';
+import BootstrapIcon from '../svg icons/BootstrapIcon';
 
 const Users = () => {
     const [{ loginStatus, authority }, setAuthority, userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
@@ -36,7 +37,7 @@ const Users = () => {
                             <div className="profile-text display-inline">
                                 <p>Username: {user.displayname}
                                     <br />Email: {user.email}
-                                    <br />Role: {user.authority}, {user.verified === 'verified' ? 'verified' : 'not verified'}
+                                    <br />Role: {user.authority}, {user.verified === 'verified' ? 'verified' : 'not verified'} <BootstrapIcon type={user.verified === 'verified' ? 18 : 19} />
                                     <br />ID: {user.id}
                                 </p>
                             </div>
