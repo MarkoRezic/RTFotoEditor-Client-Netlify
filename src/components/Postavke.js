@@ -58,7 +58,7 @@ const Postavke = () => {
 
         var patternPassword = new RegExp(/^([a-zA-Z0-9@*#]{8,32})$/i);
         var validCurrentPassword = 1, validNewPassword = 1, validRepassword = 1;
-        let newErrorText = ['', '', '', ''];
+        let newErrorText = ['', '', ''];
 
         Axios.post(url + '/login', {
             username: currentUser.username,
@@ -71,12 +71,12 @@ const Postavke = () => {
             console.log(userMatch.id === null);
             if (currentpassword.length === 0 || userMatch.id === null) {
                 validCurrentPassword = 0;
-                newErrorText[1] = currentpassword.length === 0 ? 'Current password is required' : 'Current Password is incorrect';
+                newErrorText[0] = currentpassword.length === 0 ? 'Current password is required' : 'Current Password is incorrect';
             }
 
             if (!patternPassword.test(newpassword)) {
                 validNewPassword = 0;
-                newErrorText[2] = newpassword.length === 0 ? 'New Password is required'
+                newErrorText[1] = newpassword.length === 0 ? 'New Password is required'
                     : newpassword.length < 8 ? 'New Password is too short'
                         : newpassword.length > 32 ? 'New Password is too long'
                             : 'New Password is invalid';
@@ -84,16 +84,16 @@ const Postavke = () => {
             else {
                 if (repassword !== newpassword) {
                     validRepassword = 0;
-                    newErrorText[3] = repassword.length === 0 ? 'Please repeat your password' : 'Passwords do not match';
+                    newErrorText[2] = repassword.length === 0 ? 'Please repeat your password' : 'Passwords do not match';
                 }
             }
             return {
                 validCurrentPassword: validCurrentPassword,
-                currentpasswordError: newErrorText[1],
+                currentpasswordError: newErrorText[0],
                 validNewPassword: validNewPassword,
-                newpasswordError: newErrorText[2],
+                newpasswordError: newErrorText[1],
                 validRepassword: validRepassword,
-                repasswordError: newErrorText[3]
+                repasswordError: newErrorText[2]
             }
         });
     }
@@ -181,7 +181,7 @@ const Postavke = () => {
                                         <InputGroup className="mb-2">
                                             <Form.Control type="password" onChange={(e) => { setCurrentPassword(e.target.value); }} placeholder="Enter current password" />
                                             <InputGroup.Append>
-                                                <InputGroup.Text className="appendLong">Old Password</InputGroup.Text>
+                                                <InputGroup.Text className="append">Old Password</InputGroup.Text>
                                             </InputGroup.Append>
                                         </InputGroup>
                                         <Form.Text className="errorText">{errorText.currentpasswordError}</Form.Text>
@@ -191,7 +191,7 @@ const Postavke = () => {
                                         <InputGroup className="mb-2">
                                             <Form.Control type="password" onChange={(e) => { setNewPassword(e.target.value) }} placeholder="Enter new password" />
                                             <InputGroup.Append>
-                                                <InputGroup.Text className="appendLong">New Password</InputGroup.Text>
+                                                <InputGroup.Text className="append">New Password</InputGroup.Text>
                                             </InputGroup.Append>
                                         </InputGroup>
                                         <Form.Text className="errorText">{errorText.newpasswordError}</Form.Text>
@@ -201,7 +201,7 @@ const Postavke = () => {
                                         <InputGroup className="mb-2">
                                             <Form.Control type="password" onChange={(e) => { setRepassword(e.target.value) }} placeholder="Repeat password" />
                                             <InputGroup.Append>
-                                                <InputGroup.Text className="appendLong">Confirm</InputGroup.Text>
+                                                <InputGroup.Text className="append">Confirm</InputGroup.Text>
                                             </InputGroup.Append>
                                         </InputGroup>
                                         <Form.Text className="errorText">{errorText.repasswordError}</Form.Text>
