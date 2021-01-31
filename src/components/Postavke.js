@@ -60,7 +60,7 @@ const Postavke = () => {
         var validCurrentPassword = 1, validNewPassword = 1, validRepassword = 1;
         let newErrorText = ['', '', ''];
 
-        Axios.post(url + '/login', {
+        await Axios.post(url + '/login', {
             username: currentUser.username,
             password: currentpassword,
         }).then((response) => {
