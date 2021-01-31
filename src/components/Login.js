@@ -3,6 +3,7 @@ import Axios from 'axios';
 import { Redirect, NavLink } from 'react-router-dom';
 import { Form, InputGroup } from 'react-bootstrap';
 import { AuthorityContext } from './AuthorityContext';
+import BootstrapIcon from '../svg icons/BootstrapIcon.js';
 
 const Login = () => {
     // eslint-disable-next-line
@@ -99,6 +100,7 @@ const Login = () => {
                                         <Form.Label srOnly>Password</Form.Label>
                                         <InputGroup className="mb-2">
                                             <Form.Control type="password" onChange={(e) => { setPassword(e.target.value) }} placeholder="Enter password" />
+                                            <BootstrapIcon type={16} />
                                             <InputGroup.Append>
                                                 <InputGroup.Text className="append">Password</InputGroup.Text>
                                             </InputGroup.Append>

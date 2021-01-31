@@ -2,6 +2,7 @@ import Axios from 'axios';
 import { useContext, useState, useEffect } from 'react';
 import { AuthorityContext } from './AuthorityContext';
 import { Form, InputGroup } from 'react-bootstrap';
+import BootstrapIcon from '../svg icons/BootstrapIcon.js';
 
 const Postavke = () => {
     // eslint-disable-next-line
