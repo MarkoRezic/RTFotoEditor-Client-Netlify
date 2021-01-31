@@ -18,6 +18,9 @@ const Users = () => {
     function removeUser(userID){
         Axios.delete(url + '/remove-user', { data: {userID: userID}}).then((response) =>{
             console.log(response);
+            Axios.get(url + '/users').then((response) => {
+                setUserList([...response.data]);
+            });
         });
     }
 
