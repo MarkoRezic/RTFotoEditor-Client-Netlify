@@ -99,6 +99,7 @@ const Postavke = () => {
         if (validUsername === 1) {
             Axios.put(url + '/update-username', { data: { username: username, userID: currentUser.id } }).then((response) => {
                 console.log(response);
+                changeUsernameToggle(false);
             })
         }
     }
@@ -122,6 +123,7 @@ const Postavke = () => {
             if (validCurrentPassword === 1 && validNewPassword === 1 && validRepassword === 1) {
                 Axios.put(url + '/update-password', { data: { password: newpassword, userID: currentUser.id } }).then((response) => {
                     console.log(response);
+                    changePasswordToggle(false);
                 })
             }
         });
