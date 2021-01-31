@@ -3,6 +3,7 @@ import Axios from 'axios';
 import { Redirect, NavLink } from 'react-router-dom';
 import { Form, InputGroup } from 'react-bootstrap';
 import { AuthorityContext } from './AuthorityContext';
+import BootstrapIcon from '../svg icons/BootstrapIcon.js';
 
 const Register = () => {
     // eslint-disable-next-line
@@ -23,6 +24,8 @@ const Register = () => {
         passwordError: '',
         repasswordError: ''
     });
+    const [showPassword, toggleShowPassword] = useState(false);
+    const [showRepassword, toggleShowRepassword] = useState(false);
 
 
     useEffect(() => {
@@ -199,6 +202,9 @@ const Register = () => {
                                     <Form.Group>
                                         <Form.Label srOnly>Password</Form.Label>
                                         <InputGroup className="mb-2">
+                                            <InputGroup.Prepend>
+                                                <InputGroup.Text onClick={()=>{toggleShowPassword(!showPassword)}}><BootstrapIcon type={showPassword ? 17 : 16} /></InputGroup.Text>
+                                            </InputGroup.Prepend>
                                             <Form.Control type="password" onChange={(e) => { setPassword(e.target.value) }} placeholder="Enter password" />
                                             <InputGroup.Append>
                                                 <InputGroup.Text className="append">Password</InputGroup.Text>
@@ -209,6 +215,9 @@ const Register = () => {
                                     <Form.Group>
                                         <Form.Label srOnly>Repeat password</Form.Label>
                                         <InputGroup className="mb-2">
+                                            <InputGroup.Prepend>
+                                                <InputGroup.Text onClick={()=>{toggleShowRepassword(!showRepassword)}}><BootstrapIcon type={showRepassword ? 17 : 16} /></InputGroup.Text>
+                                            </InputGroup.Prepend>
                                             <Form.Control type="password" onChange={(e) => { setRepassword(e.target.value) }} placeholder="Repeat password" />
                                             <InputGroup.Append>
                                                 <InputGroup.Text className="append">Confirm</InputGroup.Text>

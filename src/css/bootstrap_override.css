@@ -217,6 +217,12 @@
 	display: inline-block;
 	vertical-align: top;
 }
+.input-group-text svg{
+	margin-top: 0 !important;
+}
+.input-group-text svg:hover{
+	cursor: pointer;
+}
 
 
 /*Element, Element.klasa*/

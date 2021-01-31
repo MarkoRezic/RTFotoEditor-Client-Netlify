@@ -22,6 +22,9 @@ const Postavke = () => {
         newpasswordError: '',
         repasswordError: ''
     });
+    const [showCurrentPassword, toggleShowCurrentPassword] = useState(false);
+    const [showNewPassword, toggleShowNewPassword] = useState(false);
+    const [showRepassword, toggleShowRepassword] = useState(false);
 
     useEffect(() => {
         Axios.get(url + '/users').then((response) => {
@@ -175,6 +178,9 @@ const Postavke = () => {
                                     <Form.Group>
                                         <Form.Label srOnly>Current Password</Form.Label>
                                         <InputGroup className="mb-2">
+                                            <InputGroup.Prepend>
+                                                <InputGroup.Text onClick={()=>{toggleShowCurrentPassword(!showCurrentPassword)}}><BootstrapIcon type={showCurrentPassword ? 17 : 16} /></InputGroup.Text>
+                                            </InputGroup.Prepend>
                                             <Form.Control type="password" onChange={(e) => { setCurrentPassword(e.target.value); }} placeholder="Enter current password" />
                                             <InputGroup.Append>
                                                 <InputGroup.Text className="append">Old Password</InputGroup.Text>
@@ -185,6 +191,9 @@ const Postavke = () => {
                                     <Form.Group>
                                         <Form.Label srOnly>New Password</Form.Label>
                                         <InputGroup className="mb-2">
+                                            <InputGroup.Prepend>
+                                                <InputGroup.Text onClick={()=>{toggleShowNewPassword(!showNewPassword)}}><BootstrapIcon type={showNewPassword ? 17 : 16} /></InputGroup.Text>
+                                            </InputGroup.Prepend>
                                             <Form.Control type="password" onChange={(e) => { setNewPassword(e.target.value) }} placeholder="Enter new password" />
                                             <InputGroup.Append>
                                                 <InputGroup.Text className="append">New Password</InputGroup.Text>
@@ -195,6 +204,9 @@ const Postavke = () => {
                                     <Form.Group>
                                         <Form.Label srOnly>Repeat password</Form.Label>
                                         <InputGroup className="mb-2">
+                                            <InputGroup.Prepend>
+                                                <InputGroup.Text onClick={()=>{toggleShowRepassword(!showRepassword)}}><BootstrapIcon type={showRepassword ? 17 : 16} /></InputGroup.Text>
+                                            </InputGroup.Prepend>
                                             <Form.Control type="password" onChange={(e) => { setRepassword(e.target.value) }} placeholder="Repeat password" />
                                             <InputGroup.Append>
                                                 <InputGroup.Text className="append">Confirm</InputGroup.Text>
