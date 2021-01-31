@@ -218,9 +218,9 @@
 	vertical-align: top;
 }
 .input-group-text svg{
-	margin-top: 0 !important;
+	padding-top: 0px !important;
 }
-.input-group-text svg:hover{
+.input-group-text:hover{
 	cursor: pointer;
 }
 

@@ -205,7 +205,7 @@ const Register = () => {
                                             <InputGroup.Prepend>
                                                 <InputGroup.Text onClick={()=>{toggleShowPassword(!showPassword)}}><BootstrapIcon type={showPassword ? 17 : 16} /></InputGroup.Text>
                                             </InputGroup.Prepend>
-                                            <Form.Control type="password" onChange={(e) => { setPassword(e.target.value) }} placeholder="Enter password" />
+                                            <Form.Control type={showPassword ? "text" : "password"} onChange={(e) => { setPassword(e.target.value) }} placeholder="Enter password" />
                                             <InputGroup.Append>
                                                 <InputGroup.Text className="append">Password</InputGroup.Text>
                                             </InputGroup.Append>
@@ -218,7 +218,7 @@ const Register = () => {
                                             <InputGroup.Prepend>
                                                 <InputGroup.Text onClick={()=>{toggleShowRepassword(!showRepassword)}}><BootstrapIcon type={showRepassword ? 17 : 16} /></InputGroup.Text>
                                             </InputGroup.Prepend>
-                                            <Form.Control type="password" onChange={(e) => { setRepassword(e.target.value) }} placeholder="Repeat password" />
+                                            <Form.Control type={showRepassword ? "text" : "password"} onChange={(e) => { setRepassword(e.target.value) }} placeholder="Repeat password" />
                                             <InputGroup.Append>
                                                 <InputGroup.Text className="append">Confirm</InputGroup.Text>
                                             </InputGroup.Append>

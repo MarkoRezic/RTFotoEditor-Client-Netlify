@@ -181,7 +181,7 @@ const Postavke = () => {
                                             <InputGroup.Prepend>
                                                 <InputGroup.Text onClick={()=>{toggleShowCurrentPassword(!showCurrentPassword)}}><BootstrapIcon type={showCurrentPassword ? 17 : 16} /></InputGroup.Text>
                                             </InputGroup.Prepend>
-                                            <Form.Control type="password" onChange={(e) => { setCurrentPassword(e.target.value); }} placeholder="Enter current password" />
+                                            <Form.Control type={showCurrentPassword ? "text" : "password"} onChange={(e) => { setCurrentPassword(e.target.value); }} placeholder="Enter current password" />
                                             <InputGroup.Append>
                                                 <InputGroup.Text className="append">Old Password</InputGroup.Text>
                                             </InputGroup.Append>
@@ -194,7 +194,7 @@ const Postavke = () => {
                                             <InputGroup.Prepend>
                                                 <InputGroup.Text onClick={()=>{toggleShowNewPassword(!showNewPassword)}}><BootstrapIcon type={showNewPassword ? 17 : 16} /></InputGroup.Text>
                                             </InputGroup.Prepend>
-                                            <Form.Control type="password" onChange={(e) => { setNewPassword(e.target.value) }} placeholder="Enter new password" />
+                                            <Form.Control type={showNewPassword ? "text" : "password"} onChange={(e) => { setNewPassword(e.target.value) }} placeholder="Enter new password" />
                                             <InputGroup.Append>
                                                 <InputGroup.Text className="append">New Password</InputGroup.Text>
                                             </InputGroup.Append>
@@ -207,7 +207,7 @@ const Postavke = () => {
                                             <InputGroup.Prepend>
                                                 <InputGroup.Text onClick={()=>{toggleShowRepassword(!showRepassword)}}><BootstrapIcon type={showRepassword ? 17 : 16} /></InputGroup.Text>
                                             </InputGroup.Prepend>
-                                            <Form.Control type="password" onChange={(e) => { setRepassword(e.target.value) }} placeholder="Repeat password" />
+                                            <Form.Control type={showRepassword ? "text" : "password"} onChange={(e) => { setRepassword(e.target.value) }} placeholder="Repeat password" />
                                             <InputGroup.Append>
                                                 <InputGroup.Text className="append">Confirm</InputGroup.Text>
                                             </InputGroup.Append>
