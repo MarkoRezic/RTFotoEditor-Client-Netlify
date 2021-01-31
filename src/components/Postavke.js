@@ -117,15 +117,8 @@ const Postavke = () => {
     function changePassword() {
         var passwordValues = regexTestPassword(currentpassword, newpassword, repassword);
 
-        var {
-            validCurrentPassword,
-            currentpasswordError,
-            validNewPassword,
-            newpasswordError,
-            validRepassword,
-            repasswordError
-        } = passwordValues;
-
+        console.log(passwordValues);
+        /*
         setErrorText({ currentpasswordError: currentpasswordError, newpasswordError: newpasswordError, repasswordError: repasswordError });
 
         if (validCurrentPassword === 1 && validNewPassword === 1 && validRepassword === 1) {
@@ -134,6 +127,7 @@ const Postavke = () => {
                 window.location.reload();
             })
         }
+        */
     }
 
     return (
