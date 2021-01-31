@@ -60,16 +60,18 @@ const Postavke = () => {
         var validCurrentPassword = 1, validNewPassword = 1, validRepassword = 1;
         let newErrorText = ['', '', '', ''];
 
-        Axios.post(url+'/login', {
+        Axios.post(url + '/login', {
             username: currentUser.username,
             password: currentpassword,
         }).then((response) => {
             console.log(response.data);
             let userMatch = response.data;
-            console.log('currentpassword length = ' + currentpassword.length + ' ' + currentpassword.length === 0 + ', userMatch id = ' + userMatch.id + ' ' + userMatch.id === null)
+            console.log('currentpassword length = ' + currentpassword.length + ', userMatch id = ' + userMatch.id);
+            console.log(currentpassword.length === 0);
+            console.log(userMatch.id === null);
             if (currentpassword.length === 0 || userMatch.id === null) {
-                    validCurrentPassword = 0;
-                    newErrorText[1] = currentpassword.length === 0 ? 'Current password is required' : 'Current Password is incorrect';
+                validCurrentPassword = 0;
+                newErrorText[1] = currentpassword.length === 0 ? 'Current password is required' : 'Current Password is incorrect';
             }
         });
 
@@ -96,7 +98,7 @@ const Postavke = () => {
         }
     }
 
-    function changeUsername(){
+    function changeUsername() {
         var {
             validUsername,
             usernameError
@@ -104,15 +106,15 @@ const Postavke = () => {
 
         setErrorText({ usernameError: usernameError });
 
-        if(validUsername === 1){
-            Axios.put(url + '/update-username', {data: {username: username, userID: currentUser.id}}).then((response) => {
+        if (validUsername === 1) {
+            Axios.put(url + '/update-username', { data: { username: username, userID: currentUser.id } }).then((response) => {
                 console.log(response);
                 window.location.reload();
             })
         }
     }
 
-    function changePassword(){
+    function changePassword() {
         var {
             validCurrentPassword,
             currentpasswordError,
@@ -124,8 +126,8 @@ const Postavke = () => {
 
         setErrorText({ currentpasswordError: currentpasswordError, newpasswordError: newpasswordError, repasswordError: repasswordError });
 
-        if(validCurrentPassword === 1 && validNewPassword === 1 && validRepassword === 1){
-            Axios.put(url + '/update-password', {data: {password: newpassword, userID: currentUser.id}}).then((response) => {
+        if (validCurrentPassword === 1 && validNewPassword === 1 && validRepassword === 1) {
+            Axios.put(url + '/update-password', { data: { password: newpassword, userID: currentUser.id } }).then((response) => {
                 console.log(response);
                 window.location.reload();
             })
@@ -149,8 +151,8 @@ const Postavke = () => {
                         <div className="blog-post Postavke">
                             <hr className="round" />
                             <p>Username: {currentUser.displayname}</p>
-                            
-                            {toggleChangeU ? 
+
+                            {toggleChangeU ?
                                 <Form onSubmit={(e) => { e.preventDefault(); }}>
                                     <Form.Group>
                                         <Form.Label srOnly>Username</Form.Label>
@@ -167,12 +169,12 @@ const Postavke = () => {
                                     </Form.Group>
                                     <Form.Group className="justify-content-center">
                                         <button className="resendButton green-border" type="submit" onClick={changeUsername} name="button">Confirm</button>
-                                        <button className="resendButton red-border" type="submit" onClick={()=>{changeUsernameToggle(false)}} name="button">Cancel</button>
+                                        <button className="resendButton red-border" type="submit" onClick={() => { changeUsernameToggle(false) }} name="button">Cancel</button>
                                     </Form.Group>
                                 </Form>
-                            : <button onClick={()=>{changeUsernameToggle(true)}}>Change username</button>}
+                                : <button onClick={() => { changeUsernameToggle(true) }}>Change username</button>}
                             <hr className="round" />
-                            {toggleChangeP ? 
+                            {toggleChangeP ?
                                 <Form onSubmit={(e) => { e.preventDefault(); }}>
                                     <Form.Group>
                                         <Form.Label srOnly>Current Password</Form.Label>
@@ -209,10 +211,10 @@ const Postavke = () => {
                                     </Form.Group>
                                     <Form.Group className="justify-content-center">
                                         <button className="resendButton green-border" type="submit" onClick={changePassword} name="button">Confirm</button>
-                                        <button className="resendButton red-border" type="submit" onClick={()=>{changePasswordToggle(false)}} name="button">Cancel</button>
+                                        <button className="resendButton red-border" type="submit" onClick={() => { changePasswordToggle(false) }} name="button">Cancel</button>
                                     </Form.Group>
                                 </Form>
-                            : <button onClick={()=>{changePasswordToggle(true)}}>Change password</button>}
+                                : <button onClick={() => { changePasswordToggle(true) }}>Change password</button>}
                             <hr className="round" />
                             <p className="text-center">Note: To see the changes requires you to login again</p>
                         </div>
