@@ -19,6 +19,7 @@ const Login = () => {
         usernameError: '',
         passwordError: ''
     });
+    const [showPassword, toggleShowPassword] = useState(false);
 
     useEffect(() => {
         if (loginStatus) {
@@ -100,9 +101,9 @@ const Login = () => {
                                         <Form.Label srOnly>Password</Form.Label>
                                         <InputGroup className="mb-2">
                                             <InputGroup.Prepend>
-                                                <InputGroup.Text><BootstrapIcon type={16} /></InputGroup.Text>
+                                                <InputGroup.Text onClick={()=>{toggleShowPassword(!showPassword)}}><BootstrapIcon type={showPassword ? 17 : 16} /></InputGroup.Text>
                                             </InputGroup.Prepend>
-                                            <Form.Control type="password" onChange={(e) => { setPassword(e.target.value) }} placeholder="Enter password" />
+                                            <Form.Control type={showPassword ? "text" : "password"} onChange={(e) => { setPassword(e.target.value) }} placeholder="Enter password" />
                                             <InputGroup.Append>
                                                 <InputGroup.Text className="append">Password</InputGroup.Text>
                                             </InputGroup.Append>
