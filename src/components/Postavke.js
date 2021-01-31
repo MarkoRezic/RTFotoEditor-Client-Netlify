@@ -66,6 +66,7 @@ const Postavke = () => {
         }).then((response) => {
             console.log(response.data);
             let userMatch = response.data;
+            console.log('currentpassword length = ' + currentpassword.length + ' ' + currentpassword.length === 0 + ', userMatch id = ' + userMatch.id + ' ' + userMatch.id === null)
             if (currentpassword.length === 0 || userMatch.id === null) {
                     validCurrentPassword = 0;
                     newErrorText[1] = currentpassword.length === 0 ? 'Current password is required' : 'Current Password is incorrect';
@@ -178,7 +179,7 @@ const Postavke = () => {
                                         <InputGroup className="mb-2">
                                             <Form.Control type="password" onChange={(e) => { setCurrentPassword(e.target.value); }} placeholder="Enter current password" />
                                             <InputGroup.Append>
-                                                <InputGroup.Text className="append">Old Password</InputGroup.Text>
+                                                <InputGroup.Text className="appendLong">Old Password</InputGroup.Text>
                                             </InputGroup.Append>
                                         </InputGroup>
                                         <Form.Text className="errorText">{errorText.currentpasswordError}</Form.Text>
@@ -188,7 +189,7 @@ const Postavke = () => {
                                         <InputGroup className="mb-2">
                                             <Form.Control type="password" onChange={(e) => { setNewPassword(e.target.value) }} placeholder="Enter new password" />
                                             <InputGroup.Append>
-                                                <InputGroup.Text className="append">New Password</InputGroup.Text>
+                                                <InputGroup.Text className="appendLong">New Password</InputGroup.Text>
                                             </InputGroup.Append>
                                         </InputGroup>
                                         <Form.Text className="errorText">{errorText.newpasswordError}</Form.Text>
@@ -198,7 +199,7 @@ const Postavke = () => {
                                         <InputGroup className="mb-2">
                                             <Form.Control type="password" onChange={(e) => { setRepassword(e.target.value) }} placeholder="Repeat password" />
                                             <InputGroup.Append>
-                                                <InputGroup.Text className="append">Confirm</InputGroup.Text>
+                                                <InputGroup.Text className="appendLong">Confirm</InputGroup.Text>
                                             </InputGroup.Append>
                                         </InputGroup>
                                         <Form.Text className="errorText">{errorText.repasswordError}</Form.Text>
@@ -212,6 +213,8 @@ const Postavke = () => {
                                     </Form.Group>
                                 </Form>
                             : <button onClick={()=>{changePasswordToggle(true)}}>Change password</button>}
+                            <hr className="round" />
+                            <p className="text-center">Note: To see the changes requires you to login again</p>
                         </div>
 
                     </div>

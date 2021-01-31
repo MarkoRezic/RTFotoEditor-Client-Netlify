@@ -145,6 +145,10 @@
 	width: 85px;
 	font-size: 15px !important;
 }
+.appendLong{
+	display: none;
+	font-size: 15px !important;
+}
 .checkbox{
 	color: #999999;
 }
@@ -403,6 +407,10 @@ svg{
   /* For mobile phones: */
   [class*="append"] {
 	width: 105px;
+	font-size: inherit !important;
+  }
+  [class*="appendLong"] {
+	display: initial !important;
 	font-size: inherit !important;
   }
 }
