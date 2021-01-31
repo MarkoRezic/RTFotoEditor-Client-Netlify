@@ -171,7 +171,7 @@ const Postavke = () => {
                                         <button className="resendButton red-border" type="submit" onClick={() => { changeUsernameToggle(false) }} name="button">Cancel</button>
                                     </Form.Group>
                                 </Form>
-                                : <button onClick={() => { changeUsernameToggle(true) }}>Change username</button>}
+                                : <button className="resendButton" onClick={() => { changeUsernameToggle(true) }}>Change username</button>}
                             <hr className="round" />
                             {toggleChangeP ?
                                 <Form onSubmit={(e) => { e.preventDefault(); }}>
@@ -222,7 +222,7 @@ const Postavke = () => {
                                         <button className="resendButton red-border" type="submit" onClick={() => { changePasswordToggle(false) }} name="button">Cancel</button>
                                     </Form.Group>
                                 </Form>
-                                : <button onClick={() => { changePasswordToggle(true) }}>Change password</button>}
+                                : <button className="resendButton" onClick={() => { changePasswordToggle(true) }}>Change password</button>}
                             <hr className="round" />
                             <p className="text-center">Note: Changes will take effect on next login</p>
                         </div>
