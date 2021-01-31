@@ -14,6 +14,7 @@ import View from './View';
 import { AuthorityContext } from './AuthorityContext';
 import Error403 from './Error403';
 import ConfirmPanel from './ConfirmPanel';
+import Postavke from './Postavke';
 
 const Navbar = () => {
     // eslint-disable-next-line
@@ -194,6 +195,7 @@ const Navbar = () => {
                         <Route path='/register' component={Register}></Route>
                         <Route path='/contact' component={Contact}></Route>
                         <Route path='/profil' component={Profil}></Route>
+                        <Route path='/postavke' component={Postavke}></Route>
                     </Switch>
                 </div>
                 : <Error403 path={window.location.pathname} />}

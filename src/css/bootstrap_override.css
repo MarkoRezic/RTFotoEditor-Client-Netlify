@@ -178,6 +178,12 @@
 	border: 2px solid #555;
 	margin-left: 1rem;
 }
+.green-border{
+	border-color: #4CAF50 !important;
+}
+.red-border{
+	border-color: rgb(223, 61, 61) !important;
+}
 .user-card{
 	max-width: 35rem;
 	margin: auto;
