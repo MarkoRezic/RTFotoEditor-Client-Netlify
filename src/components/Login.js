@@ -100,8 +100,8 @@ const Login = () => {
                                         <Form.Label srOnly>Password</Form.Label>
                                         <InputGroup className="mb-2">
                                             <Form.Control type="password" onChange={(e) => { setPassword(e.target.value) }} placeholder="Enter password" />
-                                            <BootstrapIcon type={16} />
                                             <InputGroup.Append>
+                                                <InputGroup.Text className="append"><BootstrapIcon type={16} /></InputGroup.Text>
                                                 <InputGroup.Text className="append">Password</InputGroup.Text>
                                             </InputGroup.Append>
                                         </InputGroup>
