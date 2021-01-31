@@ -54,48 +54,43 @@ const Postavke = () => {
         }
     }
 
-    function regexTestPassword(currentpassword, newpassword, repassword) {
+    function regexTestPassword(currentpassword, newpassword, repassword, response) {
 
         var patternPassword = new RegExp(/^([a-zA-Z0-9@*#]{8,32})$/i);
         var validCurrentPassword = 1, validNewPassword = 1, validRepassword = 1;
         let newErrorText = ['', '', ''];
 
-        await Axios.post(url + '/login', {
-            username: currentUser.username,
-            password: currentpassword,
-        }).then((response) => {
-            console.log(response.data);
-            let userMatch = response.data;
-            console.log('currentpassword length = ' + currentpassword.length + ', userMatch id = ' + userMatch.id);
-            console.log(currentpassword.length === 0);
-            console.log(userMatch.id === null);
-            if (currentpassword.length === 0 || userMatch.id === null) {
-                validCurrentPassword = 0;
-                newErrorText[0] = currentpassword.length === 0 ? 'Current password is required' : 'Current Password is incorrect';
-            }
+        console.log(response.data);
+        let userMatch = response.data;
+        console.log('currentpassword length = ' + currentpassword.length + ', userMatch id = ' + userMatch.id);
+        console.log(currentpassword.length === 0);
+        console.log(userMatch.id === null);
+        if (currentpassword.length === 0 || userMatch.id === null) {
+            validCurrentPassword = 0;
+            newErrorText[0] = currentpassword.length === 0 ? 'Current password is required' : 'Current Password is incorrect';
+        }
 
-            if (!patternPassword.test(newpassword)) {
-                validNewPassword = 0;
-                newErrorText[1] = newpassword.length === 0 ? 'New Password is required'
-                    : newpassword.length < 8 ? 'New Password is too short'
-                        : newpassword.length > 32 ? 'New Password is too long'
-                            : 'New Password is invalid';
+        if (!patternPassword.test(newpassword)) {
+            validNewPassword = 0;
+            newErrorText[1] = newpassword.length === 0 ? 'New Password is required'
+                : newpassword.length < 8 ? 'New Password is too short'
+                    : newpassword.length > 32 ? 'New Password is too long'
+                        : 'New Password is invalid';
+        }
+        else {
+            if (repassword !== newpassword) {
+                validRepassword = 0;
+                newErrorText[2] = repassword.length === 0 ? 'Please repeat your password' : 'Passwords do not match';
             }
-            else {
-                if (repassword !== newpassword) {
-                    validRepassword = 0;
-                    newErrorText[2] = repassword.length === 0 ? 'Please repeat your password' : 'Passwords do not match';
-                }
-            }
-            return {
-                validCurrentPassword: validCurrentPassword,
-                currentpasswordError: newErrorText[0],
-                validNewPassword: validNewPassword,
-                newpasswordError: newErrorText[1],
-                validRepassword: validRepassword,
-                repasswordError: newErrorText[2]
-            }
-        });
+        }
+        return {
+            validCurrentPassword: validCurrentPassword,
+            currentpasswordError: newErrorText[0],
+            validNewPassword: validNewPassword,
+            newpasswordError: newErrorText[1],
+            validRepassword: validRepassword,
+            repasswordError: newErrorText[2]
+        }
     }
 
     function changeUsername() {
@@ -115,19 +110,28 @@ const Postavke = () => {
     }
 
     function changePassword() {
-        var passwordValues = regexTestPassword(currentpassword, newpassword, repassword);
+        Axios.post(url + '/login', {
+            username: currentUser.username,
+            password: currentpassword,
+        }).then((response) => {
+            var {
+                validCurrentPassword,
+                currentpasswordError,
+                validNewPassword,
+                newpasswordError,
+                validRepassword,
+                repasswordError
+            } = regexTestPassword(currentpassword, newpassword, repassword, response);
 
-        console.log(regexTestPassword(currentpassword, newpassword, repassword));
-        /*
-        setErrorText({ currentpasswordError: currentpasswordError, newpasswordError: newpasswordError, repasswordError: repasswordError });
+            setErrorText({ currentpasswordError: currentpasswordError, newpasswordError: newpasswordError, repasswordError: repasswordError });
 
-        if (validCurrentPassword === 1 && validNewPassword === 1 && validRepassword === 1) {
-            Axios.put(url + '/update-password', { data: { password: newpassword, userID: currentUser.id } }).then((response) => {
-                console.log(response);
-                window.location.reload();
-            })
-        }
-        */
+            if (validCurrentPassword === 1 && validNewPassword === 1 && validRepassword === 1) {
+                Axios.put(url + '/update-password', { data: { password: newpassword, userID: currentUser.id } }).then((response) => {
+                    console.log(response);
+                    window.location.reload();
+                })
+            }
+        });
     }
 
     return (
