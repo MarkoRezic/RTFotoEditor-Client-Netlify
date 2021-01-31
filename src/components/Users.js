@@ -15,6 +15,12 @@ const Users = () => {
         // eslint-disable-next-line
     }, []);
 
+    function removeUser(userID){
+        Axios.delete(url + '/remove-user', { data: {userID: userID}}).then((response) =>{
+            console.log(response);
+        });
+    }
+
     return (
         <div>
             {
@@ -32,7 +38,7 @@ const Users = () => {
                                 </p>
                             </div>
                             <div className="profile-buttons">
-                                <button>Remove</button>
+                                <button onClick={()=>{removeUser(user.id)}}>Remove</button>
                                 <button>Update</button>
                                 <button>Send Message</button>
                             </div>
