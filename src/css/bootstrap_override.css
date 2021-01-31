@@ -402,7 +402,7 @@ svg{
 @media only screen and (min-width: 356px) {
   /* For mobile phones: */
   [class*="append"] {
-	width: 120px;
+	width: 130px;
 	font-size: inherit !important;
   }
 }

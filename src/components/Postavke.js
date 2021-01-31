@@ -115,6 +115,8 @@ const Postavke = () => {
     }
 
     function changePassword() {
+        var passwordValues = regexTestPassword(currentpassword, newpassword, repassword);
+
         var {
             validCurrentPassword,
             currentpasswordError,
@@ -122,7 +124,7 @@ const Postavke = () => {
             newpasswordError,
             validRepassword,
             repasswordError
-        } = regexTestPassword(currentpassword, newpassword, repassword);
+        } = passwordValues;
 
         setErrorText({ currentpasswordError: currentpasswordError, newpasswordError: newpasswordError, repasswordError: repasswordError });
 
