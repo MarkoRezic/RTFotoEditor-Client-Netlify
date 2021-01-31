@@ -4,8 +4,13 @@ import 'bootstrap/dist/css/bootstrap.css';
 import "./css/blog.css";
 import Navbar from "./components/Navbar";
 import { AuthorityProvider } from './components/AuthorityContext';
+import { useEffect } from 'react';
 
 function App() {
+  useEffect(() => {
+    document.title = "new title"
+  }, []);
+
   return (
     <AuthorityProvider>
       <div className="App">
