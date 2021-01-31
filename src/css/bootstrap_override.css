@@ -217,7 +217,7 @@
 	display: inline-block;
 	vertical-align: top;
 }
-.input-group-text svg{
+.input-group-text svg, p svg{
 	padding-top: 0px !important;
 }
 .input-group-text:hover{
