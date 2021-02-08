@@ -225,7 +225,6 @@ const Postavke = () => {
                                 </Form>
                                 : <button className="resendButton" onClick={() => { changePasswordToggle(true) }}>Change password</button>}
                             <hr className="round" />
-                            <p className="text-center">Note: Refresh the page to see changes</p>
                         </div>
 
                     </div>
