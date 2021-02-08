@@ -104,6 +104,7 @@ const Postavke = () => {
             Axios.put(url + '/update-username', { data: { username: username, userID: currentUser.id } }).then((response) => {
                 console.log(response);
                 changeUsernameToggle(false);
+                setCurrentUser({username: username.toLowerCase(), displayname: username});
             })
         }
     }
