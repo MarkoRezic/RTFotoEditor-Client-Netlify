@@ -16,6 +16,9 @@ const Inbox = () => {
     const [usernameError, setUsernameError] = useState('');
 
     useEffect(() => {
+        Axios.get(url + '/users').then((response) => {
+            setUserList([...response.data]);
+        });
         Axios.get(url + '/messages/' + currentUser.id).then((response) => {
             setMessages([...response.data]);
         });
@@ -38,13 +41,13 @@ const Inbox = () => {
     }
 
     function sendMessage() {
-        var validUsername = 0, i = 0;
-        for (i = 0; i < userList.length; i++) {
+        var validUsername = 0;
+        for (var i = 0; i < userList.length; i++) {
             console.log('checking: ' + username.toLowerCase() + '===' + userList[i].username.toLowerCase());
             console.log(username.toLowerCase() === userList[i].username.toLowerCase());
             if (username.toLowerCase() === userList[i].username.toLowerCase()) validUsername = 1;
         }
-        if (validUsername === 1 && i!=0) {
+        if (validUsername === 1) {
             console.log('entered if statement');
             setUsernameError('');
             Axios.post(url + '/send-message', { sender_id: currentUser.id, reciever_id: findID(username), text: text }).then((response) => {
