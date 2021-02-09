@@ -3,7 +3,7 @@ import Axios from 'axios';
 import { AuthorityContext } from './AuthorityContext';
 import PROFILEICON from '../images/profile-icon.png';
 import BootstrapIcon from '../svg icons/BootstrapIcon';
-import Dropdown from 'react-bootstrap';
+import { Dropdown, DropdownButton } from 'react-bootstrap';
 
 const Users = () => {
     const [{ loginStatus, authority }, setAuthority, userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);

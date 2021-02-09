@@ -24,8 +24,6 @@ const Navbar = () => {
     //let url = 'http://localhost:3001';
 
     const [legalRoute, setLegalRoute] = useState(true);
-    let loginStatus = loginStatus;
-    let authority = authority;
 
     useEffect(() => {
         Axios.post(url + '/loginStatus').then((response) => {
