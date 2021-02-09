@@ -39,15 +39,19 @@ const Inbox = () => {
     function sendMessage() {
         var validUsername = 0;
         for (var i = 0; i < userList.length; i++) {
+            console.log('checking: ' + username.toLowerCase() + '===' + userList[i].username.toLowerCase());
+            console.log(username.toLowerCase() === userList[i].username.toLowerCase());
             if (username.toLowerCase() === userList[i].username.toLowerCase()) validUsername = 1;
         }
-        if (validUsername) {
+        if (validUsername === 1) {
+            console.log('entered if statement');
             setUsernameError('');
             Axios.post(url + '/send-message', { sender_id: currentUser.id, reciever_id: findID(username), text: text }).then((response) => {
                 console.log(response);
             })
         }
         else {
+            console.log('entered else statement');
             setUsernameError('User not found');
         }
     }
@@ -95,7 +99,7 @@ const Inbox = () => {
                                     <InputGroup className="mb-2">
                                         <Form.Control type="username" onChange={(e) => { setUsername(e.target.value); }} placeholder="Enter username" />
                                         <InputGroup.Prepend>
-                                            <InputGroup.Text className="prepend">Prima: </InputGroup.Text>
+                                            <InputGroup.Text>Prima: </InputGroup.Text>
                                         </InputGroup.Prepend>
                                     </InputGroup>
                                     <Form.Text className="errorText">{usernameError}</Form.Text>
