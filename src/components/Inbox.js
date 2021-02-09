@@ -10,7 +10,7 @@ const Inbox = () => {
     let url = 'https://rt-foto-editor.herokuapp.com';
     //let url = 'http://localhost:3001';
 
-    const [messages, setMessages] = useState({});
+    const [messages, setMessages] = useState([]);
     const [username, setUsername] = useState('');
     const [text, setText] = useState('');
     const [usernameError, setUsernameError] = useState('');
