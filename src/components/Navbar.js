@@ -71,13 +71,13 @@ const Navbar = () => {
         if (local_loginStatus) {
             switch (local_authority) {
                 case 'user':
-                    legalRouteList = ['/home', '/editor', '/login', '/register', '/contact', '/profil', '/postavke'];
+                    legalRouteList = ['/home', '/editor', '/login', '/register', '/inbox', '/profil', '/postavke'];
                     break;
                 case 'admin':
-                    legalRouteList = ['/home', '/editor', '/login', '/register', '/contact', '/profil', '/postavke', '/users'];
+                    legalRouteList = ['/home', '/editor', '/login', '/register', '/inbox', '/profil', '/postavke', '/users'];
                     break;
                 case 'super-admin':
-                    legalRouteList = ['/home', '/editor', '/login', '/register', '/contact', '/profil', '/postavke', '/users', '/database'];
+                    legalRouteList = ['/home', '/editor', '/login', '/register', '/inbox', '/profil', '/postavke', '/users', '/database'];
                     break;
                 default:
                     legalRouteList = ['/home', '/editor', '/login', '/register'];
