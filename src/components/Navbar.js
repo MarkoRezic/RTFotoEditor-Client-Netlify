@@ -24,8 +24,8 @@ const Navbar = () => {
     //let url = 'http://localhost:3001';
 
     const [legalRoute, setLegalRoute] = useState(true);
-    let local_loginStatus = loginStatus;
-    let local_authority = authority;
+    let loginStatus = loginStatus;
+    let authority = authority;
 
     useEffect(() => {
         Axios.post(url + '/loginStatus').then((response) => {
@@ -46,8 +46,6 @@ const Navbar = () => {
 
     function Authorize(loginStatus, authority) {
         setAuthority({ loginStatus: loginStatus, authority: authority });
-        local_loginStatus = loginStatus;
-        local_authority = authority;
     }
 
     //The set of functions that I want to call in order
@@ -70,9 +68,9 @@ const Navbar = () => {
     function initialSet() {
         let legalRouteList = [];
         console.log('checking route');
-        if (local_loginStatus) {
+        if (loginStatus) {
             console.log('user is logged in');
-            switch (local_authority) {
+            switch (authority) {
                 case 'user':
                     legalRouteList = ['/home', '/editor', '/login', '/register', '/contact', '/profil', '/postavke'];
                     break;
@@ -93,7 +91,7 @@ const Navbar = () => {
         else {
             legalRouteList = ['/home', '/editor', '/login', '/register'];
         }
-        console.log(local_authority);
+        console.log(authority);
         return new Promise(function (resolve, reject) {
             resolve(legalRouteList)
         })
@@ -159,8 +157,8 @@ const Navbar = () => {
                 <div className="container break">
                     <Nav className="d-flex justify-content-center row">
 
-                        <View authority={local_authority} />
-                        {local_loginStatus
+                        <View authority={authority} />
+                        {loginStatus
                             ? <Dropdown className="dropdown open">
                                 <Dropdown.Toggle className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <BootstrapIcon type={5} />
@@ -199,7 +197,7 @@ const Navbar = () => {
                     </Switch>
                 </div>
                 : <Error403 path={window.location.pathname} />}
-            {local_loginStatus && (window.location.pathname === '/login' || window.location.pathname === '/register') ? <Redirect to='/home' /> : null}
+            {loginStatus && (window.location.pathname === '/login' || window.location.pathname === '/register') ? <Redirect to='/home' /> : null}
 
         </BrowserRouter>
     );
