@@ -55,7 +55,7 @@ const Users = () => {
                                 ? <div className="profile-buttons">
                                     {(user.authority === 'super-admin') ? null : <button onClick={() => { removeUser(user.id) }}>Remove</button>}
                                     {(user.authority === 'super-admin') ? null
-                                        : <DropdownButton id={"dropdown-basic-button" + user.id} title="Change Role">
+                                        : <DropdownButton id={"dropdown-basic-button" + user.id} className="change-role" title="Change Role">
                                             <Dropdown.Item disabled={user.authority === 'user'} onSelect={() => { changeRole('user', user.id) }}>User</Dropdown.Item>
                                             <Dropdown.Item disabled={user.authority === 'admin'} onSelect={() => { changeRole('admin', user.id) }} >Admin</Dropdown.Item>
                                         </DropdownButton>
