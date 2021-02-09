@@ -21,6 +21,7 @@ const Inbox = () => {
         });
         Axios.get(url + '/messages/' + currentUser.id).then((response) => {
             setMessages([...response.data]);
+            console.log(response);
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -36,26 +37,21 @@ const Inbox = () => {
         for (var i = 0; i < userList.length; i++) {
             if (username.toLowerCase() === userList[i].username.toLowerCase()) return userList[i].id;
         }
-        console.log('returned empty id');
         return '';
     }
 
     function sendMessage() {
         var validUsername = 0;
         for (var i = 0; i < userList.length; i++) {
-            console.log('checking: ' + username.toLowerCase() + '===' + userList[i].username.toLowerCase());
-            console.log(username.toLowerCase() === userList[i].username.toLowerCase());
             if (username.toLowerCase() === userList[i].username.toLowerCase()) validUsername = 1;
         }
         if (validUsername === 1) {
-            console.log('entered if statement');
             setUsernameError('');
             Axios.post(url + '/send-message', { sender_id: currentUser.id, reciever_id: findID(username), text: text }).then((response) => {
                 console.log(response);
             })
         }
         else {
-            console.log('entered else statement');
             setUsernameError('User not found');
         }
     }
