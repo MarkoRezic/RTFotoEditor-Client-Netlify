@@ -10,7 +10,7 @@ const SuperAdminView = () => {
 
         <NavLink activeClassName="active" className="nav-link" to="/users"><BootstrapIcon type={6} /> Users</NavLink>
 
-        <NavLink activeClassName="active" className="nav-link" to="/contact"><BootstrapIcon type={4} /> Inbox</NavLink>
+        <NavLink activeClassName="active" className="nav-link" to="/inbox"><BootstrapIcon type={4} /> Inbox</NavLink>
     </Nav>
 }
 

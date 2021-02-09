@@ -69,6 +69,7 @@ const Inbox = () => {
                         <div className="blog-post Poruke">
                             <p>Broj novih poruka: {messages.length}</p>
                             <hr className="round" />
+                            <div>
                             {
                                 messages.map(message => {
                                     return (
@@ -79,6 +80,7 @@ const Inbox = () => {
                                     );
                                 })
                             }
+                            </div>
                         </div>
 
                     </div>
