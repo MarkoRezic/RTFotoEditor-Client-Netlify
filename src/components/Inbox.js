@@ -97,10 +97,10 @@ const Inbox = () => {
                                 <Form.Group>
                                     <Form.Label srOnly>Prima:</Form.Label>
                                     <InputGroup className="mb-2">
-                                        <Form.Control type="username" onChange={(e) => { setUsername(e.target.value); }} placeholder="Enter username" />
                                         <InputGroup.Prepend>
                                             <InputGroup.Text>Prima: </InputGroup.Text>
                                         </InputGroup.Prepend>
+                                        <Form.Control type="username" onChange={(e) => { setUsername(e.target.value); }} placeholder="Enter username" />
                                     </InputGroup>
                                     <Form.Text className="errorText">{usernameError}</Form.Text>
                                 </Form.Group>
