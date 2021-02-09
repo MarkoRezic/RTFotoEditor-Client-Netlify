@@ -56,7 +56,6 @@ const Login = () => {
             });
 
             if (validUsername === 1 && validPassword === 1) {
-                console.log('user logged in');
                 setAuthority({ loginStatus: true, authority: userMatch.authority });
                 setCurrentUser(userMatch);
                 window.scrollTo(0, 0);

@@ -33,7 +33,6 @@ const Register = () => {
             setUserList([...response.data]);
         });
         if (loginStatus) {
-            console.log('user logged in');
             window.scrollTo(0, 0);
             setRedirect(true);
         }
@@ -137,7 +136,6 @@ const Register = () => {
 
                         if (autoLogin) {
                             let userMatch = response.data;
-                            console.log('user logged in');
                             setCurrentUser(userMatch);
                             setAuthority({ loginStatus: true, authority: userMatch.authority });
                             setRedirect(true);
