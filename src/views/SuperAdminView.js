@@ -3,7 +3,6 @@ import { Nav } from 'react-bootstrap';
 import BootstrapIcon from '../svg icons/BootstrapIcon';
 
 const SuperAdminView = () => {
-    console.log("super-admin view");
     return <Nav className="d-flex justify-content-center">
         <NavLink activeClassName="active" className="nav-link" to="/home"><BootstrapIcon type={0} /> Home</NavLink>
 

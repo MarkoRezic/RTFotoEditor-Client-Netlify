@@ -53,7 +53,6 @@ const Navbar = () => {
         if (response.data.loggedIn) {
             let userMatch = response.data;
             setCurrentUser(userMatch);
-            console.log('user already logged in ' + response.data.loggedIn);
             window.scrollTo(0, 0);
             Authorize(true, userMatch.authority);
         }
@@ -103,7 +102,6 @@ const Navbar = () => {
             if (window.location.pathname === legalRouteList[i]) {
                 flag = false;
                 setLegalRoute(true);
-                console.log('route is legal');
 
             }
         }
@@ -113,10 +111,9 @@ const Navbar = () => {
     }
 
     function validate(flag) {
-        let message = 'no redirect necessary';
+        let message = 'no redirect';
         if (flag) {
             setLegalRoute(false);
-            console.log('route is illegal');
             message = 'redirecting';
         }
         return new Promise(function (resolve, reject) {
