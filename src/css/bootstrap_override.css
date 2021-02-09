@@ -193,9 +193,13 @@
 .user-card button, .profile-buttons .dropdown button{
 	background-color: #222 !important;
 	color: #BBB !important;
-	border-radius: 2px !important;
+	border-radius: 0px !important;
 	border: 2px solid #555 !important;
 	margin-right: 1rem !important;
+}
+.profile-buttons .dropdown button{
+	padding: revert !important;
+	display: block !important;
 }
 .profile-border{
 	border-radius: 50%;
