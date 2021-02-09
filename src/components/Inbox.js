@@ -33,6 +33,7 @@ const Inbox = () => {
         for (var i = 0; i < userList.length; i++) {
             if (username.toLowerCase() === userList[i].username.toLowerCase()) return userList[i].id;
         }
+        console.log('returned empty id');
         return '';
     }
 
