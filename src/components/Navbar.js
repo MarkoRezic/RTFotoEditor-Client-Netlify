@@ -3,7 +3,7 @@ import { Dropdown, Nav } from 'react-bootstrap';
 import { NavLink, BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 import Axios from 'axios';
 import BootstrapIcon from '../svg icons/BootstrapIcon';
-import Contact from './Contact';
+import Inbox from './Inbox';
 import Editor from './Editor';
 import Home from './Home';
 import Login from './Login';
@@ -187,7 +187,7 @@ const Navbar = () => {
                         <Route path='/users' component={Users}></Route>
                         <Route path='/login' component={Login}></Route>
                         <Route path='/register' component={Register}></Route>
-                        <Route path='/contact' component={Contact}></Route>
+                        <Route path='/inbox' component={Inbox}></Route>
                         <Route path='/profil' component={Profil}></Route>
                         <Route path='/postavke' component={Postavke}></Route>
                     </Switch>

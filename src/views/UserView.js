@@ -8,7 +8,7 @@ const UserView = () => {
 
         <NavLink activeClassName="active" className="nav-link" to="/editor"><BootstrapIcon type={1} /> Foto Editor</NavLink>
 
-        <NavLink activeClassName="active" className="nav-link" to="/contact"><BootstrapIcon type={4} /> Contact</NavLink>
+        <NavLink activeClassName="active" className="nav-link" to="/contact"><BootstrapIcon type={4} /> Inbox</NavLink>
     </Nav>
 }
 
