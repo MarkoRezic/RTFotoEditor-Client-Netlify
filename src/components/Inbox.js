@@ -102,10 +102,10 @@ const Inbox = () => {
                                 </Form.Group>
                                 <Form.Group controlId="exampleForm.ControlTextarea1">
                                     <Form.Label>Text</Form.Label>
-                                    <Form.Control as="textarea" rows={5} onChange={(e) => { setText(e.targer.value); }} />
+                                    <Form.Control as="textarea" rows={5} onChange={(e) => { setText(e.target.value); }} />
                                 </Form.Group>
                                 <Form.Group className="justify-content-center">
-                                    <button className="resendButton" type="submit" onClick={sendMessage()} name="button">Send Message</button>
+                                    <button className="resendButton" type="submit" onClick={sendMessage} name="button">Send Message</button>
                                 </Form.Group>
                             </Form>
                         </div>
