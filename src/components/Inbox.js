@@ -79,7 +79,7 @@ const Inbox = () => {
                             {
                                 messages.map(message => {
                                     return (
-                                        <div className={message.opened ? 'message opened' : 'message'}>
+                                        <div className={message.opened ? 'message opened' : 'message'} key={message.id}>
                                             <p>From: {findUsername(message.sender_id)}
                                             <br/>Text: {message.text}</p>
                                         </div>
