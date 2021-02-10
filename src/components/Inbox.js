@@ -163,9 +163,9 @@ const Inbox = () => {
                             <p>Nova poruka</p>
                             <hr className="round" />
                             <Form onSubmit={(e) => { e.preventDefault(); if(usernameError === '') e.target.reset(); }}>
-                                <Form.Group>
+                                <Form.Group controlId="newMessageUsername">
                                     <Form.Label srOnly>Prima:</Form.Label>
-                                    <InputGroup className="mb-2" controlId="newMessageUsername">
+                                    <InputGroup className="mb-2">
                                         <InputGroup.Prepend>
                                             <InputGroup.Text>Prima: </InputGroup.Text>
                                         </InputGroup.Prepend>
