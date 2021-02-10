@@ -11,6 +11,7 @@ const Inbox = () => {
     //let url = 'http://localhost:3001';
 
     const [messages, setMessages] = useState([]);
+    const [messagesSent, setMessagesSent] = useState([]);
     const [username, setUsername] = useState('');
     const [text, setText] = useState('');
     const [usernameError, setUsernameError] = useState('');
@@ -22,7 +23,9 @@ const Inbox = () => {
 
             Axios.get(url + '/messages/' + currentUser.id).then((response) => {
                 setMessages([...response.data]);
-                console.log(response);
+            });
+            Axios.get(url + '/messages-sent/' + currentUser.id).then((response) => {
+                setMessagesSent([...response.data]);
             });
         }
         );
@@ -52,7 +55,14 @@ const Inbox = () => {
             setUsernameError('');
             Axios.post(url + '/send-message', { sender_id: currentUser.id, reciever_id: findID(username), text: text }).then((response) => {
                 console.log(response);
-            })
+            }).then(()=>{
+                Axios.get(url + '/messages/' + currentUser.id).then((response) => {
+                    setMessages([...response.data]);
+                });
+                Axios.get(url + '/messages-sent/' + currentUser.id).then((response) => {
+                    setMessagesSent([...response.data]);
+                });
+            });
         }
         else {
             setUsernameError('User not found');
@@ -71,7 +81,7 @@ const Inbox = () => {
 
                 <div className="row justify-content-center">
 
-                    <div className="col-md-6 blog-main">
+                    <div className="col-md-4 blog-main">
 
                         <div className="blog-post Poruke">
                             <p>Broj novih poruka: {messages.length}</p>
@@ -94,7 +104,30 @@ const Inbox = () => {
                         </div>
 
                     </div>
-                    <div className="col-md-6 blog-main">
+                    <div className="col-md-4 blog-main">
+
+                        <div className="blog-post Poruke">
+                            <p>Poslano:</p>
+                            <hr className="round" />
+                            {
+                                messagesSent.map(message => {
+                                    return (
+                                        <div className='message' key={message.id}>
+                                            <p>To: {findUsername(message.reciever_id)}, {message.date.substr(8,2)+'/'+message.date.substr(5,2)+'/'+message.date.substr(0,4)} at {message.time}
+                                                <br />Text: </p>
+                                            <div className="message-text">
+                                                <p>
+                                                    {message.text}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    );
+                                })
+                            }
+                        </div>
+
+                    </div>
+                    <div className="col-md-4 blog-main">
 
                         <div className="blog-post NovaPoruka">
                             <p>Nova poruka</p>
