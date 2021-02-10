@@ -99,7 +99,7 @@ const Inbox = () => {
                         <div className="blog-post NovaPoruka">
                             <p>Nova poruka</p>
                             <hr className="round" />
-                            <Form onSubmit={(e) => { e.preventDefault(); }}>
+                            <Form onSubmit={(e) => { e.preventDefault(); e.target.reset(); }}>
                                 <Form.Group>
                                     <Form.Label srOnly>Prima:</Form.Label>
                                     <InputGroup className="mb-2">
