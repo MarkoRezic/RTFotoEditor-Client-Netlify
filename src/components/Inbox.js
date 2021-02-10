@@ -54,7 +54,7 @@ const Inbox = () => {
         }).then(()=>{
             messagesSent_reversed = [...messagesSent];
             messagesSent_reversed = messagesSent_reversed.reverse();
-        });;
+        });
     }
 
     function sendMessage() {
