@@ -237,6 +237,13 @@
     padding: 8px;
 	overflow-wrap: break-word;
 }
+.message-text{
+	border: 2px solid #333;
+    padding: 8px;
+	overflow-wrap: break-word;
+	overflow-y: auto;
+	max-height: 200px;
+}
 .opened{
     opacity: 0.5;
 }
