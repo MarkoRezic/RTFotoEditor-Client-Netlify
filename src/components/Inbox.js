@@ -87,6 +87,30 @@ const Inbox = () => {
         });
     }
 
+    function deleteAllRecieved(reciever_id){
+        Axios.delete(url + '/remove-messages-recieved', { data: { reciever_id: reciever_id } }).then((response) => {
+            console.log(response);
+            Axios.get(url + '/messages/' + currentUser.id).then((response) => {
+                setMessages([...response.data]);
+            });
+            Axios.get(url + '/messages-sent/' + currentUser.id).then((response) => {
+                setMessagesSent([...response.data]);
+            });
+        });
+    }
+
+    function deleteAllSent(sender_id){
+        Axios.delete(url + '/remove-messages-sent', { data: { sender_id: sender_id } }).then((response) => {
+            console.log(response);
+            Axios.get(url + '/messages/' + currentUser.id).then((response) => {
+                setMessages([...response.data]);
+            });
+            Axios.get(url + '/messages-sent/' + currentUser.id).then((response) => {
+                setMessagesSent([...response.data]);
+            });
+        });
+    }
+
     return (
         <div>
             <div className="blog-header">
@@ -104,6 +128,7 @@ const Inbox = () => {
                         <div className="blog-post Poruke">
                             <p>Broj novih poruka: {messages.length}</p>
                             <hr className="round" />
+                            <button onClick={()=>{deleteAllRecieved(currentUser.id)}}>Delete All</button>
                             {
                                 messages.reverse().map(message => {
                                     return (
@@ -129,6 +154,7 @@ const Inbox = () => {
                         <div className="blog-post Poruke">
                             <p>Poslano:</p>
                             <hr className="round" />
+                            <button onClick={()=>{deleteAllSent(currentUser.id)}}>Delete All</button>
                             {
                                 messagesSent.reverse().map(message => {
                                     return (
