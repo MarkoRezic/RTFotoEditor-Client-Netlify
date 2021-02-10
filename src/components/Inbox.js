@@ -15,8 +15,6 @@ const Inbox = () => {
     const [username, setUsername] = useState('');
     const [text, setText] = useState('');
     const [usernameError, setUsernameError] = useState('');
-    var messages_reversed = [];
-    var messagesSent_reversed = [];
 
     useEffect(() => {
         Axios.get(url + '/users').then((response) => {
@@ -45,15 +43,9 @@ const Inbox = () => {
     function updateMessages(){
         Axios.get(url + '/messages/' + currentUser.id).then((response) => {
             setMessages([...response.data]);
-        }).then(()=>{
-            messages_reversed = [...messages];
-            messages_reversed = messages_reversed.reverse();
         });
         Axios.get(url + '/messages-sent/' + currentUser.id).then((response) => {
             setMessagesSent([...response.data]);
-        }).then(()=>{
-            messagesSent_reversed = [...messagesSent];
-            messagesSent_reversed = messagesSent_reversed.reverse();
         });
     }
 
@@ -121,7 +113,7 @@ const Inbox = () => {
                             <hr className="round" />
                             <button onClick={()=>{deleteAllRecieved(currentUser.id)}}>Delete All</button>
                             {
-                                messages_reversed.map(message => {
+                                messages.reverse().map(message => {
                                     return (
                                         <div className={message.opened ? 'message opened' : 'message'} key={message.id}>
                                             <p>From: {findUsername(message.sender_id)}
@@ -147,7 +139,7 @@ const Inbox = () => {
                             <hr className="round" />
                             <button onClick={()=>{deleteAllSent(currentUser.id)}}>Delete All</button>
                             {
-                                messagesSent_reversed.map(message => {
+                                messagesSent.reverse().map(message => {
                                     return (
                                         <div className='message' key={message.id}>
                                             <p>To: {findUsername(message.reciever_id)}
