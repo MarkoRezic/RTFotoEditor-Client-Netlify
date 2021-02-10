@@ -45,12 +45,16 @@ const Inbox = () => {
     function updateMessages(){
         Axios.get(url + '/messages/' + currentUser.id).then((response) => {
             setMessages([...response.data]);
-            messages_reversed = [...response.data].reverse();
+        }).then(()=>{
+            messages_reversed = [...messages];
+            messages_reversed = messages_reversed.reverse();
         });
         Axios.get(url + '/messages-sent/' + currentUser.id).then((response) => {
             setMessagesSent([...response.data]);
-            messagesSent_reversed = [...response.data].reverse();
-        });
+        }).then(()=>{
+            messagesSent_reversed = [...messagesSent];
+            messagesSent_reversed = messagesSent_reversed.reverse();
+        });;
     }
 
     function sendMessage() {
