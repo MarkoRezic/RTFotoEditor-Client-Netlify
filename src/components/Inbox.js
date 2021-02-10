@@ -45,11 +45,11 @@ const Inbox = () => {
     function updateMessages(){
         Axios.get(url + '/messages/' + currentUser.id).then((response) => {
             setMessages([...response.data]);
-            messages_reversed = [...messages].reverse();
+            messages_reversed = [...response.data].reverse();
         });
         Axios.get(url + '/messages-sent/' + currentUser.id).then((response) => {
             setMessagesSent([...response.data]);
-            messagesSent_reversed = [...messagesSent].reverse();
+            messagesSent_reversed = [...response.data].reverse();
         });
     }
 
