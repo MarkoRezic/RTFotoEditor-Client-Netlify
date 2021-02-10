@@ -24,7 +24,7 @@ const Inbox = () => {
             console.log(response);
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [currentUser]);
 
     function findUsername(userID) {
         for (var i = 0; i < userList.length; i++) {
@@ -73,18 +73,16 @@ const Inbox = () => {
                         <div className="blog-post Poruke">
                             <p>Broj novih poruka: {messages.length}</p>
                             <hr className="round" />
-                            <div>
                             {
                                 messages.map(message => {
                                     return (
                                         <div className={message.opened ? 'message opened' : 'message'}>
-                                            <p>From: {findUsername(message.sender_id)}</p>
+                                            <p>From: {()=>{findUsername(message.sender_id)}}</p>
                                             <p>Text: {message.text}</p>
                                         </div>
                                     );
                                 })
                             }
-                            </div>
                         </div>
 
                     </div>
