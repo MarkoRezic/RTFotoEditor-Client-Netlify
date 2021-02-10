@@ -69,6 +69,24 @@ const Inbox = () => {
         }
     }
 
+    function replyFocus(usernameReply){
+        document.getElementById('newMessageText').focus();
+        setUsername(usernameReply);
+        document.getElementById('newMessageUsername').value = usernameReply;
+    }
+
+    function deleteMessage(message_id){
+        Axios.delete(url + '/remove-message', { data: { message_id: message_id } }).then((response) => {
+            console.log(response);
+            Axios.get(url + '/messages/' + currentUser.id).then((response) => {
+                setMessages([...response.data]);
+            });
+            Axios.get(url + '/messages-sent/' + currentUser.id).then((response) => {
+                setMessagesSent([...response.data]);
+            });
+        });
+    }
+
     return (
         <div>
             <div className="blog-header">
@@ -87,16 +105,18 @@ const Inbox = () => {
                             <p>Broj novih poruka: {messages.length}</p>
                             <hr className="round" />
                             {
-                                messages.map(message => {
+                                messages.reverse().map(message => {
                                     return (
                                         <div className={message.opened ? 'message opened' : 'message'} key={message.id}>
-                                            <p>From: {findUsername(message.sender_id)}, {message.date.substr(8,2)+'/'+message.date.substr(5,2)+'/'+message.date.substr(0,4)} at {message.time}
-                                                <br />Text: </p>
+                                            <p>From: {findUsername(message.sender_id)}
+                                                <br />Date: {message.date.substr(8,2)+'/'+message.date.substr(5,2)+'/'+message.date.substr(0,4)} at {message.time}</p>
                                             <div className="message-text">
                                                 <p>
                                                     {message.text}
                                                 </p>
                                             </div>
+                                            <button onClick={()=>{replyFocus(findUsername(message.sender_id))}}>Reply</button>
+                                            <button onClick={()=>{deleteMessage(message.id)}}>Delete</button>
                                         </div>
                                     );
                                 })
@@ -110,16 +130,17 @@ const Inbox = () => {
                             <p>Poslano:</p>
                             <hr className="round" />
                             {
-                                messagesSent.map(message => {
+                                messagesSent.reverse().map(message => {
                                     return (
                                         <div className='message' key={message.id}>
-                                            <p>To: {findUsername(message.reciever_id)}, {message.date.substr(8,2)+'/'+message.date.substr(5,2)+'/'+message.date.substr(0,4)} at {message.time}
-                                                <br />Text: </p>
+                                            <p>To: {findUsername(message.reciever_id)}
+                                                <br />Date: {message.date.substr(8,2)+'/'+message.date.substr(5,2)+'/'+message.date.substr(0,4)} at {message.time}</p>
                                             <div className="message-text">
                                                 <p>
                                                     {message.text}
                                                 </p>
                                             </div>
+                                            <button onClick={()=>{deleteMessage(message.id)}}>Delete</button>
                                         </div>
                                     );
                                 })
@@ -135,7 +156,7 @@ const Inbox = () => {
                             <Form onSubmit={(e) => { e.preventDefault(); if(usernameError === '') e.target.reset(); }}>
                                 <Form.Group>
                                     <Form.Label srOnly>Prima:</Form.Label>
-                                    <InputGroup className="mb-2">
+                                    <InputGroup className="mb-2" controlId="newMessageUsername">
                                         <InputGroup.Prepend>
                                             <InputGroup.Text>Prima: </InputGroup.Text>
                                         </InputGroup.Prepend>
@@ -143,7 +164,7 @@ const Inbox = () => {
                                     </InputGroup>
                                     <Form.Text className="errorText">{usernameError}</Form.Text>
                                 </Form.Group>
-                                <Form.Group controlId="exampleForm.ControlTextarea1">
+                                <Form.Group controlId="newMessageText">
                                     <Form.Label>Text</Form.Label>
                                     <Form.Control as="textarea" rows={5} onChange={(e) => { setText(e.target.value); }} />
                                 </Form.Group>
