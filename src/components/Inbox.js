@@ -18,11 +18,14 @@ const Inbox = () => {
     useEffect(() => {
         Axios.get(url + '/users').then((response) => {
             setUserList([...response.data]);
-        });
-        Axios.get(url + '/messages/' + currentUser.id).then((response) => {
-            setMessages([...response.data]);
-            console.log(response);
-        });
+        }).then(() => {
+
+            Axios.get(url + '/messages/' + currentUser.id).then((response) => {
+                setMessages([...response.data]);
+                console.log(response);
+            });
+        }
+        );
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentUser]);
 
@@ -77,7 +80,7 @@ const Inbox = () => {
                                 messages.map(message => {
                                     return (
                                         <div className={message.opened ? 'message opened' : 'message'}>
-                                            <p>From: {()=>{findUsername(message.sender_id)}}</p>
+                                            <p>From: {findUsername(message.sender_id)}</p>
                                             <p>Text: {message.text}</p>
                                         </div>
                                     );
