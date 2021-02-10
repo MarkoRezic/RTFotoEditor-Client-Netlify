@@ -271,7 +271,7 @@
 	margin-top: 0.4rem;
 }
 .large-container{
-	max-width: 80rem;
+	max-width: 80rem !important;
 }
 
 /*Element, Element.klasa*/
