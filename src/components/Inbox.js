@@ -103,11 +103,11 @@ const Inbox = () => {
                 </div>
             </div>
 
-            <div className="container">
+            <div className="container large-container">
 
                 <div className="row justify-content-center">
 
-                    <div className="col-md-4 blog-main">
+                    <div className="col-lg-4 blog-main">
 
                         <div className="blog-post Poruke">
                             <p>Broj novih poruka: {messages.length}</p>
@@ -133,7 +133,7 @@ const Inbox = () => {
                         </div>
 
                     </div>
-                    <div className="col-md-4 blog-main">
+                    <div className="col-lg-4 blog-main">
 
                         <div className="blog-post Poruke">
                             <p>Poslano: {messagesSent.length}</p>
@@ -158,7 +158,7 @@ const Inbox = () => {
                         </div>
 
                     </div>
-                    <div className="col-md-4 blog-main">
+                    <div className="col-lg-4 blog-main">
 
                         <div className="blog-post NovaPoruka">
                             <p>Nova poruka</p>
