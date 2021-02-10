@@ -42,10 +42,10 @@ const Inbox = () => {
 
     function updateMessages(){
         Axios.get(url + '/messages/' + currentUser.id).then((response) => {
-            setMessages([...response.data]);
+            setMessages([...response.data].reverse());
         });
         Axios.get(url + '/messages-sent/' + currentUser.id).then((response) => {
-            setMessagesSent([...response.data]);
+            setMessagesSent([...response.data].reverse());
         });
     }
 
@@ -113,7 +113,7 @@ const Inbox = () => {
                             <hr className="round" />
                             <button onClick={()=>{deleteAllRecieved(currentUser.id)}}>Delete All</button>
                             {
-                                messages.reverse().map(message => {
+                                messages.map(message => {
                                     return (
                                         <div className={message.opened ? 'message opened' : 'message'} key={message.id}>
                                             <p>From: {findUsername(message.sender_id)}
@@ -135,11 +135,11 @@ const Inbox = () => {
                     <div className="col-md-4 blog-main">
 
                         <div className="blog-post Poruke">
-                            <p>Poslano:</p>
+                            <p>Poslano: {messagesSent.length}</p>
                             <hr className="round" />
                             <button onClick={()=>{deleteAllSent(currentUser.id)}}>Delete All</button>
                             {
-                                messagesSent.reverse().map(message => {
+                                messagesSent.map(message => {
                                     return (
                                         <div className='message' key={message.id}>
                                             <p>To: {findUsername(message.reciever_id)}
