@@ -15,18 +15,14 @@ const Inbox = () => {
     const [username, setUsername] = useState('');
     const [text, setText] = useState('');
     const [usernameError, setUsernameError] = useState('');
+    var messages_reversed = [];
+    var messagesSent_reversed = [];
 
     useEffect(() => {
         Axios.get(url + '/users').then((response) => {
             setUserList([...response.data]);
         }).then(() => {
-
-            Axios.get(url + '/messages/' + currentUser.id).then((response) => {
-                setMessages([...response.data]);
-            });
-            Axios.get(url + '/messages-sent/' + currentUser.id).then((response) => {
-                setMessagesSent([...response.data]);
-            });
+            updateMessages();
         }
         );
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -46,6 +42,17 @@ const Inbox = () => {
         return '';
     }
 
+    function updateMessages(){
+        Axios.get(url + '/messages/' + currentUser.id).then((response) => {
+            setMessages([...response.data]);
+            messages_reversed = [...messages].reverse();
+        });
+        Axios.get(url + '/messages-sent/' + currentUser.id).then((response) => {
+            setMessagesSent([...response.data]);
+            messagesSent_reversed = [...messagesSent].reverse();
+        });
+    }
+
     function sendMessage() {
         var validUsername = 0;
         for (var i = 0; i < userList.length; i++) {
@@ -56,12 +63,7 @@ const Inbox = () => {
             Axios.post(url + '/send-message', { sender_id: currentUser.id, reciever_id: findID(username), text: text }).then((response) => {
                 console.log(response);
             }).then(()=>{
-                Axios.get(url + '/messages/' + currentUser.id).then((response) => {
-                    setMessages([...response.data]);
-                });
-                Axios.get(url + '/messages-sent/' + currentUser.id).then((response) => {
-                    setMessagesSent([...response.data]);
-                });
+                updateMessages();
             });
         }
         else {
@@ -78,36 +80,21 @@ const Inbox = () => {
     function deleteMessage(message_id){
         Axios.delete(url + '/remove-message', { data: { message_id: message_id } }).then((response) => {
             console.log(response);
-            Axios.get(url + '/messages/' + currentUser.id).then((response) => {
-                setMessages([...response.data]);
-            });
-            Axios.get(url + '/messages-sent/' + currentUser.id).then((response) => {
-                setMessagesSent([...response.data]);
-            });
+            updateMessages();
         });
     }
 
     function deleteAllRecieved(reciever_id){
         Axios.delete(url + '/remove-messages-recieved', { data: { reciever_id: reciever_id } }).then((response) => {
             console.log(response);
-            Axios.get(url + '/messages/' + currentUser.id).then((response) => {
-                setMessages([...response.data]);
-            });
-            Axios.get(url + '/messages-sent/' + currentUser.id).then((response) => {
-                setMessagesSent([...response.data]);
-            });
+            updateMessages();
         });
     }
 
     function deleteAllSent(sender_id){
         Axios.delete(url + '/remove-messages-sent', { data: { sender_id: sender_id } }).then((response) => {
             console.log(response);
-            Axios.get(url + '/messages/' + currentUser.id).then((response) => {
-                setMessages([...response.data]);
-            });
-            Axios.get(url + '/messages-sent/' + currentUser.id).then((response) => {
-                setMessagesSent([...response.data]);
-            });
+            updateMessages();
         });
     }
 
@@ -130,7 +117,7 @@ const Inbox = () => {
                             <hr className="round" />
                             <button onClick={()=>{deleteAllRecieved(currentUser.id)}}>Delete All</button>
                             {
-                                messages.reverse().map(message => {
+                                messages_reversed.map(message => {
                                     return (
                                         <div className={message.opened ? 'message opened' : 'message'} key={message.id}>
                                             <p>From: {findUsername(message.sender_id)}
@@ -156,7 +143,7 @@ const Inbox = () => {
                             <hr className="round" />
                             <button onClick={()=>{deleteAllSent(currentUser.id)}}>Delete All</button>
                             {
-                                messagesSent.reverse().map(message => {
+                                messagesSent_reversed.map(message => {
                                     return (
                                         <div className='message' key={message.id}>
                                             <p>To: {findUsername(message.reciever_id)}
