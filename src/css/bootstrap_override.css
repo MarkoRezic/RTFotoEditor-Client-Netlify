@@ -231,7 +231,14 @@
 .input-group-text:hover{
 	cursor: pointer;
 }
-
+.message{
+	border: 2px solid #999;
+    margin-bottom: 0.5rem;
+    padding: 8px;
+}
+.opened{
+    opacity: 0.5;
+}
 
 /*Element, Element.klasa*/
 body{
