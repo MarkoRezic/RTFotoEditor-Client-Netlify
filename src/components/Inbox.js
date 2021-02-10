@@ -14,6 +14,7 @@ const Inbox = () => {
     const [messagesSent, setMessagesSent] = useState([]);
     const [username, setUsername] = useState('');
     const [text, setText] = useState('');
+    const [sentText, setSentText] = useState('');
     const [usernameError, setUsernameError] = useState('');
 
     useEffect(() => {
@@ -162,23 +163,24 @@ const Inbox = () => {
                         <div className="blog-post NovaPoruka">
                             <p>Nova poruka</p>
                             <hr className="round" />
-                            <Form onSubmit={(e) => { e.preventDefault(); if(usernameError === '') e.target.reset(); }}>
+                            <Form onSubmit={(e) => { e.preventDefault(); if(usernameError === ''){ e.target.reset(); setSentText('Message sent'); } }}>
                                 <Form.Group controlId="newMessageUsername">
                                     <Form.Label srOnly>Prima:</Form.Label>
                                     <InputGroup className="mb-2">
                                         <InputGroup.Prepend>
                                             <InputGroup.Text>Prima: </InputGroup.Text>
                                         </InputGroup.Prepend>
-                                        <Form.Control type="username" onChange={(e) => { setUsername(e.target.value); }} placeholder="Enter username" />
+                                        <Form.Control type="username" onChange={(e) => { setUsername(e.target.value); setSentText(''); }} placeholder="Enter username" />
                                     </InputGroup>
                                     <Form.Text className="errorText">{usernameError}</Form.Text>
                                 </Form.Group>
                                 <Form.Group controlId="newMessageText">
                                     <Form.Label>Text</Form.Label>
-                                    <Form.Control as="textarea" rows={5} onChange={(e) => { setText(e.target.value); }} />
+                                    <Form.Control as="textarea" rows={5} onChange={(e) => { setText(e.target.value); setSentText(''); }} />
                                 </Form.Group>
                                 <Form.Group className="justify-content-center">
                                     <button className="resendButton" type="submit" onClick={sendMessage} name="button">Send Message</button>
+                                    <Form.Text className="greenText">{sentText}</Form.Text>
                                 </Form.Group>
                             </Form>
                         </div>

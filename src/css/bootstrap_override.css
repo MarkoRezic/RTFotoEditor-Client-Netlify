@@ -155,6 +155,9 @@
 .errorText{
 	color: rgb(223, 61, 61) !important;
 }
+.greenText{
+	color: #4CAF50 !important;
+}
 .fileUpload{
 	color:#999999;
 }
