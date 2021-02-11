@@ -2,6 +2,7 @@ import { useState, useContext, useEffect } from 'react';
 import Axios from 'axios';
 import { Form, InputGroup } from 'react-bootstrap';
 import { AuthorityContext } from './AuthorityContext';
+import { checkText } from 'smile2emoji';
 
 const Inbox = () => {
     // eslint-disable-next-line
@@ -170,7 +171,7 @@ const Inbox = () => {
                                         <InputGroup.Prepend>
                                             <InputGroup.Text>Prima: </InputGroup.Text>
                                         </InputGroup.Prepend>
-                                        <Form.Control type="username" onChange={(e) => { setUsername(e.target.value); setSentText(''); }} placeholder="Enter username" />
+                                        <Form.Control type="username" onChange={(e) => { setUsername(checkText(e.target.value)); setSentText(''); }} placeholder="Enter username" />
                                     </InputGroup>
                                     <Form.Text className="errorText">{usernameError}</Form.Text>
                                 </Form.Group>
