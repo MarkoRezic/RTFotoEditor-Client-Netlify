@@ -171,13 +171,13 @@ const Inbox = () => {
                                         <InputGroup.Prepend>
                                             <InputGroup.Text>Prima: </InputGroup.Text>
                                         </InputGroup.Prepend>
-                                        <Form.Control type="username" onChange={(e) => { setUsername(checkText(e.target.value)); setSentText(''); }} placeholder="Enter username" />
+                                        <Form.Control type="username" onChange={(e) => { setUsername(e.target.value); setSentText(''); }} placeholder="Enter username" />
                                     </InputGroup>
                                     <Form.Text className="errorText">{usernameError}</Form.Text>
                                 </Form.Group>
                                 <Form.Group controlId="newMessageText">
                                     <Form.Label>Text</Form.Label>
-                                    <Form.Control as="textarea" rows={5} onChange={(e) => { setText(e.target.value); setSentText(''); }} />
+                                    <Form.Control as="textarea" rows={5} onChange={(e) => { setText(checkText(e.target.value)); document.getElementById('newMessageText').value = checkText(e.target.value); setSentText(''); }} />
                                 </Form.Group>
                                 <Form.Group className="justify-content-center">
                                     <button className="resendButton" type="submit" onClick={sendMessage} name="button">Send Message</button>
