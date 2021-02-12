@@ -29,6 +29,9 @@ const Inbox = () => {
             setUserList([...response.data]);
         }).then(() => {
             updateMessages();
+            window.setInterval(function() {
+                updateMessages();
+            }, 10000);
         }
         );
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -54,8 +57,10 @@ const Inbox = () => {
                     break;
                 }
             }
-            var currentChat = document.getElementById("currentChat");
-            currentChat.scrollTop = currentChat.scrollHeight;
+            window.setTimeout(function() {
+                var currentChat = document.getElementById("currentChat");
+                currentChat.scrollTop = currentChat.scrollHeight;
+            }, 500);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [messages]);
