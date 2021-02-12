@@ -267,7 +267,7 @@ const Inbox = () => {
                                                     :
                                                 </p>
                                                     <p>
-                                                        {message[0].text}
+                                                        {message.text}
                                                     </p>
                                                 </div>
                                             );
