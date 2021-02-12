@@ -304,7 +304,7 @@ const Inbox = () => {
                                         })
                                     }
                                 </div>
-                                <Form onSubmit={(e) => { e.preventDefault(); }}>
+                                <Form onSubmit={(e) => { e.preventDefault(); e.target.reset(); }}>
                                     <Form.Group className="sendMessageGroup">
                                         <Form.Label srOnly>Message</Form.Label>
                                         <InputGroup className="mb-2">
