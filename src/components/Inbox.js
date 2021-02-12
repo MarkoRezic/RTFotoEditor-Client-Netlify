@@ -323,7 +323,7 @@ const Inbox = () => {
                                     <Form.Group controlId="sendMessageInputID" className="sendMessageGroup">
                                         <Form.Label srOnly>Message</Form.Label>
                                         <InputGroup className="mb-2">
-                                            <Form.Control className="sendMessageInput" type="text" onChange={(e) => { setText(checkText(e.target.value)); }} placeholder="Nova poruka..." />
+                                            <Form.Control className="sendMessageInput" type="text" onChange={(e) => { setText(checkText(e.target.value)); document.getElementById('sendMessageInputID').value = checkText(e.target.value) }} placeholder="Nova poruka..." />
                                         </InputGroup>
                                     </Form.Group>
 
