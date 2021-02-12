@@ -73,7 +73,7 @@ const Inbox = () => {
             window.setTimeout(function () {
                 var currentChat = document.getElementById("currentChat");
                 currentChat.scrollTop = currentChat.scrollHeight;
-            }, 200);
+            }, 50);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [messages]);
@@ -219,7 +219,7 @@ const Inbox = () => {
         
         window.setTimeout(function () {
             document.getElementById('sendMessageInputID').focus();
-        }, 300);
+        }, 100);
     }
 
     return (
