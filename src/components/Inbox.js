@@ -3,6 +3,7 @@ import Axios from 'axios';
 import { Form, InputGroup } from 'react-bootstrap';
 import { AuthorityContext } from './AuthorityContext';
 import { checkText } from 'smile2emoji';
+import BootstrapIcon from '../svg icons/BootstrapIcon';
 
 const Inbox = () => {
     // eslint-disable-next-line
@@ -185,6 +186,7 @@ const Inbox = () => {
         Axios.put(url + '/open-messages', { data: { sender_id: messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id, reciever_id: currentUser.id } }).then((response) => {
             updateMessages();
         });
+        setUsername(findUsername(messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id));
         setChat({
             other_id: messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id,
             messages: [...messageChat]
@@ -287,6 +289,18 @@ const Inbox = () => {
                                             );
                                         })
                                     }
+                                    <Form onSubmit={(e) => { e.preventDefault(); }}>
+                                        <Form.Group>
+                                            <Form.Label srOnly>Message</Form.Label>
+                                            <InputGroup className="mb-2">
+                                                <Form.Control className="sendMessageInput" type="text" onChange={(e) => { setText(checkText(e.target.value)); }} placeholder="Nova poruka..." />
+                                            </InputGroup>
+                                        </Form.Group>
+                                        
+                                        <Form.Group>
+                                            <button className="sendButton" type="submit" onClick={sendMessage} name="button"><BootstrapIcon type={20}/></button>
+                                        </Form.Group>
+                                    </Form>
                                 </div>
                             </div>
 

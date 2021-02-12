@@ -314,6 +314,32 @@
 	max-width: 80rem !important;
 }
 
+.svg-icon {
+	width: 1em;
+	height: 1em;
+}
+  
+.svg-icon path,
+.svg-icon polygon,
+.svg-icon rect {
+	fill: white;
+}
+  
+.svg-icon circle {
+	stroke: white;
+	stroke-width: 1;
+}
+.sendButton{
+	height: 30px;
+	width: 30px;
+	float: right;
+	background-color: black;
+}
+.sendMessageInput{
+	background-color: #444;
+	color: white;
+}
+
 /*Element, Element.klasa*/
 body{
 	background:
