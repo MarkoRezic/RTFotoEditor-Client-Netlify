@@ -41,6 +41,21 @@ const Inbox = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [messagesSent, messagesRecieved]);
 
+    useEffect(() => {
+        if (chat.other_id !== null) {
+            for (var i = 0; i < messages.length; i++) {
+                if ((chat.messages[0].sender_id !== currentUser.id && chat.messages[0].sender_id === messages[i][0].sender_id)
+                || (chat.messages[0].reciever_id !== currentUser.id && chat.messages[0].reciever_id === messages[i][0].reciever_id)
+                || (chat.messages[0].sender_id === messages[i][0].sender_id && chat.messages[0].reciever_id === messages[i][0].reciever_id)){
+                    setChat({
+                        messages: [...messages]
+                    })
+                }
+        }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [messages]);
+
     function findUsername(userID) {
         for (var i = 0; i < userList.length; i++) {
             if (userID === userList[i].id) return userList[i].displayname;
@@ -178,11 +193,6 @@ const Inbox = () => {
     }
 
     function openMessages(messageChat) {
-        let empty_array = [];
-        setChat({
-            other_id: null,
-            messages: [...empty_array]
-        })
         Axios.put(url + '/open-messages', { data: { sender_id: messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id, reciever_id: currentUser.id } }).then((response) => {
             updateMessages();
         });
