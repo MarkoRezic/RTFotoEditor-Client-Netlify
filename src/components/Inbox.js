@@ -14,6 +14,10 @@ const Inbox = () => {
     const [messagesRecieved, setMessagesRecieved] = useState([]);
     const [messagesSent, setMessagesSent] = useState([]);
     const [messages, setMessages] = useState([]);
+    const [chat, setChat] = useState({
+        other_id: null,
+        messages: []
+    })
     const [username, setUsername] = useState('');
     const [text, setText] = useState('');
     const [sentText, setSentText] = useState('');
@@ -166,10 +170,14 @@ const Inbox = () => {
         return num;
     }
 
-    function openMessages(sample) {
-        Axios.put(url + '/open-messages', { data: { sender_id: sample.sender_id !== currentUser.id ? sample.sender_id : sample.reciever_id, reciever_id: currentUser.id } }).then((response) => {
+    function openMessages(messageChat) {
+        Axios.put(url + '/open-messages', { data: { sender_id: messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id, reciever_id: currentUser.id } }).then((response) => {
             updateMessages();
         });
+        setChat({
+            other_id: messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id,
+            messages: [...messageChat]
+        })
     }
 
     return (
@@ -183,7 +191,7 @@ const Inbox = () => {
             <div className="container large-container">
                 <div className="row justify-content-center">
 
-                    <div className="col-lg-8 blog-main">
+                    <div className="col-lg-6 blog-main">
 
                         <div className="blog-post Poruke">
                             <p>Razgovori: {messages.length}</p>
@@ -191,7 +199,7 @@ const Inbox = () => {
                             {
                                 messages.map(messageChat => {
                                     return (
-                                        <div className={getNewMessages(messageChat) ? 'message' : 'message opened'} onClick={() => { openMessages(messageChat[0]); }} key={messageChat[0].id}>
+                                        <div className={getNewMessages(messageChat) ? 'message' : 'message opened'} onClick={() => { openMessages(messageChat); }} key={messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id}>
                                             <div className="message-text">
                                                 <p className="chat-name">
                                                     {messageChat[0].sender_id !== currentUser.id ? findUsername(messageChat[0].sender_id) : findUsername(messageChat[0].reciever_id)}
@@ -213,91 +221,122 @@ const Inbox = () => {
                         </div>
 
                     </div>
+                    {chat.other_id === null
+                        ?
+                        <div className="col-lg-6 blog-main">
 
+                            <div className="blog-post NovaPoruka">
+                                <p>Nova poruka</p>
+                                <hr className="round" />
+                                <Form acceptCharset="UTF-8" onSubmit={(e) => { e.preventDefault(); if (usernameError === '') { e.target.reset(); setSentText('Message sent'); } }}>
+                                    <Form.Group controlId="newMessageUsername">
+                                        <Form.Label srOnly>Prima:</Form.Label>
+                                        <InputGroup className="mb-2">
+                                            <InputGroup.Prepend>
+                                                <InputGroup.Text>Prima: </InputGroup.Text>
+                                            </InputGroup.Prepend>
+                                            <Form.Control type="username" onChange={(e) => { setUsername(e.target.value); setSentText(''); }} placeholder="Enter username" />
+                                        </InputGroup>
+                                        <Form.Text className="errorText">{usernameError}</Form.Text>
+                                    </Form.Group>
+                                    <Form.Group controlId="newMessageText">
+                                        <Form.Label>Text</Form.Label>
+                                        <Form.Control as="textarea" rows={5} onChange={(e) => { setText(checkText(e.target.value)); document.getElementById('newMessageText').value = checkText(e.target.value); setSentText(''); }} />
+                                    </Form.Group>
+                                    <Form.Group className="justify-content-center">
+                                        <button className="resendButton" type="submit" onClick={sendMessage} name="button">Send Message</button>
+                                        <Form.Text className="greenText">{sentText}</Form.Text>
+                                    </Form.Group>
+                                </Form>
+                            </div>
+
+                        </div>
+                        : <div className="col-lg-6 blog-main">
+
+                            <div className="blog-post Poruke">
+                                <p className="chat-name">{findUsername(chat.other_id)}</p>
+                                <hr className="round" />
+                                <div className="message" >
+                                    {
+                                        chat.messages.map(messageChat => {
+                                            return (
+                                                <div className="message-text" key={messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id}>
+                                                    <p className="chat-name">
+                                                        {messageChat[0].sender_id !== currentUser.id ? findUsername(messageChat[0].sender_id) : findUsername(messageChat[0].reciever_id)}
+                                                        {messageChat[0].sender_id === messageChat[0].reciever_id ? '[You]' : null}
+                                                    :
+                                                </p>
+                                                    <p>
+                                                        {messageChat[0].text}
+                                                    </p>
+                                                </div>
+                                            );
+                                        })
+                                    }
+                                </div>
+                            </div>
+
+                        </div>
+                    }
                 </div>
+                {null/*
                 <div className="row justify-content-center">
 
-                    <div className="col-lg-4 blog-main">
+                <div className="col-lg-4 blog-main">
 
-                        <div className="blog-post Poruke">
-                            <p>Broj novih poruka: {messagesRecieved.length}</p>
-                            <hr className="round" />
-                            <button onClick={() => { deleteAllRecieved(currentUser.id) }}>Delete All</button>
-                            {
-                                messagesRecieved.map(message => {
-                                    return (
-                                        <div className={message.opened ? 'message opened' : 'message'} key={message.id}>
-                                            <p>From: {findUsername(message.sender_id)}
-                                                <br />Date: {message.date.substr(8, 2) + '/' + message.date.substr(5, 2) + '/' + message.date.substr(0, 4)} at {message.time}</p>
-                                            <div className="message-text">
-                                                <p>
-                                                    {message.text}
-                                                </p>
-                                            </div>
-                                            <button onClick={() => { replyFocus(findUsername(message.sender_id)) }}>Reply</button>
-                                            <button onClick={() => { deleteMessage(message.id) }}>Delete</button>
+                    <div className="blog-post Poruke">
+                        <p>Broj novih poruka: {messagesRecieved.length}</p>
+                        <hr className="round" />
+                        <button onClick={() => { deleteAllRecieved(currentUser.id) }}>Delete All</button>
+                        {
+                            messagesRecieved.map(message => {
+                                return (
+                                    <div className={message.opened ? 'message opened' : 'message'} key={message.id}>
+                                        <p>From: {findUsername(message.sender_id)}
+                                            <br />Date: {message.date.substr(8, 2) + '/' + message.date.substr(5, 2) + '/' + message.date.substr(0, 4)} at {message.time}</p>
+                                        <div className="message-text">
+                                            <p>
+                                                {message.text}
+                                            </p>
                                         </div>
-                                    );
-                                })
-                            }
-                        </div>
-
-                    </div>
-                    <div className="col-lg-4 blog-main">
-
-                        <div className="blog-post Poruke">
-                            <p>Poslano: {messagesSent.length}</p>
-                            <hr className="round" />
-                            <button onClick={() => { deleteAllSent(currentUser.id) }}>Delete All</button>
-                            {
-                                messagesSent.map(message => {
-                                    return (
-                                        <div className='message' key={message.id}>
-                                            <p>To: {findUsername(message.reciever_id)}
-                                                <br />Date: {message.date.substr(8, 2) + '/' + message.date.substr(5, 2) + '/' + message.date.substr(0, 4)} at {message.time}</p>
-                                            <div className="message-text">
-                                                <p>
-                                                    {message.text}
-                                                </p>
-                                            </div>
-                                            <button onClick={() => { deleteMessage(message.id) }}>Delete</button>
-                                        </div>
-                                    );
-                                })
-                            }
-                        </div>
-
-                    </div>
-                    <div className="col-lg-4 blog-main">
-
-                        <div className="blog-post NovaPoruka">
-                            <p>Nova poruka</p>
-                            <hr className="round" />
-                            <Form acceptCharset="UTF-8" onSubmit={(e) => { e.preventDefault(); if (usernameError === '') { e.target.reset(); setSentText('Message sent'); } }}>
-                                <Form.Group controlId="newMessageUsername">
-                                    <Form.Label srOnly>Prima:</Form.Label>
-                                    <InputGroup className="mb-2">
-                                        <InputGroup.Prepend>
-                                            <InputGroup.Text>Prima: </InputGroup.Text>
-                                        </InputGroup.Prepend>
-                                        <Form.Control type="username" onChange={(e) => { setUsername(e.target.value); setSentText(''); }} placeholder="Enter username" />
-                                    </InputGroup>
-                                    <Form.Text className="errorText">{usernameError}</Form.Text>
-                                </Form.Group>
-                                <Form.Group controlId="newMessageText">
-                                    <Form.Label>Text</Form.Label>
-                                    <Form.Control as="textarea" rows={5} onChange={(e) => { setText(checkText(e.target.value)); document.getElementById('newMessageText').value = checkText(e.target.value); setSentText(''); }} />
-                                </Form.Group>
-                                <Form.Group className="justify-content-center">
-                                    <button className="resendButton" type="submit" onClick={sendMessage} name="button">Send Message</button>
-                                    <Form.Text className="greenText">{sentText}</Form.Text>
-                                </Form.Group>
-                            </Form>
-                        </div>
-
+                                        <button onClick={() => { replyFocus(findUsername(message.sender_id)) }}>Reply</button>
+                                        <button onClick={() => { deleteMessage(message.id) }}>Delete</button>
+                                    </div>
+                                );
+                            })
+                        }
                     </div>
 
                 </div>
+                <div className="col-lg-4 blog-main">
+
+                    <div className="blog-post Poruke">
+                        <p>Poslano: {messagesSent.length}</p>
+                        <hr className="round" />
+                        <button onClick={() => { deleteAllSent(currentUser.id) }}>Delete All</button>
+                        {
+                            messagesSent.map(message => {
+                                return (
+                                    <div className='message' key={message.id}>
+                                        <p>To: {findUsername(message.reciever_id)}
+                                            <br />Date: {message.date.substr(8, 2) + '/' + message.date.substr(5, 2) + '/' + message.date.substr(0, 4)} at {message.time}</p>
+                                        <div className="message-text">
+                                            <p>
+                                                {message.text}
+                                            </p>
+                                        </div>
+                                        <button onClick={() => { deleteMessage(message.id) }}>Delete</button>
+                                    </div>
+                                );
+                            })
+                        }
+                    </div>
+
+                </div>
+
+            </div>
+
+            */}
 
             </div>
         </div>
