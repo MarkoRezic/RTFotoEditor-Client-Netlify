@@ -29,6 +29,7 @@ const Inbox = () => {
             setUserList([...response.data]);
         }).then(() => {
             updateMessages();
+            /* Update every 60 secs
             window.setInterval(function () {
                 Axios.get(url + '/messages/' + currentUser.id).then((response) => {
                     if (response.data.length !== messagesRecieved.length) {
@@ -42,7 +43,8 @@ const Inbox = () => {
                         }
                     }
                 });
-            }, 10000);
+            }, 60000);
+            */ 
         }
         );
         // eslint-disable-next-line react-hooks/exhaustive-deps
