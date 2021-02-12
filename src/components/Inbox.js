@@ -158,6 +158,20 @@ const Inbox = () => {
         return merged_array;
     }
 
+    function getNewMessages(array) {
+        let num = 0;
+        for (var i = 0; i < array.length; i++) {
+            if (array[i].sender_id !== currentUser.id && !array[i].opened) num++;
+        }
+        return num;
+    }
+
+    function openMessages(sample) {
+        Axios.put(url + '/open-messages', { data: { sender_id: sample.sender_id !== currentUser.id ? sample.sender_id : sample.reciever_id, reciever_id: currentUser.id } }).then((response) => {
+            updateMessages();
+        });
+    }
+
     return (
         <div>
             <div className="blog-header">
@@ -259,19 +273,19 @@ const Inbox = () => {
                             <p>Razgovori: {messages.length}</p>
                             <hr className="round" />
                             {
-                                messages.map(message => {
+                                messages.map(messageChat => {
                                     return (
-                                        <div className='message' key={message[0].id}>
+                                        <div className='message' onClick={() => { openMessages(messageChat[0]); }} key={messageChat[0].id}>
                                             <div className="message-text">
                                                 <p className="chat-name">
-                                                    {message[0].sender_id !== currentUser.id ? findUsername(message[0].sender_id) : findUsername(message[0].reciever_id)}
-                                                    {message[0].sender_id === message[0].reciever_id ? '[You]' : null}
+                                                    {messageChat[0].sender_id !== currentUser.id ? findUsername(messageChat[0].sender_id) : findUsername(messageChat[0].reciever_id)}
+                                                    {messageChat[0].sender_id === messageChat[0].reciever_id ? '[You]' : null}
                                                 </p>
                                                 <div className="num-new-messages">
-                                                    {message.length}
+                                                    {getNewMessages(messageChat)}
                                                 </div>
                                                 <p className="last-text">
-                                                    {message[0].sender_id}: {message[0].text}
+                                                    {findUsername(messageChat[0].sender_id)}: {messageChat[0].text}
                                                 </p>
                                             </div>
                                         </div>
