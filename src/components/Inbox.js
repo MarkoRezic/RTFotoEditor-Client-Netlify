@@ -26,11 +26,15 @@ const Inbox = () => {
             updateMessages();
         }
         );
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [currentUser]);
+
+    useEffect(() => {
         setMessages([...mergeChunks(makeChunks([...messagesRecieved], "sender_id"), makeChunks([...messagesSent], "reciever_id"), "sender_id", "reciever_id")].sort(function (a, b) {
             return b[0]["id"] - a[0]["id"];
         }))
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [currentUser]);
+    }, [messagesSent, messagesRecieved]);
 
     function findUsername(userID) {
         for (var i = 0; i < userList.length; i++) {
