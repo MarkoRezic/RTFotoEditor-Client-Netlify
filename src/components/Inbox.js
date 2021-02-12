@@ -171,6 +171,10 @@ const Inbox = () => {
     }
 
     function openMessages(messageChat) {
+        setChat({
+            other_id: null,
+            messages: []
+        })
         Axios.put(url + '/open-messages', { data: { sender_id: messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id, reciever_id: currentUser.id } }).then((response) => {
             updateMessages();
         });
@@ -253,10 +257,12 @@ const Inbox = () => {
                         </div>
                         : <div className="col-lg-6 blog-main">
 
-                            <div className="blog-post Poruke">
-                                <p className="chat-name">{findUsername(chat.other_id)}</p>
-                                <hr className="round" />
-                                <div className="message" >
+                            <div className="blog-post Chat">
+                                <div>
+                                    <p className="chat-name">{findUsername(chat.other_id)}</p>
+                                    <hr className="round" />
+                                </div>
+                                <div className="message Chat-messages" >
                                     {
                                         chat.messages.map(message => {
                                             return (

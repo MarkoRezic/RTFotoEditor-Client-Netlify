@@ -260,7 +260,7 @@
     opacity: 0.7;
 }
 .Poruke{
-	max-height: 24.8rem !important;
+	max-height: 33rem !important;
     overflow: auto;
     box-shadow: 0px -20px 20px #444 inset;
 }
@@ -272,6 +272,15 @@
 	margin-right: 1rem !important;
 	margin-bottom: 0.4rem;
 	margin-top: 0.4rem;
+}
+.Chat{
+	max-height: 33rem !important;
+    overflow: hidden;
+    box-shadow: 0px -20px 20px #444 inset;
+}
+.Chat-messages{
+	overflow: auto;
+	max-height: 24rem;
 }
 .chat-name{
 	display: inline-block;
