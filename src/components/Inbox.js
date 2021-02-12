@@ -48,6 +48,7 @@ const Inbox = () => {
                 || (chat.messages[0].reciever_id !== currentUser.id && chat.messages[0].reciever_id === messages[i][0].reciever_id)
                 || (chat.messages[0].sender_id === messages[i][0].sender_id && chat.messages[0].reciever_id === messages[i][0].reciever_id)){
                     setChat({
+                        other_id: messages[i][0].sender_id !== currentUser.id ? messages[i][0].sender_id : messages[i][0].reciever_id,
                         messages: [...messages[i]]
                     })
                     break;
