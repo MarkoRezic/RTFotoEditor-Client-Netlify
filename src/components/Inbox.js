@@ -34,7 +34,7 @@ const Inbox = () => {
     }, [currentUser]);
 
     useEffect(() => {
-        setMessages([...mergeChunks(makeChunks(messagesRecieved, "sender_id"), makeChunks(removeDuplicate(messagesSent, messagesRecieved), "reciever_id"), "sender_id", "reciever_id")].sort(function (a, b) {
+        setMessages([...mergeChunks(makeChunks(messagesRecieved, "sender_id"), makeChunks(removeSelfSent(messagesSent, messagesRecieved), "reciever_id"), "sender_id", "reciever_id")].sort(function (a, b) {
             return b[b.length - 1]["id"] - a[a.length - 1]["id"];
         }))
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -108,10 +108,9 @@ const Inbox = () => {
         });
     }
 
-    function removeDuplicate(contains_duplicate, original){
-        let removed_duplicate = [...contains_duplicate];
-        let original_copy = [...original];
-        removed_duplicate = removed_duplicate.filter(val => !original_copy.includes(val));
+    function removeSelfSent(original){
+        let removed_duplicate = [...original];
+        removed_duplicate = removed_duplicate.filter(message => message.sender_id !== message.reciever_id);
         return removed_duplicate;
     }
 
