@@ -26,7 +26,7 @@ const Inbox = () => {
             updateMessages();
         }
         );
-        setMessages([...mergeChunks(makeChunks(messagesRecieved, "sender_id"), makeChunks(messagesSent, "reciever_id"), "sender_id", "reciever_id")].sort(function (a, b) {
+        setMessages([...mergeChunks(makeChunks([...messagesRecieved], "sender_id"), makeChunks([...messagesSent], "reciever_id"), "sender_id", "reciever_id")].sort(function (a, b) {
             return b[0]["id"] - a[0]["id"];
         }))
         // eslint-disable-next-line react-hooks/exhaustive-deps
