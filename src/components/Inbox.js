@@ -171,9 +171,10 @@ const Inbox = () => {
     }
 
     function openMessages(messageChat) {
+        let empty_array = [];
         setChat({
             other_id: null,
-            messages: []
+            messages: [...empty_array]
         })
         Axios.put(url + '/open-messages', { data: { sender_id: messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id, reciever_id: currentUser.id } }).then((response) => {
             updateMessages();
