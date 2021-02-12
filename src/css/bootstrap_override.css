@@ -349,6 +349,7 @@
 .sendMessageInput{
 	background-color: #111 !important;
     color: #fff !important;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 .sendMessageGroup{
 	display: inline-block;
