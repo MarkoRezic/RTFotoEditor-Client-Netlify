@@ -104,6 +104,8 @@ const Inbox = () => {
         let chunked_array = [];
         let copied_array = [...array];
         let current_element;
+        console.log('recieved array: ' + array);
+        console.log('copied array: ' + copied_array);
         while (copied_array.length > 0) {
             current_element = copied_array[0];
             var new_chunk = [];
@@ -125,6 +127,8 @@ const Inbox = () => {
         let copied_array = [...array2];
         let original_length = merged_array.length;
         let found;
+        console.log('recieved array1: ' + array1);
+        console.log('recieved array2: ' + array2);
         while (copied_array.length > 0) {
             found = false;
             for (var i = 0; i < original_length; i++) {
