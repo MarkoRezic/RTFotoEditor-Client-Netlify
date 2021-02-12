@@ -29,7 +29,6 @@ const Inbox = () => {
         setMessages([...mergeChunks(makeChunks(messagesRecieved, "sender_id"), makeChunks(messagesSent, "reciever_id"), "sender_id", "reciever_id")].sort(function (a, b) {
             return b[0]["id"] - a[0]["id"];
         }))
-        console.log(messages);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentUser]);
 
@@ -50,14 +49,10 @@ const Inbox = () => {
     function updateMessages() {
         Axios.get(url + '/messages/' + currentUser.id).then((response) => {
             setMessagesRecieved([...response.data].reverse());
-            console.log(messagesRecieved);
         });
-        console.log(messagesRecieved);
         Axios.get(url + '/messages-sent/' + currentUser.id).then((response) => {
             setMessagesSent([...response.data].reverse());
-            console.log(messagesSent);
         });
-        console.log(messagesSent);
     }
 
     function sendMessage() {
@@ -121,6 +116,7 @@ const Inbox = () => {
             }
             chunked_array.push(new_chunk);
         }
+        console.log(chunked_array);
         return chunked_array;
     }
 
@@ -144,11 +140,13 @@ const Inbox = () => {
             if (!found) merged_array.push(copied_array[0]);
             copied_array.splice(0, 1);
         }
+        console.log(merged_array);
         for (var i = 0; i < merged_array.length; i++) {
             merged_array[i] = [...merged_array[i].sort(function (a, b) {
                 return b["id"] - a["id"];
             })]
         }
+        console.log(merged_array);
         return merged_array;
     }
 
