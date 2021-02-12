@@ -24,11 +24,14 @@ const Inbox = () => {
             setUserList([...response.data]);
         }).then(() => {
             updateMessages();
+            console.log(messagesRecieved);
+            console.log(messagesSent);
         }
         ).then(() => {
             setMessages([...mergeChunks(makeChunks(messagesRecieved, "sender_id"), makeChunks(messagesSent, "reciever_id"), "sender_id", "reciever_id")].sort(function (a, b) {
                 return b[0]["id"] - a[0]["id"];
             }))
+            console.log(messages);
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentUser]);
