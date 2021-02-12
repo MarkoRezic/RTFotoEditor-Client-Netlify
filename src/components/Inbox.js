@@ -289,19 +289,19 @@ const Inbox = () => {
                                             );
                                         })
                                     }
-                                    <Form onSubmit={(e) => { e.preventDefault(); }}>
-                                        <Form.Group>
-                                            <Form.Label srOnly>Message</Form.Label>
-                                            <InputGroup className="mb-2">
-                                                <Form.Control className="sendMessageInput" type="text" onChange={(e) => { setText(checkText(e.target.value)); }} placeholder="Nova poruka..." />
-                                            </InputGroup>
-                                        </Form.Group>
-                                        
-                                        <Form.Group>
-                                            <button className="sendButton" type="submit" onClick={sendMessage} name="button"><BootstrapIcon type={20}/></button>
-                                        </Form.Group>
-                                    </Form>
                                 </div>
+                                <Form onSubmit={(e) => { e.preventDefault(); }}>
+                                    <Form.Group>
+                                        <Form.Label srOnly>Message</Form.Label>
+                                        <InputGroup className="mb-2">
+                                            <Form.Control className="sendMessageInput" type="text" onChange={(e) => { setText(checkText(e.target.value)); }} placeholder="Nova poruka..." />
+                                        </InputGroup>
+                                    </Form.Group>
+
+                                    <Form.Group>
+                                        <button className="sendButton" type="submit" onClick={sendMessage} name="button"><BootstrapIcon type={20} /></button>
+                                    </Form.Group>
+                                </Form>
                             </div>
 
                         </div>

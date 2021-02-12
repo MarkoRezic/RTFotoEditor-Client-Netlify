@@ -334,6 +334,7 @@
 	width: 30px;
 	float: right;
 	background-color: black;
+	border-radius: 50%;
 }
 .sendMessageInput{
 	background-color: #444;
