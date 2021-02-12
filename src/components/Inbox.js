@@ -221,6 +221,10 @@ const Inbox = () => {
             other_id: messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id,
             messages: [...messageChat]
         })
+        
+        window.setTimeout(function () {
+            document.getElementById('sendMessageInputID').focus();
+        }, 500);
     }
 
     return (
@@ -321,7 +325,7 @@ const Inbox = () => {
                                     }
                                 </div>
                                 <Form onSubmit={(e) => { e.preventDefault(); e.target.reset(); }}>
-                                    <Form.Group className="sendMessageGroup">
+                                    <Form.Group controlId="sendMessageInputID" className="sendMessageGroup">
                                         <Form.Label srOnly>Message</Form.Label>
                                         <InputGroup className="mb-2">
                                             <Form.Control className="sendMessageInput" type="text" onChange={(e) => { setText(checkText(e.target.value)); }} placeholder="Nova poruka..." />
