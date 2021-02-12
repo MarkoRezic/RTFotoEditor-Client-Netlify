@@ -263,8 +263,15 @@ const Inbox = () => {
                                     return (
                                         <div className='message' key={message[0].id}>
                                             <div className="message-text">
-                                                <p>
+                                                <p className="chat-name">
                                                     {message[0].sender_id !== currentUser.id ? findUsername(message[0].sender_id) : findUsername(message[0].reciever_id)}
+                                                    {message[0].sender_id === message[0].reciever_id ? '[You]' : null}
+                                                </p>
+                                                <div className="num-new-messages">
+                                                    {message.length}
+                                                </div>
+                                                <p className="last-text">
+                                                    {message[0].sender_id}: {message[0].text}
                                                 </p>
                                             </div>
                                         </div>
