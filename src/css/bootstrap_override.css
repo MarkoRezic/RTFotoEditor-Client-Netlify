@@ -306,6 +306,10 @@
     white-space: nowrap;
     text-overflow: ellipsis;
 }
+.timestamp{
+	font-size: 14px;
+    float: right;
+}
 .large-container{
 	max-width: 80rem !important;
 }

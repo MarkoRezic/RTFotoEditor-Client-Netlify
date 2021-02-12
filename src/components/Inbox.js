@@ -108,7 +108,7 @@ const Inbox = () => {
         });
     }
 
-    function removeSelfSent(original){
+    function removeSelfSent(original) {
         let removed_duplicate = [...original];
         removed_duplicate = removed_duplicate.filter(message => message.sender_id !== message.reciever_id);
         return removed_duplicate;
@@ -279,6 +279,7 @@ const Inbox = () => {
                                                         {message.sender_id === currentUser.id ? '[You]' : null}
                                                     :
                                                 </p>
+                                                    <p className="timestamp">{message.date.substr(8, 2) + '/' + message.date.substr(5, 2) + '/' + message.date.substr(0, 4) + ' '} {message.time}</p>
                                                     <p>
                                                         {message.text}
                                                     </p>
