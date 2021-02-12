@@ -258,16 +258,16 @@ const Inbox = () => {
                                 <hr className="round" />
                                 <div className="message" >
                                     {
-                                        chat.messages.map(messageChat => {
+                                        chat.messages.map(message => {
                                             return (
-                                                <div className="message-text" key={messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id}>
+                                                <div className="message-text" key={message[0].sender_id !== currentUser.id ? message[0].sender_id : message[0].reciever_id}>
                                                     <p className="chat-name">
-                                                        {messageChat[0].sender_id !== currentUser.id ? findUsername(messageChat[0].sender_id) : findUsername(messageChat[0].reciever_id)}
-                                                        {messageChat[0].sender_id === messageChat[0].reciever_id ? '[You]' : null}
+                                                        {findUsername(message.sender_id)}
+                                                        {message.sender_id === currentUser.id ? '[You]' : null}
                                                     :
                                                 </p>
                                                     <p>
-                                                        {messageChat[0].text}
+                                                        {message[0].text}
                                                     </p>
                                                 </div>
                                             );
