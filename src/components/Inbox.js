@@ -260,7 +260,7 @@ const Inbox = () => {
                                     {
                                         chat.messages.map(message => {
                                             return (
-                                                <div className="message-text" key={message[0].sender_id !== currentUser.id ? message[0].sender_id : message[0].reciever_id}>
+                                                <div className="message-text" key={message.id}>
                                                     <p className="chat-name">
                                                         {findUsername(message.sender_id)}
                                                         {message.sender_id === currentUser.id ? '[You]' : null}
