@@ -315,30 +315,43 @@
 }
 
 .svg-icon {
-	width: 1em;
-	height: 1em;
+	width: 1.4rem;
+    height: 1.4em;
+    padding: 0;
+    margin-left: -2px;
+    margin-top: -1px;
+    vertical-align: text-top;
 }
   
 .svg-icon path,
 .svg-icon polygon,
 .svg-icon rect {
-	fill: white;
+	fill: #ccc;
 }
   
 .svg-icon circle {
-	stroke: white;
+	stroke: #ccc;
 	stroke-width: 1;
 }
 .sendButton{
-	height: 30px;
-	width: 30px;
-	float: right;
-	background-color: black;
-	border-radius: 50%;
+	height: 42px;
+    width: 42px;
+    float: right;
+    background-color: #111;
+    border-radius: 50%;
+    text-align: center;
+    border: 2px solid #999;
+}
+.sendButtonGroup{
+    float: right;
 }
 .sendMessageInput{
-	background-color: #444;
-	color: white;
+	background-color: #111 !important;
+    color: #fff !important;
+}
+.sendMessageGroup{
+	display: inline-block;
+    width: 90%;
 }
 
 /*Element, Element.klasa*/
