@@ -156,8 +156,6 @@ const Inbox = () => {
         let chunked_array = [];
         let copied_array = [...array];
         let current_element;
-        console.log('recieved array: ' + array);
-        console.log('copied array: ' + copied_array);
         while (copied_array.length > 0) {
             current_element = copied_array[0];
             var new_chunk = [];
@@ -170,7 +168,6 @@ const Inbox = () => {
             }
             chunked_array.push(new_chunk);
         }
-        console.log(chunked_array);
         return chunked_array;
     }
 
@@ -179,8 +176,6 @@ const Inbox = () => {
         let copied_array = [...array2];
         let original_length = merged_array.length;
         let found;
-        console.log('recieved array1: ' + array1);
-        console.log('recieved array2: ' + array2);
         while (copied_array.length > 0) {
             found = false;
             for (var i = 0; i < original_length; i++) {
@@ -196,13 +191,11 @@ const Inbox = () => {
             if (!found) merged_array.push(copied_array[0]);
             copied_array.splice(0, 1);
         }
-        console.log(merged_array);
         for (var i = 0; i < merged_array.length; i++) {
             merged_array[i] = [...merged_array[i].sort(function (a, b) {
                 return a["id"] - b["id"];
             })]
         }
-        console.log(merged_array);
         return merged_array;
     }
 
