@@ -275,14 +275,14 @@ const Inbox = () => {
                             {
                                 messages.map(messageChat => {
                                     return (
-                                        <div className='message' onClick={() => { openMessages(messageChat[0]); }} key={messageChat[0].id}>
+                                        <div className={getNewMessages(messageChat) ? 'message' : 'message opened'} onClick={() => { openMessages(messageChat[0]); }} key={messageChat[0].id}>
                                             <div className="message-text">
                                                 <p className="chat-name">
                                                     {messageChat[0].sender_id !== currentUser.id ? findUsername(messageChat[0].sender_id) : findUsername(messageChat[0].reciever_id)}
                                                     {messageChat[0].sender_id === messageChat[0].reciever_id ? '[You]' : null}
                                                 </p>
                                                 <div className="num-new-messages">
-                                                    {getNewMessages(messageChat)}
+                                                    {getNewMessages(messageChat) ? getNewMessages(messageChat) : null}
                                                 </div>
                                                 <p className="last-text">
                                                     {findUsername(messageChat[0].sender_id)}: {messageChat[0].text}
