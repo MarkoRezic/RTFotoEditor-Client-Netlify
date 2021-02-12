@@ -34,8 +34,8 @@ const Inbox = () => {
     }, [currentUser]);
 
     useEffect(() => {
-        setMessages([...mergeChunks(makeChunks([...messagesRecieved], "sender_id"), makeChunks([...messagesSent], "reciever_id"), "sender_id", "reciever_id")].sort(function (a, b) {
-            return b[0]["id"] - a[0]["id"];
+        setMessages([...mergeChunks(makeChunks(messagesRecieved, "sender_id"), makeChunks(removeDuplicate(messagesSent, messagesRecieved), "reciever_id"), "sender_id", "reciever_id")].sort(function (a, b) {
+            return b[b.length - 1]["id"] - a[a.length - 1]["id"];
         }))
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [messagesSent, messagesRecieved]);
@@ -56,10 +56,10 @@ const Inbox = () => {
 
     function updateMessages() {
         Axios.get(url + '/messages/' + currentUser.id).then((response) => {
-            setMessagesRecieved([...response.data].reverse());
+            setMessagesRecieved([...response.data]);
         });
         Axios.get(url + '/messages-sent/' + currentUser.id).then((response) => {
-            setMessagesSent([...response.data].reverse());
+            setMessagesSent([...response.data]);
         });
     }
 
@@ -106,6 +106,13 @@ const Inbox = () => {
             console.log(response);
             updateMessages();
         });
+    }
+
+    function removeDuplicate(contains_duplicate, original){
+        let removed_duplicate = [...contains_duplicate];
+        let original_copy = [...original];
+        removed_duplicate = removed_duplicate.filter(val => !original_copy.includes(val));
+        return removed_duplicate;
     }
 
     function makeChunks(array, property) {
@@ -155,7 +162,7 @@ const Inbox = () => {
         console.log(merged_array);
         for (var i = 0; i < merged_array.length; i++) {
             merged_array[i] = [...merged_array[i].sort(function (a, b) {
-                return b["id"] - a["id"];
+                return a["id"] - b["id"];
             })]
         }
         console.log(merged_array);
