@@ -181,7 +181,40 @@ const Inbox = () => {
             </div>
 
             <div className="container large-container">
+                <div className="row justify-content-center">
 
+                    <div className="col-lg-8 blog-main">
+
+                        <div className="blog-post Poruke">
+                            <p>Razgovori: {messages.length}</p>
+                            <hr className="round" />
+                            {
+                                messages.map(messageChat => {
+                                    return (
+                                        <div className={getNewMessages(messageChat) ? 'message' : 'message opened'} onClick={() => { openMessages(messageChat[0]); }} key={messageChat[0].id}>
+                                            <div className="message-text">
+                                                <p className="chat-name">
+                                                    {messageChat[0].sender_id !== currentUser.id ? findUsername(messageChat[0].sender_id) : findUsername(messageChat[0].reciever_id)}
+                                                    {messageChat[0].sender_id === messageChat[0].reciever_id ? '[You]' : null}
+                                                </p>
+                                                {getNewMessages(messageChat) ?
+                                                    <div className="num-new-messages">
+                                                        {getNewMessages(messageChat)}
+                                                    </div>
+                                                    : null}
+                                                <p className="last-text">
+                                                    {findUsername(messageChat[0].sender_id)}: {messageChat[0].text}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    );
+                                })
+                            }
+                        </div>
+
+                    </div>
+
+                </div>
                 <div className="row justify-content-center">
 
                     <div className="col-lg-4 blog-main">
@@ -265,40 +298,7 @@ const Inbox = () => {
                     </div>
 
                 </div>
-                <div className="row justify-content-center">
 
-                    <div className="col-lg-8 blog-main">
-
-                        <div className="blog-post Poruke">
-                            <p>Razgovori: {messages.length}</p>
-                            <hr className="round" />
-                            {
-                                messages.map(messageChat => {
-                                    return (
-                                        <div className={getNewMessages(messageChat) ? 'message' : 'message opened'} onClick={() => { openMessages(messageChat[0]); }} key={messageChat[0].id}>
-                                            <div className="message-text">
-                                                <p className="chat-name">
-                                                    {messageChat[0].sender_id !== currentUser.id ? findUsername(messageChat[0].sender_id) : findUsername(messageChat[0].reciever_id)}
-                                                    {messageChat[0].sender_id === messageChat[0].reciever_id ? '[You]' : null}
-                                                </p>
-                                                {getNewMessages(messageChat) ?
-                                                <div className="num-new-messages">
-                                                    {getNewMessages(messageChat)}
-                                                </div>
-                                                : null}
-                                                <p className="last-text">
-                                                    {findUsername(messageChat[0].sender_id)}: {messageChat[0].text}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    );
-                                })
-                            }
-                        </div>
-
-                    </div>
-
-                </div>
             </div>
         </div>
     );
