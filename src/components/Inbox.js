@@ -281,9 +281,11 @@ const Inbox = () => {
                                                     {messageChat[0].sender_id !== currentUser.id ? findUsername(messageChat[0].sender_id) : findUsername(messageChat[0].reciever_id)}
                                                     {messageChat[0].sender_id === messageChat[0].reciever_id ? '[You]' : null}
                                                 </p>
+                                                {getNewMessages(messageChat) ?
                                                 <div className="num-new-messages">
-                                                    {getNewMessages(messageChat) ? getNewMessages(messageChat) : null}
+                                                    {getNewMessages(messageChat)}
                                                 </div>
+                                                : null}
                                                 <p className="last-text">
                                                     {findUsername(messageChat[0].sender_id)}: {messageChat[0].text}
                                                 </p>
