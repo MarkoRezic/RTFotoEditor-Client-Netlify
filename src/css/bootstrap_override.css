@@ -280,7 +280,7 @@
 }
 .Chat-messages{
 	overflow: auto;
-	max-height: 24rem;
+	max-height: 23rem;
 }
 .chat-name{
 	display: inline-block;
