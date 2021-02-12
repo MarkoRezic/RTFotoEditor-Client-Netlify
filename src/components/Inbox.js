@@ -97,6 +97,8 @@ const Inbox = () => {
         else {
             setUsernameError('User not found');
         }
+        var currentChat = document.getElementById('currentChat');
+        currentChat.scrollTop = currentChat.scrollHeight;
     }
 
     function replyFocus(usernameReply) {
@@ -283,7 +285,7 @@ const Inbox = () => {
                                     <p className="chat-name">{findUsername(chat.other_id)}</p>
                                     <hr className="round" />
                                 </div>
-                                <div className="message Chat-messages" >
+                                <div className="message Chat-messages" id="currentChat">
                                     {
                                         chat.messages.map(message => {
                                             return (
