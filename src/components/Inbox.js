@@ -29,8 +29,19 @@ const Inbox = () => {
             setUserList([...response.data]);
         }).then(() => {
             updateMessages();
-            window.setInterval(function() {
-                updateMessages();
+            window.setInterval(function () {
+                Axios.get(url + '/messages/' + currentUser.id).then((response) => {
+                    if (response.data.length !== messagesRecieved.length) {
+                        updateMessages();
+                        return;
+                    }
+                    for (var i = 0; i < response.data.length; i++) {
+                        if (response.data[i].id !== messagesRecieved[i].id) {
+                            updateMessages();
+                            return;
+                        }
+                    }
+                });
             }, 10000);
         }
         );
@@ -57,7 +68,7 @@ const Inbox = () => {
                     break;
                 }
             }
-            window.setTimeout(function() {
+            window.setTimeout(function () {
                 var currentChat = document.getElementById("currentChat");
                 currentChat.scrollTop = currentChat.scrollHeight;
             }, 500);
