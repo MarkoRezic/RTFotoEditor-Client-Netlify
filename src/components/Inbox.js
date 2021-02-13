@@ -58,8 +58,6 @@ const Inbox = () => {
     }, [messagesSent, messagesRecieved]);
 
     useEffect(() => {
-        var currentChat = document.getElementById("currentChat");
-        if(currentChat) currentChat.scrollTop = currentChat.scrollHeight;
         if (chat.other_id !== null) {
             for (var i = 0; i < messages.length; i++) {
                 if ((chat.messages[0].sender_id !== currentUser.id && chat.messages[0].sender_id === messages[i][0].sender_id)
@@ -72,8 +70,6 @@ const Inbox = () => {
                     break;
                 }
             }
-            //window.setTimeout(function () {
-            //}, 50);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [messages]);
@@ -102,6 +98,8 @@ const Inbox = () => {
     }
 
     function sendMessage() {
+        var currentChat = document.getElementById("currentChat");
+        if(currentChat) currentChat.scrollTop = currentChat.scrollHeight;
         if (text === '') updateMessages();
         else {
             var validUsername = 0;
@@ -211,6 +209,8 @@ const Inbox = () => {
     }
 
     function openMessages(messageChat) {
+        var currentChat = document.getElementById("currentChat");
+        if(currentChat) currentChat.scrollTop = currentChat.scrollHeight;
         Axios.put(url + '/open-messages', { data: { sender_id: messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id, reciever_id: currentUser.id } }).then((response) => {
             updateMessages();
         });
