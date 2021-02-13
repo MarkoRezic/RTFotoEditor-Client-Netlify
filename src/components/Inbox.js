@@ -58,7 +58,12 @@ const Inbox = () => {
     }, [messagesSent, messagesRecieved]);
 
     useEffect(() => {
-        if (chat.other_id !== null) {
+        findChat(chat.other_id);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [messages]);
+
+    function findChat(otherID){
+        if (otherID !== null) {
             setChat({
                 other_id: null,
                 messages: []
@@ -73,12 +78,11 @@ const Inbox = () => {
                             messages: [...messages[i]]
                         })
                     }, 100);
-                    break;
+                    return
                 }
             }
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [messages]);
+    }
 
     function findUsername(userID) {
         for (var i = 0; i < userList.length; i++) {
@@ -125,7 +129,7 @@ const Inbox = () => {
         else {
             setUsernameError('User not found');
         }
-        if(chat.other_id) openMessages(chat.messages);
+        findChat(chat.other_id);
     }
 
     function replyFocus(usernameReply) {
