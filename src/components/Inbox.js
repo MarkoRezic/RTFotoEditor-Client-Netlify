@@ -60,22 +60,27 @@ const Inbox = () => {
     useEffect(() => {
         findChat(chat.other_id);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [messages]);
+    }, [messages, messagesSent, messagesRecieved]);
 
-    function findChat(otherID){
+    function findChat(otherID) {
         if (otherID !== null) {
-            for (var i = 0; i < messages.length; i++) {
+            var i;
+            for (i = 0; i < messages.length; i++) {
                 if (((chat.messages[0].sender_id !== currentUser.id) && (chat.messages[0].sender_id === messages[i][0].sender_id))
                     || ((chat.messages[0].reciever_id !== currentUser.id) && (chat.messages[0].reciever_id === messages[i][0].reciever_id))
                     || ((chat.messages[0].sender_id === messages[i][0].sender_id) && (chat.messages[0].reciever_id === messages[i][0].reciever_id))) {
-                        setChat({
-                            other_id: messages[i][0].sender_id !== currentUser.id ? messages[i][0].sender_id : messages[i][0].reciever_id,
-                            messages: [...messages[i]]
-                        })
                     break;
                 }
             }
-            openMessages(chat.messages);
+            window.setTimeout(function () {
+                console.log('finding chat id = ' + (messages[i][0].sender_id !== currentUser.id ? messages[i][0].sender_id : messages[i][0].reciever_id));
+                console.log('finding messages = ' + messages[i]);
+                setChat({
+                    other_id: messages[i][0].sender_id !== currentUser.id ? messages[i][0].sender_id : messages[i][0].reciever_id,
+                    messages: [...messages[i]]
+                })
+                openMessages(chat.messages);
+            }, 100);
         }
     }
 
@@ -104,8 +109,8 @@ const Inbox = () => {
 
     function sendMessage() {
         var currentChat = document.getElementById("currentChat");
-        if (currentChat){
-             currentChat.scrollTop = currentChat.scrollHeight;
+        if (currentChat) {
+            currentChat.scrollTop = currentChat.scrollHeight;
         }
 
         var validUsername = 0;
@@ -310,7 +315,7 @@ const Inbox = () => {
                                         <Form.Control autoComplete="off" as="textarea" rows={5} onChange={(e) => { setText(checkText(e.target.value)); document.getElementById('newMessageText').value = checkText(e.target.value); setSentText(''); }} />
                                     </Form.Group>
                                     <Form.Group className="justify-content-center">
-                                        <button className="resendButton" type="submit" onClick={sendMessage} onSubmit={()=>{openMessages(chat.messages)}} name="button">Send Message</button>
+                                        <button className="resendButton" type="submit" onClick={sendMessage} onSubmit={() => { openMessages(chat.messages) }} name="button">Send Message</button>
                                         <Form.Text className="greenText">{sentText}</Form.Text>
                                     </Form.Group>
                                 </Form>
