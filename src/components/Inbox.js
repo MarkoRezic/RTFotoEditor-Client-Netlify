@@ -59,6 +59,10 @@ const Inbox = () => {
 
     useEffect(() => {
         if (chat.other_id !== null) {
+            setChat({
+                other_id: null,
+                messages: []
+            })
             for (var i = 0; i < messages.length; i++) {
                 if (((chat.messages[0].sender_id !== currentUser.id) && (chat.messages[0].sender_id === messages[i][0].sender_id))
                     || ((chat.messages[0].reciever_id !== currentUser.id) && (chat.messages[0].reciever_id === messages[i][0].reciever_id))
