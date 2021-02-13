@@ -328,7 +328,7 @@ const Inbox = () => {
                                                         {message.sender_id === currentUser.id ? '[You]' : null}
                                                     :
                                                 </p>
-                                                    <p className="timestamp">{message.date.substr(8, 2) + '/' + message.date.substr(5, 2) + '/' + message.date.substr(0, 4)} {message.time}</p>
+                                                    <p className="timestamp">{(message.opened && message.reciever_id !== currentUser.id) ? <BootstrapIcon type={16} /> : null} {message.date.substr(8, 2) + '/' + message.date.substr(5, 2) + '/' + message.date.substr(0, 4)} {message.time}</p>
                                                     <p>
                                                         {message.text}
                                                     </p>
