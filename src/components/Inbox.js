@@ -54,7 +54,6 @@ const Inbox = () => {
         setMessages([...mergeChunks(makeChunks(messagesRecieved, "sender_id"), makeChunks(removeSelfSent(messagesSent, messagesRecieved), "reciever_id"), "sender_id", "reciever_id")].sort(function (a, b) {
             return b[0]["id"] - a[0]["id"];
         }))
-        while(!messages.length){}
             console.log('finding chat');
             findChat(chat.other_id);
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -68,6 +67,8 @@ const Inbox = () => {
     function findChat(otherID) {
         if (otherID !== null) {
             var i;
+            while(!messages){}
+            console.log(messages);
             for (i = 0; i < messages.length; i++) {
                 if (((chat.messages[0].sender_id !== currentUser.id) && (chat.messages[0].sender_id === messages[i][0].sender_id))
                     || ((chat.messages[0].reciever_id !== currentUser.id) && (chat.messages[0].reciever_id === messages[i][0].reciever_id))
