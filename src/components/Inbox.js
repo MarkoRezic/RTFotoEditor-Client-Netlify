@@ -29,7 +29,7 @@ const Inbox = () => {
             setUserList([...response.data]);
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [currentUser]);
+    }, []);
 
     useEffect(() => {
         updateMessages();
