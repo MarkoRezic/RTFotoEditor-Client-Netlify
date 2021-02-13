@@ -78,7 +78,6 @@ const Inbox = () => {
                     other_id: messages[i][0].sender_id !== currentUser.id ? messages[i][0].sender_id : messages[i][0].reciever_id,
                     messages: [...messages[i]]
                 })
-                openMessages(chat.messages);
         }
     }
 
