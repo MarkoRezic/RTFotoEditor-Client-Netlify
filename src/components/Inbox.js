@@ -30,6 +30,13 @@ const Inbox = () => {
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+    
+    useEffect(() => {
+        Axios.get(url + '/users').then((response) => {
+            setUserList([...response.data]);
+        });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [loginStatus, authority, currentUser]);
 
     useEffect(() => {
         updateMessages();
