@@ -54,14 +54,15 @@ const Inbox = () => {
         setMessages([...mergeChunks(makeChunks(messagesRecieved, "sender_id"), makeChunks(removeSelfSent(messagesSent, messagesRecieved), "reciever_id"), "sender_id", "reciever_id")].sort(function (a, b) {
             return b[0]["id"] - a[0]["id"];
         }))
+        findChat(chat.other_id);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [messagesSent, messagesRecieved]);
-
+/*
     useEffect(() => {
         findChat(chat.other_id);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [messages, messagesSent, messagesRecieved]);
-
+*/
     function findChat(otherID) {
         if (otherID !== null) {
             var i;
@@ -71,7 +72,7 @@ const Inbox = () => {
                     || ((chat.messages[0].sender_id === messages[i][0].sender_id) && (chat.messages[0].reciever_id === messages[i][0].reciever_id))) {
                         setChat({
                             other_id: messages[i][0].sender_id !== currentUser.id ? messages[i][0].sender_id : messages[i][0].reciever_id,
-                            messages: [...messages[i]]
+                            messages: [...(messages[i])]
                         })
                     break;
                 }
