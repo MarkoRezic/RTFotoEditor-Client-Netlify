@@ -98,7 +98,6 @@ const Inbox = () => {
     }
 
     function sendMessage() {
-        updateMessages();
         var currentChat = document.getElementById("currentChat");
         if (currentChat) currentChat.scrollTop = currentChat.scrollHeight;
 
@@ -113,14 +112,19 @@ const Inbox = () => {
             setUsernameError('');
             Axios.post(url + '/send-message', { sender_id: currentUser.id, reciever_id: findID(username), text: text }).then((response) => {
                 console.log(response);
-                updateMessages();
             });
         }
         else {
             setUsernameError('User not found');
         }
-
+        let copy_id = chat.other_id;
+        setChat({
+            other_id: null
+        });
         updateMessages();
+        setChat({
+            other_id: copy_id
+        });
     }
 
     function replyFocus(usernameReply) {
