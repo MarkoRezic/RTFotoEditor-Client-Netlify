@@ -109,17 +109,16 @@ const Inbox = () => {
             }
         }
         if (validUsername === 1 && text !== '') {
-            setUsernameError('');
             Axios.post(url + '/send-message', { sender_id: currentUser.id, reciever_id: findID(username), text: text }).then((response) => {
                 console.log(response);
-                findChat(chat.other_id);
+                updateMessages();
+                setUsernameError('');
             });
         }
         else {
+            updateMessages();
             setUsernameError('User not found');
         }
-        updateMessages();
-        findChat(chat.other_id);
     }
 
     function replyFocus(usernameReply) {
@@ -216,11 +215,13 @@ const Inbox = () => {
         if (currentChat) currentChat.scrollTop = currentChat.scrollHeight;
         Axios.put(url + '/open-messages', { data: { sender_id: messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id, reciever_id: currentUser.id } }).then((response) => {
             updateMessages();
-            setUsername(findUsername(messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id));
-            setChat({
-                other_id: messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id,
-                messages: [...messageChat]
-            })
+            if (chat.other_id !== (messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id)) {
+                setChat({
+                    other_id: messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id,
+                    messages: [...messageChat]
+                })
+                setUsername(findUsername(messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id));
+            }
 
             window.setTimeout(function () {
                 if (document.getElementById('sendMessageInputID')) document.getElementById('sendMessageInputID').focus();
