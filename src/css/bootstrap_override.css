@@ -346,7 +346,7 @@
 .sendButtonGroup{
     float: right;
 }
-.sendMessageInput{
+.sendMessageInput, #newMessageUsername, #newMessageText{
 	background-color: #111 !important;
     color: #fff !important;
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -354,6 +354,12 @@
 .sendMessageGroup{
 	display: inline-block;
     width: 85%;
+}
+.newSend{
+	width: 60px;
+    font-size: 25px;
+    margin: auto;
+    padding-top: 0;
 }
 
 /*Element, Element.klasa*/

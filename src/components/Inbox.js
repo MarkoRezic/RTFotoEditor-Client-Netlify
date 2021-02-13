@@ -44,7 +44,7 @@ const Inbox = () => {
                     }
                 });
             }, 60000);
-            */ 
+            */
         }
         );
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -216,9 +216,19 @@ const Inbox = () => {
             other_id: messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id,
             messages: [...messageChat]
         })
-        
+
         window.setTimeout(function () {
             document.getElementById('sendMessageInputID').focus();
+        }, 100);
+    }
+
+    function newMessage() {
+        setChat({
+            other_id: null,
+            messages: []
+        });
+        window.setTimeout(function () {
+            document.getElementById('newMessageUsername').focus();
         }, 100);
     }
 
@@ -236,7 +246,8 @@ const Inbox = () => {
                     <div className="col-lg-6 blog-main">
 
                         <div className="blog-post Poruke">
-                            <p>Razgovori: {messages.length}</p>
+                            <p className="chat-name">Razgovori: {messages.length}</p>
+                            <button className="sendButton newSend" onClick={newMessage} name="button"><BootstrapIcon type={20} />+</button>
                             <hr className="round" />
                             {
                                 messages.map(messageChat => {
