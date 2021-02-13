@@ -58,6 +58,8 @@ const Inbox = () => {
     }, [messagesSent, messagesRecieved]);
 
     useEffect(() => {
+        var currentChat = document.getElementById("currentChat");
+        currentChat.scrollTop = currentChat.scrollHeight;
         if (chat.other_id !== null) {
             for (var i = 0; i < messages.length; i++) {
                 if ((chat.messages[0].sender_id !== currentUser.id && chat.messages[0].sender_id === messages[i][0].sender_id)
@@ -71,8 +73,6 @@ const Inbox = () => {
                 }
             }
             //window.setTimeout(function () {
-                var currentChat = document.getElementById("currentChat");
-                currentChat.scrollTop = currentChat.scrollHeight;
             //}, 50);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
