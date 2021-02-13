@@ -122,7 +122,9 @@ const Inbox = () => {
             setUsernameError('User not found');
         }
         Axios.put(url + '/open-messages', { data: { sender_id: chat.other_id, reciever_id: currentUser.id } }).then((response) => {
-            updateMessages();
+            window.setTimeout(function () {
+                updateMessages();
+            }, 100);
         });
     }
 
@@ -218,17 +220,19 @@ const Inbox = () => {
         var currentChat = document.getElementById("currentChat");
         if (currentChat) currentChat.scrollTop = currentChat.scrollHeight;
         Axios.put(url + '/open-messages', { data: { sender_id: messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id, reciever_id: currentUser.id } }).then((response) => {
-            updateMessages();
+            window.setTimeout(function () {
+                updateMessages();
+                setUsername(findUsername(messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id));
+                setChat({
+                    other_id: messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id,
+                    messages: [...messageChat]
+                })
+        
+                window.setTimeout(function () {
+                    document.getElementById('sendMessageInputID').focus();
+                }, 100);
+            }, 100);
         });
-        setUsername(findUsername(messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id));
-        setChat({
-            other_id: messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id,
-            messages: [...messageChat]
-        })
-
-        window.setTimeout(function () {
-            document.getElementById('sendMessageInputID').focus();
-        }, 100);
     }
 
     function newMessage() {
