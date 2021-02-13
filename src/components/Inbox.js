@@ -311,7 +311,7 @@ const Inbox = () => {
                                         <Form.Control autoComplete="off" as="textarea" rows={5} onChange={(e) => { setText(checkText(e.target.value)); document.getElementById('newMessageText').value = checkText(e.target.value); setSentText(''); }} />
                                     </Form.Group>
                                     <Form.Group className="justify-content-center">
-                                        <button className="resendButton" type="submit" onClick={sendMessage} name="button">Send Message</button>
+                                        <button className="resendButton" type="submit" onClick={sendMessage} onSubmit={()=>{openMessages(chat.messages)}} name="button">Send Message</button>
                                         <Form.Text className="greenText">{sentText}</Form.Text>
                                     </Form.Group>
                                 </Form>
