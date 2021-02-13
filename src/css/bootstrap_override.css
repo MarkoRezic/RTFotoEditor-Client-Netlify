@@ -249,10 +249,10 @@
 .message-text{
 	border: 2px solid #444;
     padding: 8px;
-	overflow-wrap: break-word;
-	overflow-y: auto;
-	max-height: 200px;
-	background-color: #222;
+    /* overflow-wrap: break-word; */
+    /* overflow-y: auto; */
+    max-height: 200px;
+    background-color: #222;
 }
 .message-text:hover{
 	cursor: pointer;
@@ -281,7 +281,9 @@
 }
 .Chat-messages{
 	overflow: auto;
-	max-height: 23rem;
+    max-height: 23rem;
+    display: flex;
+    flex-direction: column-reverse;
 }
 .chat-name{
 	display: inline-block;
