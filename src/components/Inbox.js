@@ -284,7 +284,7 @@ const Inbox = () => {
                             <div className="blog-post NovaPoruka">
                                 <p>Nova poruka</p>
                                 <hr className="round" />
-                                <Form acceptCharset="UTF-8" onSubmit={(e) => { e.preventDefault(); if (usernameError === '') { e.target.reset(); setSentText('Message sent'); } }}>
+                                <Form acceptCharset="UTF-8" onSubmit={(e) => { e.preventDefault(); if (usernameError === '') { e.target.reset(); setSentText('Message sent'); setUsername(''); setText(''); } }}>
                                     <Form.Group controlId="newMessageUsername">
                                         <Form.Label srOnly>Prima:</Form.Label>
                                         <InputGroup className="mb-2">
@@ -333,7 +333,7 @@ const Inbox = () => {
                                         })
                                     }
                                 </div>
-                                <Form onSubmit={(e) => { e.preventDefault(); e.target.reset(); }}>
+                                <Form onSubmit={(e) => { e.preventDefault(); e.target.reset(); setUsername(''); setText(''); }}>
                                     <Form.Group controlId="sendMessageInputID" className="sendMessageGroup">
                                         <Form.Label srOnly>Message</Form.Label>
                                         <InputGroup className="mb-2">
