@@ -67,7 +67,6 @@ const Inbox = () => {
     function findChat(otherID) {
         if (otherID !== null) {
             var i;
-            while(!messages){}
             console.log(messages);
             for (i = 0; i < messages.length; i++) {
                 if (((chat.messages[0].sender_id !== currentUser.id) && (chat.messages[0].sender_id === messages[i][0].sender_id))
@@ -130,6 +129,7 @@ const Inbox = () => {
         else {
             setUsernameError('User not found');
         }
+        updateMessages();
         findChat(chat.other_id);
     }
 
