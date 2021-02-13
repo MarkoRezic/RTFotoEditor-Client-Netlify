@@ -59,7 +59,7 @@ const Inbox = () => {
 
     useEffect(() => {
         var currentChat = document.getElementById("currentChat");
-        currentChat.scrollTop = currentChat.scrollHeight;
+        if(currentChat) currentChat.scrollTop = currentChat.scrollHeight;
         if (chat.other_id !== null) {
             for (var i = 0; i < messages.length; i++) {
                 if ((chat.messages[0].sender_id !== currentUser.id && chat.messages[0].sender_id === messages[i][0].sender_id)
