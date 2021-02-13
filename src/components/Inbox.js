@@ -107,7 +107,6 @@ const Inbox = () => {
         var currentChat = document.getElementById("currentChat");
         if (currentChat){
              currentChat.scrollTop = currentChat.scrollHeight;
-             openMessages(chat.messages);
         }
 
         var validUsername = 0;
@@ -117,7 +116,7 @@ const Inbox = () => {
                 break;
             }
         }
-        if (validUsername === 1) {
+        if (validUsername === 1 && text !== '') {
             setUsernameError('');
             Axios.post(url + '/send-message', { sender_id: currentUser.id, reciever_id: findID(username), text: text }).then((response) => {
                 console.log(response);
@@ -126,6 +125,7 @@ const Inbox = () => {
         else {
             setUsernameError('User not found');
         }
+        if(chat.other_id) openMessages(chat.messages);
     }
 
     function replyFocus(usernameReply) {
