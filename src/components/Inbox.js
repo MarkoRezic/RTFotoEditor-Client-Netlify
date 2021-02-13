@@ -102,8 +102,6 @@ const Inbox = () => {
     }
 
     function sendMessage() {
-        console.log(messages[0][0].date);
-        console.log(messages[0][0].toString());
         if (text === '') updateMessages();
         else {
             var validUsername = 0;
