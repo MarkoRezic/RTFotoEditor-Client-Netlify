@@ -71,11 +71,9 @@ const Inbox = () => {
         if (otherID !== null) {
             var i;
             for (i = 0; i < messages.length; i++) {
-                if (((chat.messages[0].sender_id !== currentUser.id) && (chat.messages[0].sender_id === messages[i][0].sender_id))
-                    || ((chat.messages[0].reciever_id !== currentUser.id) && (chat.messages[0].reciever_id === messages[i][0].reciever_id))
-                    || ((chat.messages[0].sender_id === messages[i][0].sender_id) && (chat.messages[0].reciever_id === messages[i][0].reciever_id))) {
+                if ((otherID === messages[i][0].sender_id) || (otherID === messages[i][0].reciever_id)) {
                     setChat({
-                        other_id: messages[i][0].sender_id !== currentUser.id ? messages[i][0].sender_id : messages[i][0].reciever_id,
+                        other_id: otherID,
                         messages: [...(messages[i])]
                     })
                     break;
