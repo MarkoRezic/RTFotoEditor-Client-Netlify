@@ -27,43 +27,35 @@ const Inbox = () => {
     useEffect(() => {
         Axios.get(url + '/users').then((response) => {
             setUserList([...response.data]);
-        }).then(() => {
-            updateMessages();
-            /* Update every 60 secs
-            window.setInterval(function () {
-                Axios.get(url + '/messages/' + currentUser.id).then((response) => {
-                    if (response.data.length !== messagesRecieved.length) {
-                        updateMessages();
-                        return;
-                    }
-                    for (var i = 0; i < response.data.length; i++) {
-                        if (response.data[i].id !== messagesRecieved[i].id) {
-                            updateMessages();
-                            return;
-                        }
-                    }
-                });
-            }, 60000);
-            */
-        }
-        );
+        });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentUser]);
+
+    useEffect(() => {
+        updateMessages();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [userList]);
+
+    useEffect(() => {
+        Axios.get(url + '/messages-sent/' + currentUser.id).then((response) => {
+            setMessagesSent([...response.data]);
+        });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [messagesRecieved]);
 
     useEffect(() => {
         setMessages([...mergeChunks(makeChunks(messagesRecieved, "sender_id"), makeChunks(removeSelfSent(messagesSent, messagesRecieved), "reciever_id"), "sender_id", "reciever_id")].sort(function (a, b) {
             return b[0]["id"] - a[0]["id"];
         }))
-            console.log('finding chat');
-            findChat(chat.other_id);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [messagesSent, messagesRecieved]);
-/*
+    }, [messagesSent]);
+
     useEffect(() => {
+        console.log('finding chat');
         findChat(chat.other_id);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [messages, messagesSent, messagesRecieved]);
-*/
+    }, [messages]);
+
     function findChat(otherID) {
         if (otherID !== null) {
             var i;
@@ -72,13 +64,13 @@ const Inbox = () => {
                 if (((chat.messages[0].sender_id !== currentUser.id) && (chat.messages[0].sender_id === messages[i][0].sender_id))
                     || ((chat.messages[0].reciever_id !== currentUser.id) && (chat.messages[0].reciever_id === messages[i][0].reciever_id))
                     || ((chat.messages[0].sender_id === messages[i][0].sender_id) && (chat.messages[0].reciever_id === messages[i][0].reciever_id))) {
+                    setChat({
+                        other_id: messages[i][0].sender_id !== currentUser.id ? messages[i][0].sender_id : messages[i][0].reciever_id,
+                        messages: [...(messages[i])]
+                    })
                     break;
                 }
             }
-            setChat({
-                other_id: messages[i][0].sender_id !== currentUser.id ? messages[i][0].sender_id : messages[i][0].reciever_id,
-                messages: [...(messages[i])]
-            })
         }
         else console.log('otherID not found');
     }
@@ -100,9 +92,6 @@ const Inbox = () => {
     function updateMessages() {
         Axios.get(url + '/messages/' + currentUser.id).then((response) => {
             setMessagesRecieved([...response.data]);
-        });
-        Axios.get(url + '/messages-sent/' + currentUser.id).then((response) => {
-            setMessagesSent([...response.data]);
         });
     }
 
@@ -226,16 +215,16 @@ const Inbox = () => {
         var currentChat = document.getElementById("currentChat");
         if (currentChat) currentChat.scrollTop = currentChat.scrollHeight;
         Axios.put(url + '/open-messages', { data: { sender_id: messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id, reciever_id: currentUser.id } }).then((response) => {
-                updateMessages();
-                setUsername(findUsername(messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id));
-                setChat({
-                    other_id: messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id,
-                    messages: [...messageChat]
-                })
+            updateMessages();
+            setUsername(findUsername(messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id));
+            setChat({
+                other_id: messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id,
+                messages: [...messageChat]
+            })
 
-                window.setTimeout(function () {
-                    if(document.getElementById('sendMessageInputID')) document.getElementById('sendMessageInputID').focus();
-                }, 100);
+            window.setTimeout(function () {
+                if (document.getElementById('sendMessageInputID')) document.getElementById('sendMessageInputID').focus();
+            }, 100);
         });
     }
 
@@ -345,7 +334,7 @@ const Inbox = () => {
                                         })
                                     }
                                 </div>
-                                <Form onSubmit={(e) => { updateMessages(); sendMessage(); e.preventDefault(); e.target.reset(); setText(''); }}>
+                                <Form onSubmit={(e) => { sendMessage(); e.preventDefault(); e.target.reset(); setText(''); }}>
                                     <Form.Group controlId="sendMessageInputID" className="sendMessageGroup">
                                         <Form.Label srOnly>Message</Form.Label>
                                         <InputGroup className="mb-2">
