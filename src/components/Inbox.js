@@ -354,7 +354,7 @@ const Inbox = () => {
                                     </Form.Group>
 
                                     <Form.Group className="sendButtonGroup">
-                                        <button className="sendButton" type="submit" onClick={sendMessage} name="button"><BootstrapIcon type={20} /></button>
+                                        <button className="sendButton" type="submit" onSubmit={sendMessage} name="button"><BootstrapIcon type={20} /></button>
                                     </Form.Group>
                                 </Form>
                             </div>
