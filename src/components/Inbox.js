@@ -52,7 +52,7 @@ const Inbox = () => {
 
     useEffect(() => {
         setMessages([...mergeChunks(makeChunks(messagesRecieved, "sender_id"), makeChunks(removeSelfSent(messagesSent, messagesRecieved), "reciever_id"), "sender_id", "reciever_id")].sort(function (a, b) {
-            return b[b.length - 1]["id"] - a[a.length - 1]["id"];
+            return b[0]["id"] - a[0]["id"];
         }))
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [messagesSent, messagesRecieved]);
@@ -196,7 +196,7 @@ const Inbox = () => {
         }
         for (var i = 0; i < merged_array.length; i++) {
             merged_array[i] = [...merged_array[i].sort(function (a, b) {
-                return a["id"] - b["id"];
+                return b["id"] - a["id"];
             })]
         }
         return merged_array;
