@@ -60,7 +60,7 @@ const Inbox = () => {
     useEffect(() => {
         findChat(chat.other_id);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [messages]);
+    }, [messages, messagesSent, messagesRecieved]);
 
     function findChat(otherID) {
         if (otherID !== null) {
@@ -119,6 +119,7 @@ const Inbox = () => {
             setUsernameError('');
             Axios.post(url + '/send-message', { sender_id: currentUser.id, reciever_id: findID(username), text: text }).then((response) => {
                 console.log(response);
+                findChat(chat.other_id);
             });
         }
         else {
