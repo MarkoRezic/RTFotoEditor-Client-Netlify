@@ -60,7 +60,7 @@ const Inbox = () => {
     useEffect(() => {
         findChat(chat.other_id);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [messages, messagesSent, messagesRecieved]);
+    }, [messages]);
 
     function findChat(otherID) {
         if (otherID !== null) {
@@ -72,7 +72,6 @@ const Inbox = () => {
                     break;
                 }
             }
-            window.setTimeout(function () {
                 console.log('finding chat id = ' + (messages[i][0].sender_id !== currentUser.id ? messages[i][0].sender_id : messages[i][0].reciever_id));
                 console.log('finding messages = ' + messages[i]);
                 setChat({
@@ -80,7 +79,6 @@ const Inbox = () => {
                     messages: [...messages[i]]
                 })
                 openMessages(chat.messages);
-            }, 100);
         }
     }
 
@@ -225,7 +223,6 @@ const Inbox = () => {
         var currentChat = document.getElementById("currentChat");
         if (currentChat) currentChat.scrollTop = currentChat.scrollHeight;
         Axios.put(url + '/open-messages', { data: { sender_id: messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id, reciever_id: currentUser.id } }).then((response) => {
-            window.setTimeout(function () {
                 updateMessages();
                 setUsername(findUsername(messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id));
                 setChat({
@@ -234,9 +231,8 @@ const Inbox = () => {
                 })
 
                 window.setTimeout(function () {
-                    document.getElementById('sendMessageInputID').focus();
+                    if(document.getElementById('sendMessageInputID')) document.getElementById('sendMessageInputID').focus();
                 }, 100);
-            }, 100);
         });
     }
 
@@ -246,9 +242,6 @@ const Inbox = () => {
             other_id: null,
             messages: []
         });
-        window.setTimeout(function () {
-            document.getElementById('newMessageUsername').focus();
-        }, 100);
     }
 
     return (
