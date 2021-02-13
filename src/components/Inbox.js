@@ -67,10 +67,12 @@ const Inbox = () => {
                 if (((chat.messages[0].sender_id !== currentUser.id) && (chat.messages[0].sender_id === messages[i][0].sender_id))
                     || ((chat.messages[0].reciever_id !== currentUser.id) && (chat.messages[0].reciever_id === messages[i][0].reciever_id))
                     || ((chat.messages[0].sender_id === messages[i][0].sender_id) && (chat.messages[0].reciever_id === messages[i][0].reciever_id))) {
-                    setChat({
-                        other_id: messages[i][0].sender_id !== currentUser.id ? messages[i][0].sender_id : messages[i][0].reciever_id,
-                        messages: [...messages[i]]
-                    })
+                    window.setTimeout(function () {
+                        setChat({
+                            other_id: messages[i][0].sender_id !== currentUser.id ? messages[i][0].sender_id : messages[i][0].reciever_id,
+                            messages: [...messages[i]]
+                        })
+                    }, 100);
                     break;
                 }
             }
@@ -103,6 +105,7 @@ const Inbox = () => {
 
     function sendMessage() {
         var currentChat = document.getElementById("currentChat");
+        var copy_messages = [...chat.messages];
         if (currentChat) currentChat.scrollTop = currentChat.scrollHeight;
 
         var validUsername = 0;
@@ -227,7 +230,7 @@ const Inbox = () => {
                     other_id: messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id,
                     messages: [...messageChat]
                 })
-        
+
                 window.setTimeout(function () {
                     document.getElementById('sendMessageInputID').focus();
                 }, 100);
