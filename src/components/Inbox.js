@@ -100,7 +100,7 @@ const Inbox = () => {
     function sendMessage() {
         var currentChat = document.getElementById("currentChat");
         if(currentChat) currentChat.scrollTop = currentChat.scrollHeight;
-        if (text === '' && currentChat) updateMessages();
+        if (text === '') updateMessages();
         else {
             var validUsername = 0;
             for (var i = 0; i < userList.length; i++) {
@@ -226,6 +226,7 @@ const Inbox = () => {
     }
 
     function newMessage() {
+        setUsername('');
         setChat({
             other_id: null,
             messages: []
