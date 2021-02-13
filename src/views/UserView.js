@@ -35,7 +35,7 @@ const UserView = () => {
 
         <NavLink activeClassName="active" className="nav-link" to="/inbox"><BootstrapIcon type={4} /> Inbox
         {getNewMessages() ?
-                <div className="num-new-messages">
+                <div className="num-new-messages small-num">
                     {getNewMessages()}
                 </div>
                 : null}

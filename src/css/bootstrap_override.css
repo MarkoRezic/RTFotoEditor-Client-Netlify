@@ -304,6 +304,11 @@
     vertical-align: top;
     float: right;
 }
+.small-num{
+	width: 22px !important;
+    height: 22px !important;
+    font-size: 14px !important;
+}
 .last-text{
 	overflow: hidden;
     white-space: nowrap;
