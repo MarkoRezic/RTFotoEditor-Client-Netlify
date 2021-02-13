@@ -284,7 +284,7 @@ const Inbox = () => {
                                 <Form acceptCharset="UTF-8" onSubmit={(e) => { e.preventDefault(); if (usernameError === '') { e.target.reset(); setSentText('Message sent'); } }}>
                                     <Form.Group controlId="newMessageUsername">
                                         <Form.Label srOnly>Prima:</Form.Label>
-                                        <InputGroup className="mb-2">
+                                        <InputGroup autoComplete="off" className="mb-2">
                                             <InputGroup.Prepend>
                                                 <InputGroup.Text>Prima: </InputGroup.Text>
                                             </InputGroup.Prepend>
@@ -294,7 +294,7 @@ const Inbox = () => {
                                     </Form.Group>
                                     <Form.Group controlId="newMessageText">
                                         <Form.Label>Text</Form.Label>
-                                        <Form.Control as="textarea" rows={5} onChange={(e) => { setText(checkText(e.target.value)); document.getElementById('newMessageText').value = checkText(e.target.value); setSentText(''); }} />
+                                        <Form.Control autoComplete="off" as="textarea" rows={5} onChange={(e) => { setText(checkText(e.target.value)); document.getElementById('newMessageText').value = checkText(e.target.value); setSentText(''); }} />
                                     </Form.Group>
                                     <Form.Group className="justify-content-center">
                                         <button className="resendButton" type="submit" onClick={sendMessage} name="button">Send Message</button>
@@ -334,7 +334,7 @@ const Inbox = () => {
                                     <Form.Group controlId="sendMessageInputID" className="sendMessageGroup">
                                         <Form.Label srOnly>Message</Form.Label>
                                         <InputGroup className="mb-2">
-                                            <Form.Control className="sendMessageInput" type="text" onChange={(e) => { setText(checkText(e.target.value)); document.getElementById('sendMessageInputID').value = checkText(e.target.value) }} placeholder="Nova poruka..." />
+                                            <Form.Control autoComplete="off" className="sendMessageInput" type="text" onChange={(e) => { setText(checkText(e.target.value)); document.getElementById('sendMessageInputID').value = checkText(e.target.value) }} placeholder="Nova poruka..." />
                                         </InputGroup>
                                     </Form.Group>
 
