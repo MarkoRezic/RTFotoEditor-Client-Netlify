@@ -70,10 +70,10 @@ const Inbox = () => {
                     break;
                 }
             }
-            window.setTimeout(function () {
+            //window.setTimeout(function () {
                 var currentChat = document.getElementById("currentChat");
                 currentChat.scrollTop = currentChat.scrollHeight;
-            }, 50);
+            //}, 50);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [messages]);
