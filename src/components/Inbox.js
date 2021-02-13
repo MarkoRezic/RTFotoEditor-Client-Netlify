@@ -117,6 +117,7 @@ const Inbox = () => {
             updateMessages();
             setUsernameError('User not found');
         }
+        if (document.getElementById('sendMessageInputID')) document.getElementById('sendMessageInputID').focus();
     }
 
     function replyFocus(usernameReply) {
