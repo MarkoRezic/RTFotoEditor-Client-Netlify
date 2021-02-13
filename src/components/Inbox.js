@@ -345,7 +345,7 @@ const Inbox = () => {
                                         })
                                     }
                                 </div>
-                                <Form onSubmit={(e) => { e.preventDefault(); e.target.reset(); setText(''); }}>
+                                <Form onSubmit={(e) => { sendMessage(); e.preventDefault(); e.target.reset(); setText(''); }}>
                                     <Form.Group controlId="sendMessageInputID" className="sendMessageGroup">
                                         <Form.Label srOnly>Message</Form.Label>
                                         <InputGroup className="mb-2">
@@ -354,7 +354,7 @@ const Inbox = () => {
                                     </Form.Group>
 
                                     <Form.Group className="sendButtonGroup">
-                                        <button className="sendButton" type="submit" onSubmit={sendMessage} name="button"><BootstrapIcon type={20} /></button>
+                                        <button className="sendButton" type="submit" name="button"><BootstrapIcon type={20} /></button>
                                     </Form.Group>
                                 </Form>
                             </div>
