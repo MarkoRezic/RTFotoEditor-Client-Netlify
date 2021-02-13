@@ -55,6 +55,11 @@ const Inbox = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [messages]);
 
+    useEffect(() => {
+        if (document.getElementById('sendMessageInputID')) document.getElementById('sendMessageInputID').focus();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [chat]);
+
     function findChat(otherID) {
         if (otherID !== null) {
             var i;
@@ -117,7 +122,6 @@ const Inbox = () => {
             updateMessages();
             setUsernameError('User not found');
         }
-        if (document.getElementById('sendMessageInputID')) document.getElementById('sendMessageInputID').focus();
     }
 
     function replyFocus(usernameReply) {
@@ -222,10 +226,6 @@ const Inbox = () => {
                 })
                 setUsername(findUsername(messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id));
             }
-
-            window.setTimeout(function () {
-                if (document.getElementById('sendMessageInputID')) document.getElementById('sendMessageInputID').focus();
-            }, 100);
         });
     }
 
