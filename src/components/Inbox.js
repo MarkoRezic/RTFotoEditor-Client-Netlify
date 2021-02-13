@@ -230,11 +230,11 @@ const Inbox = () => {
     }
 
     function newMessage() {
-        setUsername('');
         setChat({
             other_id: null,
             messages: []
         });
+        setUsername('');
     }
 
     return (
