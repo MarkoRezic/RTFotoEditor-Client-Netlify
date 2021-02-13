@@ -99,25 +99,26 @@ const Inbox = () => {
 
     function sendMessage() {
         var currentChat = document.getElementById("currentChat");
-        if(currentChat) currentChat.scrollTop = currentChat.scrollHeight;
-        if (text === '') updateMessages();
-        else {
-            var validUsername = 0;
-            for (var i = 0; i < userList.length; i++) {
-                if (username.toLowerCase() === userList[i].username.toLowerCase()) validUsername = 1;
-            }
-            if (validUsername === 1) {
-                setUsernameError('');
-                Axios.post(url + '/send-message', { sender_id: currentUser.id, reciever_id: findID(username), text: text }).then((response) => {
-                    console.log(response);
-                }).then(() => {
-                    updateMessages();
-                });
-            }
-            else {
-                setUsernameError('User not found');
+        if (currentChat) currentChat.scrollTop = currentChat.scrollHeight;
+
+        var validUsername = 0;
+        for (var i = 0; i < userList.length; i++) {
+            if (username.toLowerCase() === userList[i].username.toLowerCase()) {
+                validUsername = 1;
+                break;
             }
         }
+        if (validUsername === 1) {
+            setUsernameError('');
+            Axios.post(url + '/send-message', { sender_id: currentUser.id, reciever_id: findID(username), text: text }).then((response) => {
+                console.log(response);
+            });
+        }
+        else {
+            setUsernameError('User not found');
+        }
+
+        updateMessages();
     }
 
     function replyFocus(usernameReply) {
@@ -210,7 +211,7 @@ const Inbox = () => {
 
     function openMessages(messageChat) {
         var currentChat = document.getElementById("currentChat");
-        if(currentChat) currentChat.scrollTop = currentChat.scrollHeight;
+        if (currentChat) currentChat.scrollTop = currentChat.scrollHeight;
         Axios.put(url + '/open-messages', { data: { sender_id: messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id, reciever_id: currentUser.id } }).then((response) => {
             updateMessages();
         });
@@ -285,7 +286,7 @@ const Inbox = () => {
                             <div className="blog-post NovaPoruka">
                                 <p>Nova poruka</p>
                                 <hr className="round" />
-                                <Form acceptCharset="UTF-8" onSubmit={(e) => { e.preventDefault(); if (usernameError === '') { e.target.reset(); if(username !== '') setSentText('Message sent'); setUsername(''); setText(''); } }}>
+                                <Form acceptCharset="UTF-8" onSubmit={(e) => { e.preventDefault(); if (usernameError === '') { e.target.reset(); if (username !== '') setSentText('Message sent'); setUsername(''); setText(''); } }}>
                                     <Form.Group controlId="newMessageUsername">
                                         <Form.Label srOnly>Prima:</Form.Label>
                                         <InputGroup className="mb-2">
