@@ -124,12 +124,12 @@ const Inbox = () => {
             setUsernameError('');
             Axios.post(url + '/send-message', { sender_id: currentUser.id, reciever_id: findID(username), text: text }).then((response) => {
                 console.log(response);
-                findChat(chat.other_id);
             });
         }
         else {
             setUsernameError('User not found');
         }
+        findChat(chat.other_id);
     }
 
     function replyFocus(usernameReply) {
@@ -189,9 +189,10 @@ const Inbox = () => {
         let copied_array = [...array2];
         let original_length = merged_array.length;
         let found;
+        var i;
         while (copied_array.length > 0) {
             found = false;
-            for (var i = 0; i < original_length; i++) {
+            for (i = 0; i < original_length; i++) {
                 if (merged_array[i][0][property1] === copied_array[0][0][property2]) {
                     while (copied_array[0].length > 0) {
                         merged_array[i].push(copied_array[0][0]);
@@ -204,7 +205,7 @@ const Inbox = () => {
             if (!found) merged_array.push(copied_array[0]);
             copied_array.splice(0, 1);
         }
-        for (var i = 0; i < merged_array.length; i++) {
+        for (i = 0; i < merged_array.length; i++) {
             merged_array[i] = [...merged_array[i].sort(function (a, b) {
                 return b["id"] - a["id"];
             })]

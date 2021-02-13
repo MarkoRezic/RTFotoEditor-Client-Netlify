@@ -3,7 +3,7 @@ import { Nav } from 'react-bootstrap';
 import BootstrapIcon from '../svg icons/BootstrapIcon';
 import Axios from 'axios';
 import { useState, useContext, useEffect } from 'react';
-import { AuthorityContext } from './AuthorityContext';
+import { AuthorityContext } from '../components/AuthorityContext';
 
 const SuperAdminView = () => {
     // eslint-disable-next-line
