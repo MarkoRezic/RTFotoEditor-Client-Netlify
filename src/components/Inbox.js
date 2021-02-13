@@ -225,13 +225,8 @@ const Inbox = () => {
         if (currentChat) currentChat.scrollTop = currentChat.scrollHeight;
         Axios.put(url + '/open-messages', { data: { sender_id: messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id, reciever_id: currentUser.id } }).then((response) => {
             updateMessages();
-            if (chat.other_id === null || chat.other_id !== (messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id)) {
-                setChat({
-                    other_id: messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id,
-                })
-                setUsername(findUsername(messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id));
-            }
-            findChat(chat.other_id);
+            findChat(messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id);
+            setUsername(findUsername(messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id));
         });
     }
 
