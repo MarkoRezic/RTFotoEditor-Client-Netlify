@@ -284,11 +284,11 @@ const Inbox = () => {
                                 <Form acceptCharset="UTF-8" onSubmit={(e) => { e.preventDefault(); if (usernameError === '') { e.target.reset(); setSentText('Message sent'); } }}>
                                     <Form.Group controlId="newMessageUsername">
                                         <Form.Label srOnly>Prima:</Form.Label>
-                                        <InputGroup autoComplete="off" className="mb-2">
+                                        <InputGroup className="mb-2">
                                             <InputGroup.Prepend>
                                                 <InputGroup.Text>Prima: </InputGroup.Text>
                                             </InputGroup.Prepend>
-                                            <Form.Control type="username" onChange={(e) => { setUsername(e.target.value); setSentText(''); }} placeholder="Enter username" />
+                                            <Form.Control autoComplete="off" type="username" onChange={(e) => { setUsername(e.target.value); setSentText(''); }} placeholder="Enter username" />
                                         </InputGroup>
                                         <Form.Text className="errorText">{usernameError}</Form.Text>
                                     </Form.Group>
