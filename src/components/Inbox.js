@@ -102,20 +102,23 @@ const Inbox = () => {
     }
 
     function sendMessage() {
-        var validUsername = 0;
-        for (var i = 0; i < userList.length; i++) {
-            if (username.toLowerCase() === userList[i].username.toLowerCase()) validUsername = 1;
-        }
-        if (validUsername === 1) {
-            setUsernameError('');
-            Axios.post(url + '/send-message', { sender_id: currentUser.id, reciever_id: findID(username), text: text }).then((response) => {
-                console.log(response);
-            }).then(() => {
-                updateMessages();
-            });
-        }
+        if (text === '') updateMessages();
         else {
-            setUsernameError('User not found');
+            var validUsername = 0;
+            for (var i = 0; i < userList.length; i++) {
+                if (username.toLowerCase() === userList[i].username.toLowerCase()) validUsername = 1;
+            }
+            if (validUsername === 1) {
+                setUsernameError('');
+                Axios.post(url + '/send-message', { sender_id: currentUser.id, reciever_id: findID(username), text: text }).then((response) => {
+                    console.log(response);
+                }).then(() => {
+                    updateMessages();
+                });
+            }
+            else {
+                setUsernameError('User not found');
+            }
         }
     }
 
