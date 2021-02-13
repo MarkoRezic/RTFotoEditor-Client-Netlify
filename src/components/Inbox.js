@@ -118,12 +118,15 @@ const Inbox = () => {
             setUsernameError('User not found');
         }
         let copy_id = chat.other_id;
+        let copy_messages = [...chat.messages];
         setChat({
-            other_id: null
+            other_id: null,
+            messages: []
         });
         updateMessages();
         setChat({
-            other_id: copy_id
+            other_id: copy_id,
+            messages: [...copy_messages]
         });
     }
 
