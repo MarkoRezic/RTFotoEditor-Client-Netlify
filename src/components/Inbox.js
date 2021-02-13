@@ -105,8 +105,10 @@ const Inbox = () => {
 
     function sendMessage() {
         var currentChat = document.getElementById("currentChat");
-        var copy_messages = [...chat.messages];
-        if (currentChat) currentChat.scrollTop = currentChat.scrollHeight;
+        if (currentChat){
+             currentChat.scrollTop = currentChat.scrollHeight;
+             openMessages(chat.messages);
+        }
 
         var validUsername = 0;
         for (var i = 0; i < userList.length; i++) {
@@ -124,11 +126,6 @@ const Inbox = () => {
         else {
             setUsernameError('User not found');
         }
-        Axios.put(url + '/open-messages', { data: { sender_id: chat.other_id, reciever_id: currentUser.id } }).then((response) => {
-            window.setTimeout(function () {
-                updateMessages();
-            }, 100);
-        });
     }
 
     function replyFocus(usernameReply) {
