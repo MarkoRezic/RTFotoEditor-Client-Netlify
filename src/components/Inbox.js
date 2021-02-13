@@ -267,7 +267,7 @@ const Inbox = () => {
                                                     </div>
                                                     : null}
                                                 <p className="last-text">
-                                                    {findUsername(messageChat[messageChat.length - 1].sender_id)}: {messageChat[messageChat.length - 1].text}
+                                                    {findUsername(messageChat[0].sender_id)}: {messageChat[0].text}
                                                 </p>
                                             </div>
                                         </div>
