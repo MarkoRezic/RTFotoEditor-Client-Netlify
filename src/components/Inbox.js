@@ -102,6 +102,8 @@ const Inbox = () => {
     }
 
     function sendMessage() {
+        console.log(messages[0][0].date);
+        console.log(messages[0][0].toString());
         if (text === '') updateMessages();
         else {
             var validUsername = 0;
@@ -324,7 +326,7 @@ const Inbox = () => {
                                                         {message.sender_id === currentUser.id ? '[You]' : null}
                                                     :
                                                 </p>
-                                                    <p className="timestamp">{message.date.substr(8, 2) + '/' + message.date.substr(5, 2) + '/' + message.date.substr(0, 4) + ' '} {message.time}</p>
+                                                    <p className="timestamp">{message.date.substr(8, 2) + '/' + message.date.substr(5, 2) + '/' + message.date.substr(0, 4)} {message.time}</p>
                                                     <p>
                                                         {message.text}
                                                     </p>
