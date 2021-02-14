@@ -234,6 +234,8 @@ const Inbox = () => {
             messages: []
         });
         setUsername('');
+        var newMessageUsername = document.getElementById("newMessageUsername");
+        if (newMessageUsername) newMessageUsername.focus();
     }
 
     return (
