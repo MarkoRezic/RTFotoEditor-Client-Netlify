@@ -117,6 +117,7 @@ const Inbox = () => {
             }
         }
         if (validUsername === 1 && text !== '') {
+            if (chat.other_id !== null) Axios.put(url + '/open-messages', { data: { sender_id: chat.other_id, reciever_id: currentUser.id } });
             Axios.post(url + '/send-message', { sender_id: currentUser.id, reciever_id: findID(username), text: text }).then((response) => {
                 console.log(response);
                 updateMessages();
@@ -127,9 +128,6 @@ const Inbox = () => {
             updateMessages();
             setUsernameError('User not found');
         }
-        if (chat.other_id !== null) Axios.put(url + '/open-messages', { data: { sender_id: chat.other_id, reciever_id: currentUser.id } }).then((response) => {
-
-        });
     }
 
     function replyFocus(usernameReply) {
