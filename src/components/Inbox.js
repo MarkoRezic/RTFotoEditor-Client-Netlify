@@ -218,13 +218,13 @@ const Inbox = () => {
         return num;
     }
 
-    function openMessages(messageChat) {
+    function openMessages(otherID) {
         var currentChat = document.getElementById("currentChat");
         if (currentChat) currentChat.scrollTop = currentChat.scrollHeight;
-        Axios.put(url + '/open-messages', { data: { sender_id: messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id, reciever_id: currentUser.id } }).then((response) => {
+        Axios.put(url + '/open-messages', { data: { sender_id: otherID, reciever_id: currentUser.id } }).then((response) => {
             updateMessages();
-            findChat(messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id);
-            setUsername(findUsername(messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id));
+            //findChat(otherID);
+            setUsername(findUsername(otherID));
         });
     }
 
@@ -256,7 +256,7 @@ const Inbox = () => {
                             {
                                 messages.map(messageChat => {
                                     return (
-                                        <div className={getNewMessages(messageChat) ? 'message' : 'message opened'} onClick={() => { openMessages(messageChat); }} key={messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id}>
+                                        <div className={getNewMessages(messageChat) ? 'message' : 'message opened'} onClick={() => { openMessages(messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id); }} key={messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id}>
                                             <div className="message-text">
                                                 <p className="chat-name">
                                                     {messageChat[0].sender_id !== currentUser.id ? findUsername(messageChat[0].sender_id) : findUsername(messageChat[0].reciever_id)}
