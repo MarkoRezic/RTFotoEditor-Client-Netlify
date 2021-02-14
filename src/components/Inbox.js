@@ -258,15 +258,17 @@ const Inbox = () => {
                                     return (
                                         <div className={getNewMessages(messageChat) ? 'message' : 'message opened'} onClick={() => { openMessages(messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id); }} key={messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id}>
                                             <div className="message-text">
-                                                <p className="chat-name">
-                                                    {messageChat[0].sender_id !== currentUser.id ? findUsername(messageChat[0].sender_id) : findUsername(messageChat[0].reciever_id)}
-                                                    {messageChat[0].sender_id === messageChat[0].reciever_id ? '[You]' : null}
-                                                </p>
                                                 {getNewMessages(messageChat) ?
                                                     <div className="num-new-messages">
                                                         {getNewMessages(messageChat)}
                                                     </div>
-                                                    : null}
+                                                    :
+                                                    <p className="timestamp">{messageChat[0].date.substr(8, 2) + '/' + messageChat[0].date.substr(5, 2) + '/' + messageChat[0].date.substr(0, 4)} {messageChat[0].time}</p>
+                                                }
+                                                <p className="chat-name">
+                                                    {messageChat[0].sender_id !== currentUser.id ? findUsername(messageChat[0].sender_id) : findUsername(messageChat[0].reciever_id)}
+                                                    {messageChat[0].sender_id === messageChat[0].reciever_id ? '[You]' : null}
+                                                </p>
                                                 <p className="last-text">
                                                     {findUsername(messageChat[0].sender_id)}: {messageChat[0].text}
                                                 </p>
