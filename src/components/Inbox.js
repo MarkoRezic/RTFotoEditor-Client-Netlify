@@ -235,6 +235,7 @@ const Inbox = () => {
             messages: []
         });
         setUsername('');
+        setUsernameError('');
     }
 
     return (
