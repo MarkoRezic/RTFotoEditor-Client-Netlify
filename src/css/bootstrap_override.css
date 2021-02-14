@@ -194,6 +194,10 @@
 	max-width: 35rem;
 	margin: auto;
 	margin-bottom: 2rem;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.user-card p{
+	font-family:  Verdana, 'Segoe UI', Tahoma, Geneva, sans-serif;
 }
 .user-card button, .profile-buttons .dropdown button{
 	background-color: #222 !important;
