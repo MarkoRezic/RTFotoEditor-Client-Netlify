@@ -223,7 +223,7 @@ const Inbox = () => {
         if (currentChat) currentChat.scrollTop = currentChat.scrollHeight;
         Axios.put(url + '/open-messages', { data: { sender_id: otherID, reciever_id: currentUser.id } }).then((response) => {
             updateMessages();
-            if (chat.other_id === null) findChat(otherID);
+            if (chat.other_id !== otherID) findChat(otherID);
             setUsername(findUsername(otherID));
         });
     }
