@@ -30,7 +30,7 @@ const Inbox = () => {
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    
+
     useEffect(() => {
         Axios.get(url + '/users').then((response) => {
             setUserList([...response.data]);
@@ -223,8 +223,10 @@ const Inbox = () => {
         var currentChat = document.getElementById("currentChat");
         if (currentChat) currentChat.scrollTop = currentChat.scrollHeight;
         Axios.put(url + '/open-messages', { data: { sender_id: otherID, reciever_id: currentUser.id } }).then((response) => {
-            updateMessages();
-            if(chat.other_id === null) findChat(otherID);
+            if (chat.other_id === null) {
+                updateMessages();
+                findChat(otherID);
+            }
             setUsername(findUsername(otherID));
         });
     }
