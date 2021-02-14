@@ -320,12 +320,14 @@ const Inbox = () => {
                                         chat.messages.map(message => {
                                             return (
                                                 <div className="message-text" key={message.id}>
+                                                    <p className="timestamp">{(message.opened && message.reciever_id !== currentUser.id) ? <BootstrapIcon type={16} /> : null} {message.date.substr(8, 2) + '/' + message.date.substr(5, 2) + '/' + message.date.substr(0, 4)} {message.time}</p>
+
                                                     <p className="chat-name">
                                                         {findUsername(message.sender_id)}
                                                         {message.sender_id === currentUser.id ? '[You]' : null}
                                                     :
-                                                </p>
-                                                    <p className="timestamp">{(message.opened && message.reciever_id !== currentUser.id) ? <BootstrapIcon type={16} /> : null} {message.date.substr(8, 2) + '/' + message.date.substr(5, 2) + '/' + message.date.substr(0, 4)} {message.time}</p>
+                                                    </p>
+
                                                     <p>
                                                         {message.text}
                                                     </p>
