@@ -79,7 +79,6 @@ const Inbox = () => {
                     break;
                 }
             }
-            openMessages(otherID);
         }
         else console.log('otherID not found');
     }
@@ -108,6 +107,9 @@ const Inbox = () => {
         var currentChat = document.getElementById("currentChat");
         if (currentChat) {
             currentChat.scrollTop = currentChat.scrollHeight;
+            if (chat.other_id !== null) Axios.put(url + '/open-messages', { data: { sender_id: chat.other_id, reciever_id: currentUser.id } }).then((response) => {
+
+            });
         }
 
         var validUsername = 0;
@@ -223,10 +225,8 @@ const Inbox = () => {
         var currentChat = document.getElementById("currentChat");
         if (currentChat) currentChat.scrollTop = currentChat.scrollHeight;
         Axios.put(url + '/open-messages', { data: { sender_id: otherID, reciever_id: currentUser.id } }).then((response) => {
-            if (chat.other_id === null) {
-                updateMessages();
-                findChat(otherID);
-            }
+            updateMessages();
+            if (chat.other_id === null) findChat(otherID);
             setUsername(findUsername(otherID));
         });
     }
