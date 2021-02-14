@@ -79,6 +79,7 @@ const Inbox = () => {
                     break;
                 }
             }
+            openMessages(otherID);
         }
         else console.log('otherID not found');
     }
@@ -223,7 +224,7 @@ const Inbox = () => {
         if (currentChat) currentChat.scrollTop = currentChat.scrollHeight;
         Axios.put(url + '/open-messages', { data: { sender_id: otherID, reciever_id: currentUser.id } }).then((response) => {
             updateMessages();
-            //findChat(otherID);
+            if(chat.other_id === null) findChat(otherID);
             setUsername(findUsername(otherID));
         });
     }
