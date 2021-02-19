@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^12.4.0",
     "axios": "^0.21.0",
     "bootstrap": "^4.5.3",
+    "cloudinary-react": "^1.6.8",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.0",
     "react-bootstrap-range-slider": "^2.0.2",

@@ -15,6 +15,8 @@ import { AuthorityContext } from './AuthorityContext';
 import Error403 from './Error403';
 import ConfirmPanel from './ConfirmPanel';
 import Postavke from './Postavke';
+import Posts from './Posts';
+import Post from './Post';
 
 const Navbar = () => {
     // eslint-disable-next-line
@@ -71,13 +73,13 @@ const Navbar = () => {
         if (local_loginStatus) {
             switch (local_authority) {
                 case 'user':
-                    legalRouteList = ['/home', '/editor', '/login', '/register', '/inbox', '/profil', '/postavke'];
+                    legalRouteList = ['/home', '/posts', '/editor', '/login', '/register', '/inbox', '/profil', '/postavke'];
                     break;
                 case 'admin':
-                    legalRouteList = ['/home', '/editor', '/login', '/register', '/inbox', '/profil', '/postavke', '/users'];
+                    legalRouteList = ['/home', '/posts', '/editor', '/login', '/register', '/inbox', '/profil', '/postavke', '/users'];
                     break;
                 case 'super-admin':
-                    legalRouteList = ['/home', '/editor', '/login', '/register', '/inbox', '/profil', '/postavke', '/users', '/database'];
+                    legalRouteList = ['/home', '/posts', '/editor', '/login', '/register', '/inbox', '/profil', '/postavke', '/users', '/database'];
                     break;
                 default:
                     legalRouteList = ['/home', '/editor', '/login', '/register'];
@@ -98,10 +100,12 @@ const Navbar = () => {
     function setRealValues(legalRouteList) {
         let flag = true;
         for (var i = 0; i < legalRouteList.length; i++) {
-            if (window.location.pathname === legalRouteList[i]) {
+            if (window.location.pathname === legalRouteList[i] || window.location.pathname.startsWith('/posts')) {
                 flag = false;
                 setLegalRoute(true);
-
+                return new Promise(function (resolve, reject) {
+                    resolve(flag)
+                })
             }
         }
         return new Promise(function (resolve, reject) {
@@ -183,6 +187,8 @@ const Navbar = () => {
                     {(currentUser.verified === 'no') ? <ConfirmPanel /> : ''}
                     <Switch>
                         <Route path='/home' component={Home}></Route>
+                        <Route exact path='/posts' component={Posts}></Route>
+                        <Route path='/posts/:id' render={(props) => <Post {...props} />}></Route>
                         <Route path='/editor' component={Editor}></Route>
                         <Route path='/users' component={Users}></Route>
                         <Route path='/login' component={Login}></Route>

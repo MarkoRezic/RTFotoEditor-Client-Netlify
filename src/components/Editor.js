@@ -1,6 +1,65 @@
-import {Form, Row} from 'react-bootstrap';
+import { Form, Row } from 'react-bootstrap';
+import { useState, useEffect, useContext } from 'react';
+import Axios from 'axios';
+import { AuthorityContext } from './AuthorityContext';
+import { checkText } from 'smile2emoji';
+import { Dropdown, DropdownButton } from 'react-bootstrap';
 
 const Editor = () => {
+    // eslint-disable-next-line
+    const [{ loginStatus, authority }, setAuthority, userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
+    Axios.defaults.withCredentials = true;
+    let url = 'https://rt-foto-editor.herokuapp.com';
+    //let url = 'http://localhost:3001';
+
+    const [fileInputState, setFileInputState] = useState('');
+    const [previewSource, setPreviewSource] = useState('');
+    const [description, setDescription] = useState('');
+    const [postView, setPostView] = useState('Public');
+
+    const handleFileInputChange = (e) => {
+        const file = e.target.files[0];
+        if (file && file.type.match('image.*')) {
+            previewFile(file);
+            setFileInputState(e.target.value);
+        }
+        else {
+            setFileInputState('');
+            setPreviewSource('');
+        }
+    }
+
+    const previewFile = (file) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = () => {
+            setPreviewSource(reader.result);
+        }
+    }
+
+    const postFile = (e) => {
+        console.log('submitting');
+        e.preventDefault();
+        if (!previewSource) return;
+        postImage(previewSource);
+    }
+
+    const postImage = (base64EncodedImage) => {
+        Axios.post(url + '/image/upload/post', {
+            data: base64EncodedImage,
+            userID: currentUser.id,
+            description: description,
+            view: postView
+        }).then((response) => {
+            console.log(response);
+            setFileInputState('');
+            setPreviewSource('');
+            setDescription('');
+            setPostView('Public');
+            if (document.getElementById('fileUploadForm')) document.getElementById('fileUploadForm').reset();
+        })
+    }
+
     return (
         <div>
             <div className="blog-header">
@@ -16,55 +75,73 @@ const Editor = () => {
                     <div className="col-sm-12 blog-main">
 
                         <div className="blog-post">
-                            <Form as={Row}>
+                            <Form acceptCharset="UTF-8" onSubmit={postFile} id="fileUploadForm">
                                 <Form.Group>
-                                    <Form.File className="fileUpload" id="exampleFormControlFile1" label="Upload photo" />
+                                    <Form.File accept="image/x-png,image/gif,image/jpeg" value={fileInputState} onChange={handleFileInputChange} className="fileUpload" id="fileUploadID" name="image" label="Upload photo" />
                                 </Form.Group>
+
+                                <div className="row">
+                                    <div className="col-1 holder-buttons">
+                                        <button type="button" name="button" className="edit-button"></button>
+                                        <button type="button" name="button" className="edit-button"></button>
+                                        <button type="button" name="button" className="edit-button"></button>
+                                        <button type="button" name="button" className="edit-button"></button>
+                                        <button type="button" name="button" className="edit-button"></button>
+                                        <button type="button" name="button" className="edit-button"></button>
+                                        <button type="button" name="button" className="edit-button"></button>
+                                        <button type="button" name="button" className="edit-button"></button>
+                                    </div>
+                                    <div className="col-6 placeholder">
+                                        {previewSource && (
+                                            <img src={previewSource} alt="selected file" className="previewSource" />
+                                        )}
+                                    </div>
+                                    <div className="col-4 holder-sliders">
+                                        <div className="d-flex justify-content-center my-4">
+                                            <span className="mr-2 mt-0 white-text">0</span>
+                                            <form className="range-field w-100">
+                                                <input className="border-0 slider" type="range" min="0" max="255" />
+                                            </form>
+                                            <span className="ml-2 mt-0 white-text">255</span>
+                                        </div>
+
+                                        <div className="d-flex justify-content-center my-4">
+                                            <span className="mr-2 mt-0 white-text">0</span>
+                                            <form className="range-field w-100">
+                                                <input className="border-0 slider" type="range" min="0" max="255" />
+                                            </form>
+                                            <span className="ml-2 mt-0 white-text">255</span>
+                                        </div>
+
+                                        <div className="d-flex justify-content-center my-4">
+                                            <span className="mr-2 mt-0 white-text">0</span>
+                                            <form className="range-field w-100">
+                                                <input className="border-0 slider" type="range" min="0" max="255" />
+                                            </form>
+                                            <span className="ml-2 mt-0 white-text">255</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <hr className="round" />
+                                {loginStatus ?
+                                    <div>
+                                        <Form.Group controlId="newPostDescription">
+                                            <Form.Label>Description</Form.Label>
+                                            <Form.Control autoComplete="off" as="textarea" rows={5} onChange={(e) => { setDescription(checkText(e.target.value)); document.getElementById('newPostDescription').value = checkText(e.target.value); }} />
+                                        </Form.Group>
+                                        <Form.Group className="postButtonHolder">
+                                            <button type="submit" name="button" className="genericButton">Post</button>
+                                        </Form.Group>
+                                        <DropdownButton className="changePostView" title={postView}>
+                                            <Dropdown.Item onSelect={() => { setPostView('Public') }}>Public</Dropdown.Item>
+                                            <Dropdown.Item onSelect={() => { setPostView('Friends') }} >Friends</Dropdown.Item>
+                                            <Dropdown.Item onSelect={() => { setPostView('Private') }} >Private</Dropdown.Item>
+                                        </DropdownButton>
+                                    </div>
+                                    : null
+                                }
                             </Form>
-                            <button type="Submit" name="button">Download</button>
-                            <hr className="round" />
-                            <p className="blog-post-meta">Zadnje ažurirano 31. studenog 2020.</p>
-                            <div className="row">
-                                <div className="col-1 holder-buttons">
-                                    <button type="button" name="button" className="edit-button"></button>
-                                    <button type="button" name="button" className="edit-button"></button>
-                                    <button type="button" name="button" className="edit-button"></button>
-                                    <button type="button" name="button" className="edit-button"></button>
-                                    <button type="button" name="button" className="edit-button"></button>
-                                    <button type="button" name="button" className="edit-button"></button>
-                                    <button type="button" name="button" className="edit-button"></button>
-                                    <button type="button" name="button" className="edit-button"></button>
-                                </div>
-                                <div className="col-6 placeholder">
-
-                                </div>
-                                <div className="col-4 holder-sliders">
-                                    <div className="d-flex justify-content-center my-4">
-                                        <span className="mr-2 mt-0 white-text">0</span>
-                                        <form className="range-field w-100">
-                                            <input className="border-0 slider" type="range" min="0" max="255" />
-                                        </form>
-                                        <span className="ml-2 mt-0 white-text">255</span>
-                                    </div>
-
-                                    <div className="d-flex justify-content-center my-4">
-                                        <span className="mr-2 mt-0 white-text">0</span>
-                                        <form className="range-field w-100">
-                                            <input className="border-0 slider" type="range" min="0" max="255" />
-                                        </form>
-                                        <span className="ml-2 mt-0 white-text">255</span>
-                                    </div>
-
-                                    <div className="d-flex justify-content-center my-4">
-                                        <span className="mr-2 mt-0 white-text">0</span>
-                                        <form className="range-field w-100">
-                                            <input className="border-0 slider" type="range" min="0" max="255" />
-                                        </form>
-                                        <span className="ml-2 mt-0 white-text">255</span>
-                                    </div>
-                                </div>
-
-                            </div>
                             <hr className="round" />
                         </div>
 

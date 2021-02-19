@@ -289,7 +289,7 @@ const Inbox = () => {
                             <div className="blog-post NovaPoruka">
                                 <p>Nova poruka</p>
                                 <hr className="round" />
-                                <Form acceptCharset="UTF-8" onSubmit={(e) => { e.preventDefault(); if (usernameError === '') { e.target.reset(); if (username !== '') setSentText('Message sent'); setUsername(''); setText(''); } }}>
+                                <Form acceptCharset="UTF-8" onSubmit={(e) => { e.preventDefault(); if (usernameError === '') { e.target.reset(); if (username !== '') setSentText('Message sent'); setUsername(''); setText(''); openMessages(chat.messages); } }}>
                                     <Form.Group controlId="newMessageUsername">
                                         <Form.Label srOnly>Prima:</Form.Label>
                                         <InputGroup className="mb-2">
@@ -305,7 +305,7 @@ const Inbox = () => {
                                         <Form.Control autoComplete="off" as="textarea" rows={5} onChange={(e) => { setText(checkText(e.target.value)); document.getElementById('newMessageText').value = checkText(e.target.value); setSentText(''); }} />
                                     </Form.Group>
                                     <Form.Group className="justify-content-center">
-                                        <button className="resendButton" type="submit" onClick={sendMessage} onSubmit={() => { openMessages(chat.messages) }} name="button">Send Message</button>
+                                        <button className="resendButton" type="submit" onClick={sendMessage} name="button">Send Message</button>
                                         <Form.Text className="greenText">{sentText}</Form.Text>
                                     </Form.Group>
                                 </Form>
