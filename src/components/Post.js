@@ -19,10 +19,10 @@ const Post = (props) => {
             Axios.get(url + '/posts/' + props.match.params.id).then((response) => {
                 console.log(response);
                 setPost(response.data[0]);
-                setIsLoading(false);
+                //setIsLoading(false);
             });
         }
-        //else redirectReload('/login').then((response) => { window.location.reload(); });
+        else redirectReload('/login').then((response) => { window.location.reload(); });
     };
     useEffect(() => {
         loadPost();
@@ -45,7 +45,7 @@ const Post = (props) => {
 
                     <div className="blog-post PostLarge">
                         {isLoading ?
-                            <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+                            <div className="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
                             : (post && post.view === 'public') ?
                                 <div className="postLargeContainer">
                                     <div className="postHeader">
