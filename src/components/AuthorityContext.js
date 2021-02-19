@@ -24,14 +24,12 @@ export const AuthorityProvider = (props) => {
             Axios.post(url + '/loginStatus').then((response => {
                 console.log(response);
                 let userMatch = response.data;
-                window.scrollTo(0, 0);
                 setCurrentUser(userMatch);
             }))
         }
         Axios.post(url + '/loginStatus').then((response => {
             console.log(response);
             let userMatch = response.data;
-            window.scrollTo(0, 0);
             setCurrentUser(userMatch);
         }))
         // eslint-disable-next-line

@@ -24,7 +24,6 @@ const Login = () => {
     useEffect(() => {
         if (currentUser.loggedIn) {
             console.log('user logged in');
-            window.scrollTo(0, 0);
             setRedirect(true);
         }
         // eslint-disable-next-line
@@ -57,7 +56,6 @@ const Login = () => {
 
             if (validUsername === 1 && validPassword === 1) {
                 setCurrentUser(userMatch);
-                window.scrollTo(0, 0);
                 setRedirect(true);
             }
         });

@@ -33,7 +33,6 @@ const Register = () => {
             setUserList([...response.data]);
         });
         if (currentUser.loggedIn) {
-            window.scrollTo(0, 0);
             setRedirect(true);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
