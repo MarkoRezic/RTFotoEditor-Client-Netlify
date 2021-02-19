@@ -26,21 +26,35 @@ const Navbar = () => {
     //let url = 'http://localhost:3001';
 
     const [legalRoute, setLegalRoute] = useState(true);
+    const [localUser, setLocalUser] = useState({
+        loggedIn: false,
+        authenticated: false,
+        username: null,
+        displayname: null,
+        email: null,
+        id: null,
+        authority: 'guest',
+        verified: 'guest'
+    });
 
     useEffect(() => {
         if (loaded) {
-            checkLegalRoute().then(function (message) {
-                console.log(message);
-            })
+            setLocalUser(currentUser);
         }
         // eslint-disable-next-line
     }, [loaded]);
+    useEffect(() => {
+        checkLegalRoute().then(function (message) {
+            console.log(message);
+        })
+        // eslint-disable-next-line
+    }, [localUser]);
 
     //The set of functions that I want to call in order
     function initialSet() {
         let legalRouteList = [];
-        if (currentUser.loggedIn) {
-            switch (currentUser.authority) {
+        if (localUser.loggedIn) {
+            switch (localUser.authority) {
                 case 'user':
                     legalRouteList = ['/home', '/posts', '/editor', '/login', '/register', '/inbox', '/profil', '/postavke'];
                     break;
@@ -123,8 +137,8 @@ const Navbar = () => {
                 <div className="container break">
                     <Nav className="d-flex justify-content-center row">
 
-                        <View authority={currentUser.authority} />
-                        {currentUser.loggedIn
+                        <View authority={localUser.authority} />
+                        {localUser.loggedIn
                             ? <Dropdown className="dropdown open">
                                 <Dropdown.Toggle className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <BootstrapIcon type={5} />
@@ -150,7 +164,7 @@ const Navbar = () => {
 
             {legalRoute
                 ? <div>
-                    {(currentUser.verified === 'no') ? <ConfirmPanel /> : ''}
+                    {(localUser.verified === 'no') ? <ConfirmPanel /> : ''}
                     <Switch>
                         <Route path='/home' component={Home}></Route>
                         <Route exact path='/posts' component={Posts}></Route>
@@ -165,7 +179,7 @@ const Navbar = () => {
                     </Switch>
                 </div>
                 : <Error403 path={window.location.pathname} />}
-            {currentUser.loggedIn && (window.location.pathname === '/login' || window.location.pathname === '/register') ? <Redirect to='/home' /> : null}
+            {localUser.loggedIn && (window.location.pathname === '/login' || window.location.pathname === '/register') ? <Redirect to='/home' /> : null}
 
         </BrowserRouter>
     );
