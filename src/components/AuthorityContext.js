@@ -7,7 +7,7 @@ export const AuthorityProvider = (props) => {
     const [userList, setUserList] = useState([]);
     const [currentUser, setCurrentUser] = useState({
         loggedIn: false,
-        authenticated: false,
+        loaded: false,
         username: null,
         displayname: null,
         email: null,

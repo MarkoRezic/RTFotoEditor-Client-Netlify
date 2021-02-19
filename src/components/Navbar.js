@@ -28,9 +28,11 @@ const Navbar = () => {
     const [legalRoute, setLegalRoute] = useState(true);
 
     useEffect(() => {
-        checkLegalRoute().then(function (message) {
-            console.log(message);
-        })
+        if (currentUser.loaded) {
+            checkLegalRoute().then(function (message) {
+                console.log(message);
+            })
+        }
         // eslint-disable-next-line
     }, [currentUser]);
 
@@ -116,55 +118,55 @@ const Navbar = () => {
 
     return (
         <BrowserRouter>
-                <div className="blog-masthead break">
-                    <div className="container break">
-                        <Nav className="d-flex justify-content-center row">
+            <div className="blog-masthead break">
+                <div className="container break">
+                    <Nav className="d-flex justify-content-center row">
 
-                            <View authority={currentUser.authority} />
-                            {currentUser.loggedIn
-                                ? <Dropdown className="dropdown open">
-                                    <Dropdown.Toggle className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <BootstrapIcon type={5} />
-                                    </Dropdown.Toggle>
-                                    <Dropdown.Menu className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
-                                        <NavLink className="item-link dropdown-item" to="/profil"><BootstrapIcon type={6} /> Profil</NavLink>
+                        <View authority={currentUser.authority} />
+                        {currentUser.loggedIn
+                            ? <Dropdown className="dropdown open">
+                                <Dropdown.Toggle className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <BootstrapIcon type={5} />
+                                </Dropdown.Toggle>
+                                <Dropdown.Menu className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+                                    <NavLink className="item-link dropdown-item" to="/profil"><BootstrapIcon type={6} /> Profil</NavLink>
 
-                                        <Dropdown.Divider className="dropdown-divider"></Dropdown.Divider>
-                                        <NavLink to="/postavke" className="item-link dropdown-item"><BootstrapIcon type={7} /> Postavke</NavLink>
+                                    <Dropdown.Divider className="dropdown-divider"></Dropdown.Divider>
+                                    <NavLink to="/postavke" className="item-link dropdown-item"><BootstrapIcon type={7} /> Postavke</NavLink>
 
-                                        <Dropdown.Divider className="dropdown-divider"></Dropdown.Divider>
-                                        <NavLink to="/login" onClick={logout} className="item-link dropdown-item"><BootstrapIcon type={8} /> Log Out</NavLink>
+                                    <Dropdown.Divider className="dropdown-divider"></Dropdown.Divider>
+                                    <NavLink to="/login" onClick={logout} className="item-link dropdown-item"><BootstrapIcon type={8} /> Log Out</NavLink>
 
-                                    </Dropdown.Menu>
-                                </Dropdown>
+                                </Dropdown.Menu>
+                            </Dropdown>
 
-                                : null
-                            }
+                            : null
+                        }
 
-                        </Nav>
+                    </Nav>
+                </div>
+            </div>
+            <div>
+                {window.location.pathname === '/' ? <Redirect to='/home' /> : null}
+                {legalRoute
+                    ? <div>
+                        {(currentUser.verified === 'no') ? <ConfirmPanel /> : ''}
+                        <Switch>
+                            <Route path='/home' component={Home}></Route>
+                            <Route exact path='/posts' component={Posts}></Route>
+                            <Route path='/posts/:id' render={(props) => <Post {...props} />}></Route>
+                            <Route path='/editor' component={Editor}></Route>
+                            <Route path='/users' component={Users}></Route>
+                            <Route path='/login' component={Login}></Route>
+                            <Route path='/register' component={Register}></Route>
+                            <Route path='/inbox' component={Inbox}></Route>
+                            <Route path='/profil' component={Profil}></Route>
+                            <Route path='/postavke' component={Postavke}></Route>
+                        </Switch>
                     </div>
-                </div>
-                <div>
-                    {window.location.pathname === '/' ? <Redirect to='/home' /> : null}
-                    {legalRoute
-                        ? <div>
-                            {(currentUser.verified === 'no') ? <ConfirmPanel /> : ''}
-                            <Switch>
-                                <Route path='/home' component={Home}></Route>
-                                <Route exact path='/posts' component={Posts}></Route>
-                                <Route path='/posts/:id' render={(props) => <Post {...props} />}></Route>
-                                <Route path='/editor' component={Editor}></Route>
-                                <Route path='/users' component={Users}></Route>
-                                <Route path='/login' component={Login}></Route>
-                                <Route path='/register' component={Register}></Route>
-                                <Route path='/inbox' component={Inbox}></Route>
-                                <Route path='/profil' component={Profil}></Route>
-                                <Route path='/postavke' component={Postavke}></Route>
-                            </Switch>
-                        </div>
-                        : <Error403 path={window.location.pathname} />}
-                    {currentUser.loggedIn && (window.location.pathname === '/login' || window.location.pathname === '/register') ? <Redirect to='/home' /> : null}
-                </div>
+                    : <Error403 path={window.location.pathname} />}
+                {currentUser.loggedIn && (window.location.pathname === '/login' || window.location.pathname === '/register') ? <Redirect to='/home' /> : null}
+            </div>
         </BrowserRouter>
     );
 }
