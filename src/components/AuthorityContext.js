@@ -22,6 +22,18 @@ export const AuthorityProvider = (props) => {
     //let url = 'http://localhost:3001';
 
     useEffect(() => {
+        setLoaded(false);
+        window.onpopstate = function (event) {
+            setLoaded(false);
+            Axios.post(url + '/loginStatus').then((response => {
+                console.log(response);
+                let userMatch = response.data;
+                window.scrollTo(0, 0);
+                setAuthority({ loginStatus: userMatch.loggedIn, authority: userMatch.authority });
+                setCurrentUser(userMatch);
+                setLoaded(true);
+            }))
+        }
         Axios.post(url + '/loginStatus').then((response => {
             console.log(response);
             let userMatch = response.data;

@@ -30,16 +30,11 @@ const Navbar = () => {
     let local_authority = authority;
 
     useEffect(() => {
-        window.onpopstate = function (event) {
-            window.location.reload();
+        if (loaded) {
+            checkLegalRoute(currentUser).then(function (message) {
+                console.log(message);
+            })
         }
-        // eslint-disable-next-line
-    }, []);
-
-    useEffect(() => {
-        checkLegalRoute(currentUser).then(function (message) {
-            console.log(message);
-        })
         // eslint-disable-next-line
     }, [loaded]);
 
