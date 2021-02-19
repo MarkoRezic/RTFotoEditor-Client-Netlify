@@ -4,7 +4,6 @@ import Axios from 'axios';
 import { AuthorityContext } from './AuthorityContext';
 import { checkText } from 'smile2emoji';
 import { Dropdown, DropdownButton } from 'react-bootstrap';
-import { Redirect } from 'react-router-dom';
 
 const Editor = (props) => {
     // eslint-disable-next-line
@@ -18,7 +17,6 @@ const Editor = (props) => {
     const [description, setDescription] = useState('');
     const [postView, setPostView] = useState('Public');
     const [isLoading, setIsLoading] = useState(false);
-    const [redirect, setRedirect] = useState(false);
 
     const handleFileInputChange = (e) => {
         const file = e.target.files[0];
@@ -64,13 +62,12 @@ const Editor = (props) => {
         }).then((response) => {
             console.log(response.data.id);
             setIsLoading(false);
-            setRedirect(response.data.id);
+            props.history.push('/posts');
         })
     }
 
     return (
         <div>
-            {(redirect !== false) ? <Redirect to={'/posts/' + redirect} /> : null}
             <div className="blog-header">
                 <div className="container btrans">
                     <h1 className="text-center"><strong>Foto Editor</strong></h1>
