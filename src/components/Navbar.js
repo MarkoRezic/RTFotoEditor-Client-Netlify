@@ -53,8 +53,8 @@ const Navbar = () => {
     //The set of functions that I want to call in order
     function initialSet() {
         var legalRouteList = [];
-        if (localUser.loggedIn) {
-            switch (localUser.authority) {
+        if (currentUser.loggedIn) {
+            switch (currentUser.authority) {
                 case 'user':
                     legalRouteList = ['/home', '/posts', '/editor', '/login', '/register', '/inbox', '/profil', '/postavke'];
                     break;
@@ -127,6 +127,7 @@ const Navbar = () => {
                 //window.location.reload();
             });
             setCurrentUser(response.data);
+            setLocalUser(response.data);
             setLegalRoute(true);
         })
     }
