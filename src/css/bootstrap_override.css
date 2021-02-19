@@ -457,7 +457,7 @@
 	margin: auto;
 }
 .centeredContainer{
-	text-align: left;
+	text-align: center;
 }
 .PostLarge{
 	display: flex;
@@ -468,6 +468,7 @@
 	border: 2px solid #555;
     border-radius: 10px;
     overflow: hidden;
+	width: 100%;
 }
 .postHeader{
 	background-color: #333;
