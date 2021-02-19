@@ -52,7 +52,7 @@ const Navbar = () => {
 
     //The set of functions that I want to call in order
     function initialSet() {
-        let legalRouteList = [];
+        var legalRouteList = [];
         if (localUser.loggedIn) {
             switch (localUser.authority) {
                 case 'user':
@@ -80,7 +80,7 @@ const Navbar = () => {
     }
 
     function setRealValues(legalRouteList) {
-        let flag = true;
+        var flag = true;
         for (var i = 0; i < legalRouteList.length; i++) {
             if (window.location.pathname === legalRouteList[i] || window.location.pathname.startsWith('/post/')) {
                 flag = false;
@@ -96,7 +96,7 @@ const Navbar = () => {
     }
 
     function validate(flag) {
-        let message = 'no redirect';
+        var message = 'no redirect';
         if (flag) {
             setLegalRoute(false);
             message = 'redirecting';
@@ -133,54 +133,60 @@ const Navbar = () => {
 
     return (
         <BrowserRouter>
-            <div className="blog-masthead break">
-                <div className="container break">
-                    <Nav className="d-flex justify-content-center row">
+            {localUser ?
+                <div className="blog-masthead break">
+                    <div className="container break">
+                        <Nav className="d-flex justify-content-center row">
 
-                        <View authority={localUser.authority} />
-                        {localUser.loggedIn
-                            ? <Dropdown className="dropdown open">
-                                <Dropdown.Toggle className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <BootstrapIcon type={5} />
-                                </Dropdown.Toggle>
-                                <Dropdown.Menu className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
-                                    <NavLink className="item-link dropdown-item" to="/profil"><BootstrapIcon type={6} /> Profil</NavLink>
+                            <View authority={localUser.authority} />
+                            {localUser.loggedIn
+                                ? <Dropdown className="dropdown open">
+                                    <Dropdown.Toggle className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <BootstrapIcon type={5} />
+                                    </Dropdown.Toggle>
+                                    <Dropdown.Menu className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+                                        <NavLink className="item-link dropdown-item" to="/profil"><BootstrapIcon type={6} /> Profil</NavLink>
 
-                                    <Dropdown.Divider className="dropdown-divider"></Dropdown.Divider>
-                                    <NavLink to="/postavke" className="item-link dropdown-item"><BootstrapIcon type={7} /> Postavke</NavLink>
+                                        <Dropdown.Divider className="dropdown-divider"></Dropdown.Divider>
+                                        <NavLink to="/postavke" className="item-link dropdown-item"><BootstrapIcon type={7} /> Postavke</NavLink>
 
-                                    <Dropdown.Divider className="dropdown-divider"></Dropdown.Divider>
-                                    <NavLink to="/login" onClick={logout} className="item-link dropdown-item"><BootstrapIcon type={8} /> Log Out</NavLink>
+                                        <Dropdown.Divider className="dropdown-divider"></Dropdown.Divider>
+                                        <NavLink to="/login" onClick={logout} className="item-link dropdown-item"><BootstrapIcon type={8} /> Log Out</NavLink>
 
-                                </Dropdown.Menu>
-                            </Dropdown>
+                                    </Dropdown.Menu>
+                                </Dropdown>
 
-                            : null
-                        }
+                                : null
+                            }
 
-                    </Nav>
+                        </Nav>
+                    </div>
                 </div>
-            </div>
-
-            {legalRoute
-                ? <div>
-                    {(localUser.verified === 'no') ? <ConfirmPanel /> : ''}
-                    <Switch>
-                        <Route path='/home' component={Home}></Route>
-                        <Route exact path='/posts' component={Posts}></Route>
-                        <Route path='/post/:id' render={(props) => <Post {...props} />}></Route>
-                        <Route path='/editor' component={Editor}></Route>
-                        <Route path='/users' component={Users}></Route>
-                        <Route path='/login' component={Login}></Route>
-                        <Route path='/register' component={Register}></Route>
-                        <Route path='/inbox' component={Inbox}></Route>
-                        <Route path='/profil' component={Profil}></Route>
-                        <Route path='/postavke' component={Postavke}></Route>
-                    </Switch>
+                : null
+            }
+            {localUser ?
+                <div>
+                    {legalRoute
+                        ? <div>
+                            {(localUser.verified === 'no') ? <ConfirmPanel /> : ''}
+                            <Switch>
+                                <Route path='/home' component={Home}></Route>
+                                <Route exact path='/posts' component={Posts}></Route>
+                                <Route path='/post/:id' render={(props) => <Post {...props} />}></Route>
+                                <Route path='/editor' component={Editor}></Route>
+                                <Route path='/users' component={Users}></Route>
+                                <Route path='/login' component={Login}></Route>
+                                <Route path='/register' component={Register}></Route>
+                                <Route path='/inbox' component={Inbox}></Route>
+                                <Route path='/profil' component={Profil}></Route>
+                                <Route path='/postavke' component={Postavke}></Route>
+                            </Switch>
+                        </div>
+                        : <Error403 path={window.location.pathname} />}
+                    {localUser.loggedIn && (window.location.pathname === '/login' || window.location.pathname === '/register') ? <Redirect to='/home' /> : null}
                 </div>
-                : <Error403 path={window.location.pathname} />}
-            {localUser.loggedIn && (window.location.pathname === '/login' || window.location.pathname === '/register') ? <Redirect to='/home' /> : null}
-
+                : null
+            }
         </BrowserRouter>
     );
 }
