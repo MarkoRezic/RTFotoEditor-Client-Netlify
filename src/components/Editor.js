@@ -4,6 +4,7 @@ import Axios from 'axios';
 import { AuthorityContext } from './AuthorityContext';
 import { checkText } from 'smile2emoji';
 import { Dropdown, DropdownButton } from 'react-bootstrap';
+import { Redirect } from 'react-router-dom';
 
 const Editor = (props) => {
     // eslint-disable-next-line
