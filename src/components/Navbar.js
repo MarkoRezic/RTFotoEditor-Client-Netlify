@@ -66,7 +66,7 @@ const Navbar = () => {
     function setRealValues(legalRouteList) {
         var flag = true;
         for (var i = 0; i < legalRouteList.length; i++) {
-            if (window.location.pathname === legalRouteList[i] || window.location.pathname.startsWith('/post/')) {
+            if (window.location.pathname === legalRouteList[i] || window.location.pathname.startsWith('/posts/')) {
                 flag = false;
                 setLegalRoute(true);
                 return new Promise(function (resolve, reject) {
@@ -152,7 +152,7 @@ const Navbar = () => {
                             <Switch>
                                 <Route path='/home' component={Home}></Route>
                                 <Route exact path='/posts' component={Posts}></Route>
-                                <Route path='/post/:id' render={(props) => <Post {...props} />}></Route>
+                                <Route path='/posts/:id' render={(props) => <Post {...props} />}></Route>
                                 <Route path='/editor' component={Editor}></Route>
                                 <Route path='/users' component={Users}></Route>
                                 <Route path='/login' component={Login}></Route>

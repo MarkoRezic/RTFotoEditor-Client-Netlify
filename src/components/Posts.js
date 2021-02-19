@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import Axios from 'axios';
 import { Image } from 'cloudinary-react';
 import { AuthorityContext } from './AuthorityContext';
-import { Redirect } from 'react-router';
+import { Redirect, NavLink } from 'react-router';
 
 const Posts = () => {
     // eslint-disable-next-line
@@ -21,13 +21,6 @@ const Posts = () => {
     useEffect(() => {
         loadImages();
     }, [currentUser]);
-
-    function redirectReload(redirectPath) {
-        window.history.pushState({}, '', redirectPath);
-        return new Promise(function (resolve, reject) {
-            resolve();
-        })
-    }
 
     return (
         <div>
@@ -48,9 +41,9 @@ const Posts = () => {
                             <div className="centeredContainer">
                                 {posts &&
                                     posts.map((post) => (
-                                        <div className="postContainer">
+                                        <div className="postContainer" key={post.id}>
                                             <p>{post.displayname}</p>
-                                            <div className="postThumbnailContainer" onClick={() => { redirectReload('post/' + post.id).then(()=>{}) }} key={post.id}>
+                                            <NavLink to={'posts/' + post.id} className="postThumbnailContainer">
                                                 <Image
                                                     cloudName={'rt-foto-editor'}
                                                     publicId={post.public_id}
@@ -58,7 +51,7 @@ const Posts = () => {
                                                     crop="scale"
                                                     className="postThumbnailImage"
                                                 />
-                                            </div>
+                                            </NavLink>
                                         </div>
                                     ))}
                             </div>

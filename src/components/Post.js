@@ -19,22 +19,14 @@ const Post = (props) => {
             Axios.get(url + '/posts/' + props.match.params.id).then((response) => {
                 console.log(response);
                 setPost(response.data[0]);
-                //setIsLoading(false);
+                setIsLoading(false);
             });
         }
-        else redirectReload('/login').then((response) => { window.location.reload(); });
     };
     useEffect(() => {
         console.log(currentUser.loggedIn);
         loadPost();
     }, [currentUser]);
-
-    function redirectReload(redirectPath) {
-        window.history.pushState({}, '', redirectPath);
-        return new Promise(function (resolve, reject) {
-            resolve();
-        })
-    }
 
     return (
 
