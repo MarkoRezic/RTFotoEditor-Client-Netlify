@@ -7,7 +7,7 @@ import { Dropdown, DropdownButton } from 'react-bootstrap';
 
 const Editor = () => {
     // eslint-disable-next-line
-    const [{ loginStatus, authority }, setAuthority, userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
+    const [userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
     Axios.defaults.withCredentials = true;
     let url = 'https://rt-foto-editor.herokuapp.com';
     //let url = 'http://localhost:3001';
@@ -124,7 +124,7 @@ const Editor = () => {
 
                                 </div>
                                 <hr className="round" />
-                                {loginStatus ?
+                                {currentUser.loggedIn ?
                                     <div>
                                         <Form.Group controlId="newPostDescription">
                                             <Form.Label>Description</Form.Label>

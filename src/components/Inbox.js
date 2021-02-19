@@ -7,7 +7,7 @@ import BootstrapIcon from '../svg icons/BootstrapIcon';
 
 const Inbox = () => {
     // eslint-disable-next-line
-    const [{ loginStatus, authority }, setAuthority, userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
+    const [userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
     Axios.defaults.withCredentials = true;
     let url = 'https://rt-foto-editor.herokuapp.com';
     //let url = 'http://localhost:3001';
@@ -36,7 +36,7 @@ const Inbox = () => {
             setUserList([...response.data]);
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [loginStatus, authority, currentUser]);
+    }, [currentUser]);
 
     useEffect(() => {
         updateMessages();

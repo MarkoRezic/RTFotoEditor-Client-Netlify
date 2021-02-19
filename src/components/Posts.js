@@ -6,7 +6,7 @@ import { Redirect } from 'react-router';
 
 const Posts = () => {
     // eslint-disable-next-line
-    const [loaded, { loginStatus, authority }, setAuthority, userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
+    const [userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
     Axios.defaults.withCredentials = true;
     let url = 'https://rt-foto-editor.herokuapp.com';
     //let url = 'http://localhost:3001';
@@ -19,8 +19,8 @@ const Posts = () => {
         });
     };
     useEffect(() => {
-        if(loaded) loadImages();
-    }, [loaded]);
+        loadImages();
+    }, [currentUser]);
 
     function redirectReload(redirectPath) {
         window.history.pushState({}, '', redirectPath);

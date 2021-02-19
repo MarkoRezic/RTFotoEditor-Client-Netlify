@@ -4,7 +4,7 @@ import { AuthorityContext } from './AuthorityContext';
 
 const ConfirmPanel = () => {
 
-    const [{ loginStatus, authority }, setAuthority, userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
+    const [userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
     Axios.defaults.withCredentials = true;
     let url = 'https://rt-foto-editor.herokuapp.com';
     let id = currentUser.id;

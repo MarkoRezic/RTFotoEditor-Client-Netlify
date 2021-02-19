@@ -20,35 +20,19 @@ import Post from './Post';
 
 const Navbar = () => {
     // eslint-disable-next-line
-    const [loaded, { loginStatus, authority }, setAuthority, userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
+    const [userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
     Axios.defaults.withCredentials = true;
     let url = 'https://rt-foto-editor.herokuapp.com';
     //let url = 'http://localhost:3001';
 
     const [legalRoute, setLegalRoute] = useState(true);
-    const [localUser, setLocalUser] = useState({
-        loggedIn: false,
-        authenticated: false,
-        username: null,
-        displayname: null,
-        email: null,
-        id: null,
-        authority: 'guest',
-        verified: 'guest'
-    });
 
-    useEffect(() => {
-        if (loaded) {
-            setLocalUser(currentUser);
-        }
-        // eslint-disable-next-line
-    }, [loaded]);
     useEffect(() => {
         checkLegalRoute().then(function (message) {
             console.log(message);
         })
         // eslint-disable-next-line
-    }, [localUser]);
+    }, [currentUser]);
 
     //The set of functions that I want to call in order
     function initialSet() {
@@ -127,20 +111,18 @@ const Navbar = () => {
                 //window.location.reload();
             });
             setCurrentUser(response.data);
-            setLocalUser(response.data);
             setLegalRoute(true);
         })
     }
 
     return (
         <BrowserRouter>
-            {localUser ?
                 <div className="blog-masthead break">
                     <div className="container break">
                         <Nav className="d-flex justify-content-center row">
 
-                            <View authority={localUser.authority} />
-                            {localUser.loggedIn
+                            <View authority={currentUser.authority} />
+                            {currentUser.loggedIn
                                 ? <Dropdown className="dropdown open">
                                     <Dropdown.Toggle className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <BootstrapIcon type={5} />
@@ -163,13 +145,10 @@ const Navbar = () => {
                         </Nav>
                     </div>
                 </div>
-                : null
-            }
-            {localUser ?
                 <div>
                     {legalRoute
                         ? <div>
-                            {(localUser.verified === 'no') ? <ConfirmPanel /> : ''}
+                            {(currentUser.verified === 'no') ? <ConfirmPanel /> : ''}
                             <Switch>
                                 <Route path='/home' component={Home}></Route>
                                 <Route exact path='/posts' component={Posts}></Route>
@@ -184,10 +163,8 @@ const Navbar = () => {
                             </Switch>
                         </div>
                         : <Error403 path={window.location.pathname} />}
-                    {localUser.loggedIn && (window.location.pathname === '/login' || window.location.pathname === '/register') ? <Redirect to='/home' /> : null}
+                    {currentUser.loggedIn && (window.location.pathname === '/login' || window.location.pathname === '/register') ? <Redirect to='/home' /> : null}
                 </div>
-                : null
-            }
         </BrowserRouter>
     );
 }

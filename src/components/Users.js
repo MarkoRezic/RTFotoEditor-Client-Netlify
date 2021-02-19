@@ -6,7 +6,7 @@ import BootstrapIcon from '../svg icons/BootstrapIcon';
 import { Dropdown, DropdownButton } from 'react-bootstrap';
 
 const Users = () => {
-    const [{ loginStatus, authority }, setAuthority, userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
+    const [userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
     Axios.defaults.withCredentials = true;
     let url = 'https://rt-foto-editor.herokuapp.com';
 
@@ -51,7 +51,7 @@ const Users = () => {
                                     <br />ID: {user.id}
                                 </p>
                             </div>
-                            {authority === 'super-admin'
+                            {currentUser.authority === 'super-admin'
                                 ? <div className="profile-buttons">
                                     {(user.authority === 'super-admin') ? null : <button onClick={() => { removeUser(user.id) }}>Remove</button>}
                                     {(user.authority === 'super-admin') ? null

@@ -7,7 +7,7 @@ import BootstrapIcon from '../svg icons/BootstrapIcon.js';
 
 const Register = () => {
     // eslint-disable-next-line
-    const [{ loginStatus, authority }, setAuthority, userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
+    const [userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
     Axios.defaults.withCredentials = true;
     let url = 'https://rt-foto-editor.herokuapp.com';
     //let url = 'http://localhost:3001';
@@ -32,7 +32,7 @@ const Register = () => {
         Axios.get(url + '/users').then((response) => {
             setUserList([...response.data]);
         });
-        if (loginStatus) {
+        if (currentUser.loggedIn) {
             window.scrollTo(0, 0);
             setRedirect(true);
         }
@@ -137,7 +137,6 @@ const Register = () => {
                         if (autoLogin) {
                             let userMatch = response.data;
                             setCurrentUser(userMatch);
-                            setAuthority({ loginStatus: true, authority: userMatch.authority });
                             setRedirect(true);
                         }
                         else window.location.reload();
