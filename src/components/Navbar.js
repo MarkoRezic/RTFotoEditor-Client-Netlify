@@ -145,6 +145,7 @@ const Navbar = () => {
                     </div>
                 </div>
                 <div>
+                    {window.location.pathname === '/' ? <Redirect to='/home' /> : null}
                     {legalRoute
                         ? <div>
                             {(currentUser.verified === 'no') ? <ConfirmPanel /> : ''}

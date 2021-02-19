@@ -13,52 +13,21 @@ const Error403 = (props) => {
         return () => clearInterval(timer);
     }, [counter]);
 
-    if (props.path === '/') {
-        props.history.push('/home');
-
-        return (
-            <div className="d-flex justify-content-center">
-                <div>
-                    <p>Redirecting to home page</p>
-                </div>
+    useEffect(() => {
+        if (counter <= 0) {
+            props.history.push(currentUser.loggedIn ? '/home' : '/login');
+            window.location.reload();
+        }
+    }, [counter]);
+    return (
+        <div className="d-flex justify-content-center">
+            <div>
+                <h1>Error 403</h1>
+                <p>You do not have access to that page.</p>
+                <p>Redirecting to home page in {counter}...</p>
             </div>
-        );
-    }
-    else if (currentUser.loggedIn) {
-        setTimeout(() => {
-            if (currentUser.loggedIn) {
-                props.history.push('/home');
-            }
-        }, 3000);
-
-        return (
-            <div className="d-flex justify-content-center">
-                <div>
-                    <h1>Error 403</h1>
-                    <p>You do not have access to that page.</p>
-                    <p>Redirecting to home page in {counter}...</p>
-                </div>
-            </div>
-        );
-    }
-
-    else {
-        setTimeout(() => {
-            if (!currentUser.loggedIn) {
-                props.history.push('/login');
-            }
-        }, 3000);
-
-        return (
-            <div className="d-flex justify-content-center">
-                <div>
-                    <h1>Error 403</h1>
-                    <p>You do not have access to that page.</p>
-                    <p>Redirecting to login page in {counter}...</p>
-                </div>
-            </div>
-        );
-    }
+        </div>
+    );
 }
 
 export default withRouter(Error403);
