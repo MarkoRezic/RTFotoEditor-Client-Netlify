@@ -5,7 +5,7 @@ import { AuthorityContext } from './AuthorityContext';
 import { checkText } from 'smile2emoji';
 import { Dropdown, DropdownButton } from 'react-bootstrap';
 
-const Editor = () => {
+const Editor = (props) => {
     // eslint-disable-next-line
     const [userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
     Axios.defaults.withCredentials = true;
@@ -16,6 +16,7 @@ const Editor = () => {
     const [previewSource, setPreviewSource] = useState('');
     const [description, setDescription] = useState('');
     const [postView, setPostView] = useState('Public');
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleFileInputChange = (e) => {
         const file = e.target.files[0];
@@ -45,18 +46,23 @@ const Editor = () => {
     }
 
     const postImage = (base64EncodedImage) => {
+        var tempDescription = description;
+        var tempPostView = postView;
+        setFileInputState('');
+        setPreviewSource('');
+        setDescription('');
+        setPostView('Public');
+        setIsLoading(true);
+        if (document.getElementById('fileUploadForm')) document.getElementById('fileUploadForm').reset();
         Axios.post(url + '/image/upload/post', {
             data: base64EncodedImage,
             userID: currentUser.id,
-            description: description,
-            view: postView
+            description: tempDescription,
+            view: tempPostView
         }).then((response) => {
             console.log(response);
-            setFileInputState('');
-            setPreviewSource('');
-            setDescription('');
-            setPostView('Public');
-            if (document.getElementById('fileUploadForm')) document.getElementById('fileUploadForm').reset();
+            setIsLoading(false);
+            props.history.push('/posts/'+response.data.id);
         })
     }
 
@@ -92,9 +98,12 @@ const Editor = () => {
                                         <button type="button" name="button" className="edit-button"></button>
                                     </div>
                                     <div className="col-6 placeholder">
-                                        {previewSource && (
-                                            <img src={previewSource} alt="selected file" className="previewSource" />
-                                        )}
+                                        {isLoading ?
+                                            <div className="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+                                            : previewSource ?
+                                                <img src={previewSource} alt="selected file" className="previewSource" />
+                                                : null
+                                        }
                                     </div>
                                     <div className="col-4 holder-sliders">
                                         <div className="d-flex justify-content-center my-4">
@@ -124,7 +133,7 @@ const Editor = () => {
 
                                 </div>
                                 <hr className="round" />
-                                {(currentUser.loggedIn && currentUser.verified==='verified') ?
+                                {(currentUser.loggedIn && currentUser.verified === 'verified') ?
                                     <div>
                                         <Form.Group controlId="newPostDescription">
                                             <Form.Label>Description</Form.Label>
