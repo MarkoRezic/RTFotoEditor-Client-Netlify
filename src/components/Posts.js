@@ -50,7 +50,7 @@ const Posts = () => {
                                     posts.map((post) => (
                                         <div className="postContainer">
                                             <p>{post.displayname}</p>
-                                            <div className="postThumbnailContainer" onClick={() => { redirectReload('posts/' + post.id).then(()=>{window.location.reload()}) }} key={post.id}>
+                                            <div className="postThumbnailContainer" onClick={() => { redirectReload('posts/' + post.id).then(()=>{}) }} key={post.id}>
                                                 <Image
                                                     cloudName={'rt-foto-editor'}
                                                     publicId={post.public_id}

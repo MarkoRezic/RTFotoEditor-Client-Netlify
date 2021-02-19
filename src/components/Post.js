@@ -25,6 +25,7 @@ const Post = (props) => {
         else redirectReload('/login').then((response) => { window.location.reload(); });
     };
     useEffect(() => {
+        console.log(currentUser.loggedIn);
         loadPost();
     }, [currentUser]);
 
