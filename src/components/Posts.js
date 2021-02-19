@@ -16,7 +16,9 @@ const Posts = () => {
     const loadImages = () => {
         Axios.get(url + '/posts/public').then((response) => {
             console.log(response);
-            setPosts(response.data);
+            setPosts(response.data.sort(function(a,b){
+                return a.id - b.id;
+            }));
             setIsLoading(false);
         });
     };
