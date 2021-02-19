@@ -65,7 +65,7 @@ const Post = (props) => {
                                         <p>{post.description}</p>
                                     </div>
                                 </div>
-                                : <Error403 path={window.location.pathname} />
+                                : null
                         }
                     </div>
                 </div>
