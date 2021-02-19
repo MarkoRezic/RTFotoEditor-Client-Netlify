@@ -7,7 +7,7 @@ import Error403 from './Error403';
 
 const Post = (props) => {
     // eslint-disable-next-line
-    const [{ loginStatus, authority }, setAuthority, userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
+    const [loaded, { loginStatus, authority }, setAuthority, userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
     Axios.defaults.withCredentials = true;
     let url = 'https://rt-foto-editor.herokuapp.com';
     //let url = 'http://localhost:3001';
@@ -26,8 +26,8 @@ const Post = (props) => {
     };
     useEffect(() => {
         console.log(currentUser.loggedIn);
-        loadPost();
-    }, [currentUser]);
+        if(loaded) loadPost();
+    }, [loaded]);
 
     function redirectReload(redirectPath) {
         window.history.pushState({}, '', redirectPath);

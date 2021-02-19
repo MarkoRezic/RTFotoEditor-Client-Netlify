@@ -6,7 +6,7 @@ import { Redirect } from 'react-router';
 
 const Posts = () => {
     // eslint-disable-next-line
-    const [{ loginStatus, authority }, setAuthority, userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
+    const [loaded, { loginStatus, authority }, setAuthority, userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
     Axios.defaults.withCredentials = true;
     let url = 'https://rt-foto-editor.herokuapp.com';
     //let url = 'http://localhost:3001';
@@ -19,8 +19,8 @@ const Posts = () => {
         });
     };
     useEffect(() => {
-        loadImages();
-    }, []);
+        if(loaded) loadImages();
+    }, [loaded]);
 
     function redirectReload(redirectPath) {
         window.history.pushState({}, '', redirectPath);
@@ -50,7 +50,7 @@ const Posts = () => {
                                     posts.map((post) => (
                                         <div className="postContainer">
                                             <p>{post.displayname}</p>
-                                            <div className="postThumbnailContainer" onClick={() => { redirectReload('posts/' + post.id).then(()=>{}) }} key={post.id}>
+                                            <div className="postThumbnailContainer" onClick={() => { redirectReload('post/' + post.id).then(()=>{}) }} key={post.id}>
                                                 <Image
                                                     cloudName={'rt-foto-editor'}
                                                     publicId={post.public_id}

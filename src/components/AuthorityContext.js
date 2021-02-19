@@ -4,6 +4,7 @@ import Axios from 'axios';
 export const AuthorityContext = createContext();
 
 export const AuthorityProvider = (props) => {
+    const [loaded, setLoaded] = useState(false);
     const [{ loginStatus, authority }, setAuthority] = useState({ loginStatus: false, authority: 'guest' });
     const [userList, setUserList] = useState([]);
     const [currentUser, setCurrentUser] = useState({
@@ -27,6 +28,7 @@ export const AuthorityProvider = (props) => {
             window.scrollTo(0, 0);
             setAuthority({ loginStatus: userMatch.loggedIn, authority: userMatch.authority });
             setCurrentUser(userMatch);
+            setLoaded(true);
         }))
         // eslint-disable-next-line
     }, []);
@@ -34,7 +36,7 @@ export const AuthorityProvider = (props) => {
 
 
     return (
-        <AuthorityContext.Provider value={[{ loginStatus, authority }, setAuthority, userList, setUserList, currentUser, setCurrentUser]}>
+        <AuthorityContext.Provider value={[loaded, setLoaded, { loginStatus, authority }, setAuthority, userList, setUserList, currentUser, setCurrentUser]}>
             {props.children}
         </AuthorityContext.Provider>
     );

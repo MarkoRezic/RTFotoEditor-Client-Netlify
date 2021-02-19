@@ -20,7 +20,7 @@ import Post from './Post';
 
 const Navbar = () => {
     // eslint-disable-next-line
-    const [{ loginStatus, authority }, setAuthority, userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
+    const [loaded, { loginStatus, authority }, setAuthority, userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
     Axios.defaults.withCredentials = true;
     let url = 'https://rt-foto-editor.herokuapp.com';
     //let url = 'http://localhost:3001';
@@ -41,7 +41,7 @@ const Navbar = () => {
             console.log(message);
         })
         // eslint-disable-next-line
-    }, [currentUser]);
+    }, [loaded]);
 
     function Authorize(loginStatus, authority) {
         local_loginStatus = loginStatus;
@@ -176,7 +176,7 @@ const Navbar = () => {
                     <Switch>
                         <Route path='/home' component={Home}></Route>
                         <Route exact path='/posts' component={Posts}></Route>
-                        <Route path='/posts/:id' render={(props) => <Post {...props} />}></Route>
+                        <Route path='/post/:id' render={(props) => <Post {...props} />}></Route>
                         <Route path='/editor' component={Editor}></Route>
                         <Route path='/users' component={Users}></Route>
                         <Route path='/login' component={Login}></Route>
