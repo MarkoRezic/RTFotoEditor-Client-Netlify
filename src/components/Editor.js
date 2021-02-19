@@ -124,7 +124,7 @@ const Editor = () => {
 
                                 </div>
                                 <hr className="round" />
-                                {currentUser.loggedIn ?
+                                {(currentUser.loggedIn && currentUser.verified==='verified') ?
                                     <div>
                                         <Form.Group controlId="newPostDescription">
                                             <Form.Label>Description</Form.Label>

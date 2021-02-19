@@ -460,7 +460,9 @@
 	text-align: left;
 }
 .PostLarge{
-
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 .postLargeContainer{
 	border: 2px solid #555;
