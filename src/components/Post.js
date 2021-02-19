@@ -15,7 +15,7 @@ const Post = (props) => {
     const [post, setPost] = useState();
     const [isLoading, setIsLoading] = useState(true);
     const loadPost = () => {
-        if (loginStatus) {
+        if (currentUser.loggedIn) {
             Axios.get(url + '/posts/' + props.match.params.id).then((response) => {
                 console.log(response);
                 setPost(response.data[0]);
@@ -26,7 +26,7 @@ const Post = (props) => {
     };
     useEffect(() => {
         loadPost();
-    }, [loginStatus]);
+    }, [currentUser]);
 
     function redirectReload(redirectPath) {
         window.history.pushState({}, '', redirectPath);

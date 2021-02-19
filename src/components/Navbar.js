@@ -30,39 +30,27 @@ const Navbar = () => {
     let local_authority = authority;
 
     useEffect(() => {
-        Axios.post(url + '/loginStatus').then((response) => {
-            checkLegalRoute(response).then(function (message) {
-                console.log(message);
-            })
-        })
         window.onpopstate = function (event) {
             window.location.reload();
-            Axios.get(url + '/loginStatus').then((response) => {
-                checkLegalRoute(response).then(function (message) {
-                    console.log(message);
-                })
-            })
         }
         // eslint-disable-next-line
     }, []);
 
+    useEffect(() => {
+        checkLegalRoute(currentUser).then(function (message) {
+            console.log(message);
+        })
+        // eslint-disable-next-line
+    }, [currentUser]);
+
     function Authorize(loginStatus, authority) {
-        setAuthority({ loginStatus: loginStatus, authority: authority });
         local_loginStatus = loginStatus;
         local_authority = authority;
     }
 
     //The set of functions that I want to call in order
-    function checkLoginStatus(response) {
-        if (response.data.loggedIn) {
-            let userMatch = response.data;
-            setCurrentUser(userMatch);
-            window.scrollTo(0, 0);
-            Authorize(true, userMatch.authority);
-        }
-        else {
-            Authorize(false, 'guest');
-        }
+    function checkLoginStatus(currentUser) {
+        Authorize(currentUser.loggedIn, currentUser.authority);
         return new Promise(function (resolve, reject) {
             resolve()
         })
@@ -125,8 +113,8 @@ const Navbar = () => {
     }
 
 
-    function checkLegalRoute(response) {
-        return checkLoginStatus(response)
+    function checkLegalRoute(currentUser) {
+        return checkLoginStatus(currentUser)
             .then(initialSet)
             .then(setRealValues)
             .then(validate)

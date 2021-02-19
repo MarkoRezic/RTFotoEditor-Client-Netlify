@@ -6,23 +6,27 @@ export const AuthorityContext = createContext();
 export const AuthorityProvider = (props) => {
     const [{ loginStatus, authority }, setAuthority] = useState({ loginStatus: false, authority: 'guest' });
     const [userList, setUserList] = useState([]);
-    const [currentUser, setCurrentUser] = useState({});
+    const [currentUser, setCurrentUser] = useState({
+        loggedIn: false,
+        authenticated: false,
+        username: null,
+        displayname: null,
+        email: null,
+        id: null,
+        authority: 'guest',
+        verified: 'guest'
+    });
     Axios.defaults.withCredentials = true;
     let url = 'https://rt-foto-editor.herokuapp.com';
     //let url = 'http://localhost:3001';
 
     useEffect(() => {
-        Axios.post(url+'/loginStatus').then((response => {
+        Axios.post(url + '/loginStatus').then((response => {
             console.log(response);
-            if (response.data.loggedIn) {
-                let userMatch = response.data;
-                window.scrollTo(0, 0);
-                setAuthority({ loginStatus: true, authority: userMatch.authority });
-                setCurrentUser(userMatch);
-            }
-            else {
-                setAuthority({ loginStatus: false, authority: 'guest' });
-            }
+            let userMatch = response.data;
+            window.scrollTo(0, 0);
+            setAuthority({ loginStatus: userMatch.loggedIn, authority: userMatch.authority });
+            setCurrentUser(userMatch);
         }))
         // eslint-disable-next-line
     }, []);
