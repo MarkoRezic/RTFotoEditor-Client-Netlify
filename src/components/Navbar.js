@@ -50,7 +50,6 @@ const Navbar = () => {
                     break;
                 default:
                     legalRouteList = ['/home', '/editor', '/login', '/register'];
-                    setLegalRoute(false);
                     break;
             }
 

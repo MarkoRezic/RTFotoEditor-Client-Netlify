@@ -13,9 +13,8 @@ const Error403 = (props) => {
         return () => clearInterval(timer);
     }, [counter]);
 
-    if(props.path === '/'){
+    if (props.path === '/') {
         props.history.push('/home');
-        window.location.reload();
 
         return (
             <div className="d-flex justify-content-center">
@@ -27,8 +26,9 @@ const Error403 = (props) => {
     }
     else if (currentUser.loggedIn) {
         setTimeout(() => {
-            props.history.push('/home');
-            window.location.reload();
+            if (currentUser.loggedIn) {
+                props.history.push('/home');
+            }
         }, 3000);
 
         return (
@@ -44,8 +44,9 @@ const Error403 = (props) => {
 
     else {
         setTimeout(() => {
-            props.history.push('/login');
-            window.location.reload();
+            if (!currentUser.loggedIn) {
+                props.history.push('/login');
+            }
         }, 3000);
 
         return (
