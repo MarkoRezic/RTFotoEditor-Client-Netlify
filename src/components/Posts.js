@@ -12,10 +12,12 @@ const Posts = () => {
     //let url = 'http://localhost:3001';
 
     const [posts, setPosts] = useState();
+    const [isLoading, setIsLoading] = useState(true);
     const loadImages = () => {
         Axios.get(url + '/posts/public').then((response) => {
             console.log(response);
             setPosts(response.data);
+            setIsLoading(false);
         });
     };
     useEffect(() => {
@@ -39,21 +41,24 @@ const Posts = () => {
                         <div className="blog-post Posts">
                             <hr className="round" />
                             <div className="centeredContainer">
-                                {posts &&
-                                    posts.map((post) => (
-                                        <div className="postContainer" key={post.id}>
-                                            <p>{post.displayname}</p>
-                                            <NavLink to={'posts/' + post.id} className="postThumbnailContainer">
-                                                <Image
-                                                    cloudName={'rt-foto-editor'}
-                                                    publicId={post.public_id}
-                                                    width="300"
-                                                    crop="scale"
-                                                    className="postThumbnailImage"
-                                                />
-                                            </NavLink>
-                                        </div>
-                                    ))}
+                                {isLoading ?
+                                    <div className="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+                                    : posts ?
+                                        posts.map((post) => (
+                                            <div className="postContainer" key={post.id}>
+                                                <p>{post.displayname}</p>
+                                                <NavLink to={'posts/' + post.id} className="postThumbnailContainer">
+                                                    <Image
+                                                        cloudName={'rt-foto-editor'}
+                                                        publicId={post.public_id}
+                                                        width="300"
+                                                        crop="scale"
+                                                        className="postThumbnailImage"
+                                                    />
+                                                </NavLink>
+                                            </div>
+                                        ))
+                                        : null}
                             </div>
                             <hr className="round" />
                         </div>

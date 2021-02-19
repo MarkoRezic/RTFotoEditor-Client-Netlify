@@ -109,8 +109,8 @@ const Navbar = () => {
             redirectReload('/login').then((response) => {
                 //window.location.reload();
             });
-            setCurrentUser(response.data);
             setLegalRoute(true);
+            setCurrentUser(response.data);
         })
     }
 
