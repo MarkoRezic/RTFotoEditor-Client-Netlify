@@ -17,6 +17,7 @@ const Editor = (props) => {
     const [description, setDescription] = useState('');
     const [postView, setPostView] = useState('Public');
     const [isLoading, setIsLoading] = useState(false);
+    const [redirect, setRedirect] = useState(false);
 
     const handleFileInputChange = (e) => {
         const file = e.target.files[0];
@@ -60,14 +61,15 @@ const Editor = (props) => {
             description: tempDescription,
             view: tempPostView
         }).then((response) => {
-            console.log(response);
+            console.log(response.data.id);
             setIsLoading(false);
-            props.history.push('/posts/'+response.data.id);
+            setRedirect(response.data.id);
         })
     }
 
     return (
         <div>
+            {(redirect !== false) ? <Redirect to={'/posts/' + redirect} /> : null}
             <div className="blog-header">
                 <div className="container btrans">
                     <h1 className="text-center"><strong>Foto Editor</strong></h1>

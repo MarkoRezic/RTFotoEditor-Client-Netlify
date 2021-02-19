@@ -49,7 +49,7 @@ const Posts = () => {
                                         posts.map((post) => (
                                             <div className="postContainer" key={post.id}>
                                                 <p>{post.displayname}</p>
-                                                <NavLink to={'posts/' + post.id} className="postThumbnailContainer">
+                                                <NavLink to={'/posts/' + post.id} className="postThumbnailContainer">
                                                     <Image
                                                         cloudName={'rt-foto-editor'}
                                                         publicId={post.public_id}
