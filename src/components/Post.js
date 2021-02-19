@@ -13,7 +13,9 @@ const Post = (props) => {
     //let url = 'http://localhost:3001';
 
     const [post, setPost] = useState();
+    const [isLoading, setIsLoading] = useState(true);
     const loadPost = () => {
+        setIsLoading(false);
         if (loginStatus) {
             Axios.get(url + '/posts/' + props.match.params.id).then((response) => {
                 console.log(response);
@@ -24,7 +26,7 @@ const Post = (props) => {
     };
     useEffect(() => {
         loadPost();
-    }, []);
+    }, [currentUser]);
 
     function redirectReload(redirectPath) {
         window.history.pushState({}, '', redirectPath);
@@ -42,26 +44,28 @@ const Post = (props) => {
                 <div className="col-sm-12 blog-main">
 
                     <div className="blog-post PostLarge">
-                        {(post && post.view === 'public') ?
-                            <div className="postLargeContainer">
-                                <div className="postHeader">
-                                    <p className="timestamp">{post.date.substr(8, 2) + '/' + post.date.substr(5, 2) + '/' + post.date.substr(0, 4)} {post.time}</p>
-                                    <p>Posted by: {post.displayname}<br />[{post.view}]</p>
+                        {isLoading ?
+                            <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+                            : (post && post.view === 'public') ?
+                                <div className="postLargeContainer">
+                                    <div className="postHeader">
+                                        <p className="timestamp">{post.date.substr(8, 2) + '/' + post.date.substr(5, 2) + '/' + post.date.substr(0, 4)} {post.time}</p>
+                                        <p>Posted by: {post.displayname}<br />[{post.view}]</p>
+                                    </div>
+                                    <div className="postPhotoContainer">
+                                        <Image
+                                            cloudName={'rt-foto-editor'}
+                                            publicId={post.public_id}
+                                            width="500"
+                                            crop="scale"
+                                            className="postImage"
+                                        />
+                                    </div>
+                                    <div className="postDescription">
+                                        <p>{post.description}</p>
+                                    </div>
                                 </div>
-                                <div className="postPhotoContainer">
-                                    <Image
-                                        cloudName={'rt-foto-editor'}
-                                        publicId={post.public_id}
-                                        width="500"
-                                        crop="scale"
-                                        className="postImage"
-                                    />
-                                </div>
-                                <div className="postDescription">
-                                    <p>{post.description}</p>
-                                </div>
-                            </div>
-                            : <Error403 path={window.location.pathname} />
+                                : <Error403 path={window.location.pathname} />
                         }
                     </div>
                 </div>
