@@ -26,35 +26,21 @@ const Navbar = () => {
     //let url = 'http://localhost:3001';
 
     const [legalRoute, setLegalRoute] = useState(true);
-    let local_loginStatus = loginStatus;
-    let local_authority = authority;
 
     useEffect(() => {
         if (loaded) {
-            checkLegalRoute(currentUser).then(function (message) {
+            checkLegalRoute().then(function (message) {
                 console.log(message);
             })
         }
         // eslint-disable-next-line
     }, [loaded]);
 
-    function Authorize(loginStatus, authority) {
-        local_loginStatus = loginStatus;
-        local_authority = authority;
-    }
-
     //The set of functions that I want to call in order
-    function checkLoginStatus(currentUser) {
-        Authorize(currentUser.loggedIn, currentUser.authority);
-        return new Promise(function (resolve, reject) {
-            resolve()
-        })
-    }
-
     function initialSet() {
         let legalRouteList = [];
-        if (local_loginStatus) {
-            switch (local_authority) {
+        if (currentUser.loggedIn) {
+            switch (currentUser.authority) {
                 case 'user':
                     legalRouteList = ['/home', '/posts', '/editor', '/login', '/register', '/inbox', '/profil', '/postavke'];
                     break;
@@ -66,7 +52,6 @@ const Navbar = () => {
                     break;
                 default:
                     legalRouteList = ['/home', '/editor', '/login', '/register'];
-                    Authorize(false, 'guest');
                     setLegalRoute(false);
                     break;
             }
@@ -108,9 +93,8 @@ const Navbar = () => {
     }
 
 
-    function checkLegalRoute(currentUser) {
-        return checkLoginStatus(currentUser)
-            .then(initialSet)
+    function checkLegalRoute() {
+        return initialSet()
             .then(setRealValues)
             .then(validate)
     }
@@ -125,12 +109,11 @@ const Navbar = () => {
 
     function logout() {
         Axios.get(url + '/logout').then((response) => {
-            setCurrentUser(response.data);
-            Authorize(false, 'guest');
-            setLegalRoute(true);
             redirectReload('/login').then((response) => {
-                window.location.reload();
+                //window.location.reload();
             });
+            setCurrentUser(response.data);
+            setLegalRoute(true);
         })
     }
 
@@ -140,8 +123,8 @@ const Navbar = () => {
                 <div className="container break">
                     <Nav className="d-flex justify-content-center row">
 
-                        <View authority={local_authority} />
-                        {local_loginStatus
+                        <View authority={currentUser.authority} />
+                        {currentUser.loggedIn
                             ? <Dropdown className="dropdown open">
                                 <Dropdown.Toggle className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <BootstrapIcon type={5} />
@@ -182,7 +165,7 @@ const Navbar = () => {
                     </Switch>
                 </div>
                 : <Error403 path={window.location.pathname} />}
-            {local_loginStatus && (window.location.pathname === '/login' || window.location.pathname === '/register') ? <Redirect to='/home' /> : null}
+            {currentUser.loggedIn && (window.location.pathname === '/login' || window.location.pathname === '/register') ? <Redirect to='/home' /> : null}
 
         </BrowserRouter>
     );
