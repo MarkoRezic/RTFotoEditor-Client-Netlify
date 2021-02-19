@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import Axios from 'axios';
 import { Image } from 'cloudinary-react';
 import { AuthorityContext } from './AuthorityContext';
-import { Redirect, NavLink } from 'react-router';
+import { NavLink } from 'react-router-dom';
 
 const Posts = () => {
     // eslint-disable-next-line
