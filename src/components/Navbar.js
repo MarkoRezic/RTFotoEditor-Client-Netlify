@@ -88,7 +88,7 @@ const Navbar = () => {
     function setRealValues(legalRouteList) {
         let flag = true;
         for (var i = 0; i < legalRouteList.length; i++) {
-            if (window.location.pathname === legalRouteList[i] || window.location.pathname.startsWith('/posts')) {
+            if (window.location.pathname === legalRouteList[i] || window.location.pathname.startsWith('/post/')) {
                 flag = false;
                 setLegalRoute(true);
                 return new Promise(function (resolve, reject) {
