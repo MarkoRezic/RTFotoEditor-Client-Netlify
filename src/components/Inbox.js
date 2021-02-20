@@ -61,10 +61,10 @@ const Inbox = () => {
             setMessages([...mergeChunks(makeChunks(messagesRecieved, "sender_id"), makeChunks(removeSelfSent(messagesSent, messagesRecieved), "reciever_id"), "sender_id", "reciever_id")].sort(function (a, b) {
                 return b[0]["id"] - a[0]["id"];
             }))
-            if (currentUser.loaded && messages.length) setIsLoading(false);
+            if (currentUser.loaded && messages && messages.length) setIsLoading(false);
             else{
                 window.setTimeout(function(){
-                    setIsLoading(false);
+                    if(currentUser.loaded && messages) setIsLoading(false);
                 },3000);
             }
         }
