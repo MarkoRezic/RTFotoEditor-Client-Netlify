@@ -26,8 +26,7 @@ const Inbox = () => {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        setIsLoading(true);
-        if (currentUser.loaded && currentUser.loggedIn) {
+        if (currentUser.loaded) {
             Axios.get(url + '/users').then((response) => {
                 setUserList([...response.data]);
             });
@@ -36,7 +35,7 @@ const Inbox = () => {
     }, []);
 
     useEffect(() => {
-        if (currentUser.loaded && currentUser.loggedIn) {
+        if (currentUser.loaded) {
             Axios.get(url + '/users').then((response) => {
                 setUserList([...response.data]);
             });
