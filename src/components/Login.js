@@ -57,6 +57,7 @@ const Login = () => {
             });
 
             if (validUsername === 1 && validPassword === 1) {
+                window.scrollTo(0,0);
                 setCurrentUser(userMatch);
                 setRedirect(true);
             }

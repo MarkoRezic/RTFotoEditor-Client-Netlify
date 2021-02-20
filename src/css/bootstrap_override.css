@@ -308,13 +308,13 @@
 	margin-top: 0.4rem;
 }
 .Chat{
-	max-height: 33rem !important;
+	max-height: 30.5rem !important;
     overflow: hidden;
     box-shadow: 0px -20px 20px #444 inset;
 }
 .Chat-messages{
 	overflow: auto;
-    max-height: 23rem;
+    max-height: 20rem;
     display: flex;
     flex-direction: column-reverse;
 }

@@ -64,7 +64,6 @@ const Inbox = () => {
 
     useEffect(() => {
         if (document.getElementById('sendMessageInputID')) document.getElementById('sendMessageInputID').focus();
-        else if (document.getElementById('newMessageUsername')) document.getElementById('newMessageUsername').focus();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [chat]);
 
@@ -236,6 +235,7 @@ const Inbox = () => {
         });
         setUsername('');
         setUsernameError('');
+        if (document.getElementById('newMessageUsername')) document.getElementById('newMessageUsername').focus();
     }
 
     return (
