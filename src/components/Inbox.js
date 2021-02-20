@@ -23,6 +23,7 @@ const Inbox = () => {
     const [text, setText] = useState('');
     const [sentText, setSentText] = useState('');
     const [usernameError, setUsernameError] = useState('');
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         Axios.get(url + '/users').then((response) => {
@@ -59,6 +60,7 @@ const Inbox = () => {
 
     useEffect(() => {
         findChat(chat.other_id);
+        setIsLoading(false);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [messages]);
 
@@ -255,8 +257,9 @@ const Inbox = () => {
                             <p className="chat-name">Razgovori: {messages.length}</p>
                             <button className="sendButton newSend" onClick={newMessage} name="button"><BootstrapIcon type={20} />+</button>
                             <hr className="round" />
-                            {
-                                messages.map(messageChat => {
+                            {isLoading ?
+                                <div className="lds-spinner-small"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+                                : messages.map(messageChat => {
                                     return (
                                         <div className={getNewMessages(messageChat) ? 'message' : 'message opened'} onClick={() => { openMessages(messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id); }} key={messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id}>
                                             <div className="message-text">

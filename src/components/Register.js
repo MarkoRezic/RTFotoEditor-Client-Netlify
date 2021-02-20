@@ -26,12 +26,10 @@ const Register = () => {
     });
     const [showPassword, toggleShowPassword] = useState(false);
     const [showRepassword, toggleShowRepassword] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
 
     useEffect(() => {
-        Axios.get(url + '/users').then((response) => {
-            setUserList([...response.data]);
-        });
         if (currentUser.loggedIn) {
             setRedirect(true);
         }
@@ -94,6 +92,7 @@ const Register = () => {
 
     function addUser(e) {
         e.preventDefault();
+        setIsLoading(true);
 
         Axios.get(url + '/users').then((response) => {
             setUserList([...response.data]);
@@ -115,11 +114,8 @@ const Register = () => {
                     email: email.toLowerCase(),
                     username: username,
                     password: password,
-                    authority: 3
+                    authority: 'user'
                 }).then(() => {
-                    Axios.get(url + '/users').then((response) => {
-                        setUserList([...response.data]);
-                    });
                     console.log('user registered');
                     window.scrollTo(0, 0);
                     Axios.post(url + '/login', {
@@ -132,6 +128,7 @@ const Register = () => {
                         }).then(() => {
                             console.log('email sent');
                         });
+                        setIsLoading(false);
 
                         if (autoLogin) {
                             let userMatch = response.data;
@@ -142,6 +139,7 @@ const Register = () => {
                     });
                 })
             }
+            else setIsLoading(false);
         });
 
 
@@ -199,7 +197,7 @@ const Register = () => {
                                         <Form.Label srOnly>Password</Form.Label>
                                         <InputGroup className="mb-2">
                                             <InputGroup.Prepend>
-                                                <InputGroup.Text onClick={()=>{toggleShowPassword(!showPassword)}}><BootstrapIcon type={showPassword ? 17 : 16} /></InputGroup.Text>
+                                                <InputGroup.Text onClick={() => { toggleShowPassword(!showPassword) }}><BootstrapIcon type={showPassword ? 17 : 16} /></InputGroup.Text>
                                             </InputGroup.Prepend>
                                             <Form.Control type={showPassword ? "text" : "password"} onChange={(e) => { setPassword(e.target.value) }} placeholder="Enter password" />
                                             <InputGroup.Append>
@@ -212,7 +210,7 @@ const Register = () => {
                                         <Form.Label srOnly>Repeat password</Form.Label>
                                         <InputGroup className="mb-2">
                                             <InputGroup.Prepend>
-                                                <InputGroup.Text onClick={()=>{toggleShowRepassword(!showRepassword)}}><BootstrapIcon type={showRepassword ? 17 : 16} /></InputGroup.Text>
+                                                <InputGroup.Text onClick={() => { toggleShowRepassword(!showRepassword) }}><BootstrapIcon type={showRepassword ? 17 : 16} /></InputGroup.Text>
                                             </InputGroup.Prepend>
                                             <Form.Control type={showRepassword ? "text" : "password"} onChange={(e) => { setRepassword(e.target.value) }} placeholder="Repeat password" />
                                             <InputGroup.Append>
@@ -228,7 +226,12 @@ const Register = () => {
                                         <Form.Check className="checkbox" checked={autoLogin} onChange={() => { setAutoLogin(!autoLogin) }} type="checkbox" label="Login after registration" />
                                     </Form.Group>
                                     <Form.Group className="justify-content-center">
-                                        <button className="registerButton" type="submit" onClick={addUser} name="button">Register</button>
+                                        <button className={isLoading ? "registerButton revert-color" : "registerButton"} disabled={isLoading} type="submit" onClick={addUser} name="button">
+                                            {isLoading ?
+                                                <div className="lds-spinner-small"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+                                                : 'Register'
+                                            }
+                                        </button>
 
                                         <Form.Text muted>
                                             Already have an account?<NavLink to='/login' className="underlined"> Sign in.</NavLink>

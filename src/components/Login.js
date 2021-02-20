@@ -20,6 +20,7 @@ const Login = () => {
         passwordError: ''
     });
     const [showPassword, toggleShowPassword] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         if (currentUser.loggedIn) {
@@ -31,11 +32,12 @@ const Login = () => {
 
 
     function userLogin() {
+        setIsLoading(true);
 
         var validUsername = 1, validPassword = 1;
         let newErrorText = ['', ''];
 
-        Axios.post(url+'/login', {
+        Axios.post(url + '/login', {
             username: username.toLowerCase(),
             password: password,
         }).then((response) => {
@@ -46,8 +48,8 @@ const Login = () => {
                 newErrorText[0] = username.length === 0 ? 'Username is required' : 'Username not recognized';
             }
             else if (password.length === 0 || userMatch.id === null) {
-                    validPassword = 0;
-                    newErrorText[1] = password.length === 0 ? 'Password is required' : 'Password is incorrect';
+                validPassword = 0;
+                newErrorText[1] = password.length === 0 ? 'Password is required' : 'Password is incorrect';
             }
             setErrorText({
                 usernameError: newErrorText[0],
@@ -58,6 +60,7 @@ const Login = () => {
                 setCurrentUser(userMatch);
                 setRedirect(true);
             }
+            else setIsLoading(false);
         });
     }
 
@@ -97,7 +100,7 @@ const Login = () => {
                                         <Form.Label srOnly>Password</Form.Label>
                                         <InputGroup className="mb-2">
                                             <InputGroup.Prepend>
-                                                <InputGroup.Text onClick={()=>{toggleShowPassword(!showPassword)}}><BootstrapIcon type={showPassword ? 17 : 16} /></InputGroup.Text>
+                                                <InputGroup.Text onClick={() => { toggleShowPassword(!showPassword) }}><BootstrapIcon type={showPassword ? 17 : 16} /></InputGroup.Text>
                                             </InputGroup.Prepend>
                                             <Form.Control type={showPassword ? "text" : "password"} onChange={(e) => { setPassword(e.target.value) }} placeholder="Enter password" />
                                             <InputGroup.Append>
@@ -107,7 +110,12 @@ const Login = () => {
                                         <Form.Text className="errorText">{errorText.passwordError}</Form.Text>
                                     </Form.Group>
                                     <Form.Group className="justify-content-center">
-                                        <button className="registerButton" type="submit" onClick={userLogin} name="button">Login</button>
+                                        <button className={isLoading ? "registerButton revert-color" : "registerButton"} disabled={isLoading} type="submit" onClick={userLogin} name="button">
+                                            {isLoading ?
+                                                <div className="lds-spinner-small"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+                                                : 'Login'
+                                            }
+                                        </button>
 
                                         <Form.Text muted>
                                             Don't have an account?<NavLink to='/register' className="underlined"> Sign up.</NavLink>
