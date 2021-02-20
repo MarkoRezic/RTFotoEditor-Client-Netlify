@@ -62,7 +62,7 @@ const Inbox = () => {
             else {
                 window.setTimeout(function () {
                     if (currentUser.loaded && messages) setIsLoading(false);
-                }, 3000);
+                }, 5000);
             }
         }
         /*
@@ -253,13 +253,15 @@ const Inbox = () => {
         });
         setUsername('');
         setUsernameError('');
-        if (document.getElementById('newMessageUsername')) document.getElementById('newMessageUsername').focus();
+        window.setInterval(function(){
+            if (document.getElementById('newMessageUsername')) document.getElementById('newMessageUsername').focus();
+        },300);
     }
 
     return (
         <div>
-            <div className="blog-header">
-                <div className="container btrans">
+            <div className="blog-header small-header">
+                <div className="container btrans small-btrans">
                     <h1 className="text-center"><strong>Inbox</strong></h1>
                 </div>
             </div>

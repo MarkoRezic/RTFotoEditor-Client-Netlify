@@ -28,8 +28,8 @@ const Posts = () => {
 
     return (
         <div>
-            <div className="blog-header">
-                <div className="container btrans">
+            <div className="blog-header small-header">
+                <div className="container btrans small-btrans">
                     <h1 className="text-center"><strong> Posts</strong></h1>
                 </div>
             </div>

@@ -54,6 +54,23 @@
 .logo{
 	height: 5rem;
 }
+.blog-masthead{
+	margin-bottom: 1.5rem !important;
+}
+.blog-header{
+	border-bottom: 5px solid #555 !important;
+	box-shadow: 0 20px 40px 40px black;
+}
+.small-header{
+    margin-bottom: 10px !important;
+}
+.small-btrans{
+    padding: 10px !important;
+    max-width: 500px !important;
+}
+.small-btrans h1{
+	font-size: 35px !important;
+}
 .blog-post, .btrans{
 	background: rgba(10,10,30, 0.5);
 	padding: 25px;
@@ -188,7 +205,7 @@
 .form-control-file{
 	border: 2px solid #999999 !important;
 	border-radius: 2px !important;
-	width: 50% !important;
+	width: 75% !important;
 	margin: auto !important;
 }
 .form-control-file button{
@@ -465,6 +482,8 @@
 }
 .postContainer p{
 	margin: auto;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	font-size: 10px;
 }
 .centeredContainer{
 	text-align: center;
@@ -893,12 +912,18 @@ svg{
     width: 200px !important;
     height: 200px !important;
   }
+  [class*="postContainer"] {
+    font-size: 13px !important;
+  }
 }
 @media only screen and (min-width: 992px) {
   /* Desktop: */
 	[class*="postThumbnailContainer"] {
     width: 300px !important;
     height: 300px !important;
+  }
+  [class*="postContainer"] {
+    font-size: 18px !important;
   }
 }
 @media only screen and (min-width: 410px) {
