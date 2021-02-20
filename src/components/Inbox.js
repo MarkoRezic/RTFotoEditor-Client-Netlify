@@ -26,11 +26,9 @@ const Inbox = () => {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        if (currentUser.loaded) {
-            Axios.get(url + '/users').then((response) => {
-                setUserList([...response.data]);
-            });
-        }
+        Axios.get(url + '/users').then((response) => {
+            setUserList([...response.data]);
+        });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -61,10 +59,10 @@ const Inbox = () => {
                 return b[0]["id"] - a[0]["id"];
             }))
             if (currentUser.loaded && messages && messages.length) setIsLoading(false);
-            else{
-                window.setTimeout(function(){
-                    if(currentUser.loaded && messages) setIsLoading(false);
-                },3000);
+            else {
+                window.setTimeout(function () {
+                    if (currentUser.loaded && messages) setIsLoading(false);
+                }, 3000);
             }
         }
         /*
