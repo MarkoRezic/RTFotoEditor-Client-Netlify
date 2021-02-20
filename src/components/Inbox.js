@@ -14,7 +14,7 @@ const Inbox = () => {
 
     const [messagesRecieved, setMessagesRecieved] = useState([]);
     const [messagesSent, setMessagesSent] = useState([]);
-    const [messages, setMessages] = useState([]);
+    const [messages, setMessages] = useState();
     const [chat, setChat] = useState({
         other_id: null,
         messages: []
@@ -26,11 +26,6 @@ const Inbox = () => {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        setIsLoading(true);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    useEffect(() => {
         Axios.get(url + '/users').then((response) => {
             setUserList([...response.data]);
         });
@@ -38,6 +33,7 @@ const Inbox = () => {
     }, [currentUser]);
 
     useEffect(() => {
+        setIsLoading(true);
         updateMessages();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userList]);
@@ -57,8 +53,8 @@ const Inbox = () => {
     }, [messagesSent]);
 
     useEffect(() => {
+        if(messages) setIsLoading(false);
         findChat(chat.other_id);
-        if(isLoading) setIsLoading(false);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [messages]);
 
@@ -252,7 +248,7 @@ const Inbox = () => {
                     <div className="col-lg-6 blog-main">
 
                         <div className="blog-post Poruke">
-                            <p className="chat-name">Razgovori: {messages.length}</p>
+                            <p className="chat-name">Razgovori: {messages ? messages.length : '0'}</p>
                             <button className="sendButton newSend" onClick={newMessage} name="button"><BootstrapIcon type={20} />+</button>
                             <hr className="round" />
 
