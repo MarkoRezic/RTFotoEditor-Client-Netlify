@@ -26,6 +26,7 @@ const Inbox = () => {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
+        setIsLoading(true);
         if (currentUser.loaded && currentUser.loggedIn) {
             Axios.get(url + '/users').then((response) => {
                 setUserList([...response.data]);
@@ -60,12 +61,19 @@ const Inbox = () => {
             setMessages([...mergeChunks(makeChunks(messagesRecieved, "sender_id"), makeChunks(removeSelfSent(messagesSent, messagesRecieved), "reciever_id"), "sender_id", "reciever_id")].sort(function (a, b) {
                 return b[0]["id"] - a[0]["id"];
             }))
-            if (currentUser.loaded) setIsLoading(false);
+            if (currentUser.loaded && messages.length) setIsLoading(false);
+            else{
+                window.setTimeout(function(){
+                    setIsLoading(false);
+                },3000);
+            }
         }
+        /*
         else {
             setMessages([]);
             if (currentUser.loaded) setIsLoading(false);
         }
+        */
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [messagesSent]);
 
