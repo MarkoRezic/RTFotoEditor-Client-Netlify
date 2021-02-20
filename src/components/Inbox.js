@@ -26,14 +26,15 @@ const Inbox = () => {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        Axios.get(url + '/users').then((response) => {
-            setUserList([...response.data]);
-        });
+        if (currentUser.loaded && currentUser.loggedIn) {
+            Axios.get(url + '/users').then((response) => {
+                setUserList([...response.data]);
+            });
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentUser]);
 
     useEffect(() => {
-        setIsLoading(true);
         updateMessages();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userList]);
@@ -53,7 +54,7 @@ const Inbox = () => {
     }, [messagesSent]);
 
     useEffect(() => {
-        if(messages) setIsLoading(false);
+        if (currentUser.loaded && messages) setIsLoading(false);
         findChat(chat.other_id);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [messages]);
