@@ -26,9 +26,7 @@ const Inbox = () => {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        Axios.get(url + '/users').then((response) => {
-            setUserList([...response.data]);
-        });
+        setIsLoading(true);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -60,7 +58,7 @@ const Inbox = () => {
 
     useEffect(() => {
         findChat(chat.other_id);
-        setIsLoading(false);
+        if(isLoading) setIsLoading(false);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [messages]);
 
@@ -257,30 +255,35 @@ const Inbox = () => {
                             <p className="chat-name">Razgovori: {messages.length}</p>
                             <button className="sendButton newSend" onClick={newMessage} name="button"><BootstrapIcon type={20} />+</button>
                             <hr className="round" />
+
                             {isLoading ?
-                                <div className="lds-spinner-small"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
-                                : messages.map(messageChat => {
-                                    return (
-                                        <div className={getNewMessages(messageChat) ? 'message' : 'message opened'} onClick={() => { openMessages(messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id); }} key={messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id}>
-                                            <div className="message-text">
-                                                {getNewMessages(messageChat) ?
-                                                    <div className="num-new-messages">
-                                                        {getNewMessages(messageChat)}
-                                                    </div>
-                                                    :
-                                                    <p className="timestamp">{messageChat[0].date.substr(8, 2) + '/' + messageChat[0].date.substr(5, 2) + '/' + messageChat[0].date.substr(0, 4)} {messageChat[0].time}</p>
-                                                }
-                                                <p className="chat-name">
-                                                    {messageChat[0].sender_id !== currentUser.id ? findUsername(messageChat[0].sender_id) : findUsername(messageChat[0].reciever_id)}
-                                                    {messageChat[0].sender_id === messageChat[0].reciever_id ? '[You]' : null}
-                                                </p>
-                                                <p className="last-text">
-                                                    {findUsername(messageChat[0].sender_id)}: {messageChat[0].text}
-                                                </p>
+                                <div className="centeredFlex">
+                                    <div className="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+                                </div>
+                                : <div className="centeredScrollBlock">
+                                    {messages.map(messageChat => {
+                                        return (
+                                            <div className={getNewMessages(messageChat) ? 'message' : 'message opened'} onClick={() => { openMessages(messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id); }} key={messageChat[0].sender_id !== currentUser.id ? messageChat[0].sender_id : messageChat[0].reciever_id}>
+                                                <div className="message-text">
+                                                    {getNewMessages(messageChat) ?
+                                                        <div className="num-new-messages">
+                                                            {getNewMessages(messageChat)}
+                                                        </div>
+                                                        :
+                                                        <p className="timestamp">{messageChat[0].date.substr(8, 2) + '/' + messageChat[0].date.substr(5, 2) + '/' + messageChat[0].date.substr(0, 4)} {messageChat[0].time}</p>
+                                                    }
+                                                    <p className="chat-name">
+                                                        {messageChat[0].sender_id !== currentUser.id ? findUsername(messageChat[0].sender_id) : findUsername(messageChat[0].reciever_id)}
+                                                        {messageChat[0].sender_id === messageChat[0].reciever_id ? '[You]' : null}
+                                                    </p>
+                                                    <p className="last-text">
+                                                        {findUsername(messageChat[0].sender_id)}: {messageChat[0].text}
+                                                    </p>
+                                                </div>
                                             </div>
-                                        </div>
-                                    );
-                                })
+                                        );
+                                    })}
+                                </div>
                             }
                         </div>
 
