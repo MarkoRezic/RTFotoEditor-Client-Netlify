@@ -12,8 +12,8 @@ const Inbox = () => {
     let url = 'https://rt-foto-editor.herokuapp.com';
     //let url = 'http://localhost:3001';
 
-    const [messagesRecieved, setMessagesRecieved] = useState([]);
-    const [messagesSent, setMessagesSent] = useState([]);
+    const [messagesRecieved, setMessagesRecieved] = useState();
+    const [messagesSent, setMessagesSent] = useState();
     const [messages, setMessages] = useState();
     const [chat, setChat] = useState({
         other_id: null,
@@ -32,10 +32,19 @@ const Inbox = () => {
             });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    useEffect(() => {
+        if (currentUser.loaded && currentUser.loggedIn) {
+            Axios.get(url + '/users').then((response) => {
+                setUserList([...response.data]);
+            });
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentUser]);
 
     useEffect(() => {
-        updateMessages();
+        if (userList.length) updateMessages();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userList]);
 
@@ -47,14 +56,20 @@ const Inbox = () => {
     }, [messagesRecieved]);
 
     useEffect(() => {
-        setMessages([...mergeChunks(makeChunks(messagesRecieved, "sender_id"), makeChunks(removeSelfSent(messagesSent, messagesRecieved), "reciever_id"), "sender_id", "reciever_id")].sort(function (a, b) {
-            return b[0]["id"] - a[0]["id"];
-        }))
+        if (messagesRecieved && messagesSent && (messagesRecieved.length || messagesSent.length)) {
+            setMessages([...mergeChunks(makeChunks(messagesRecieved, "sender_id"), makeChunks(removeSelfSent(messagesSent, messagesRecieved), "reciever_id"), "sender_id", "reciever_id")].sort(function (a, b) {
+                return b[0]["id"] - a[0]["id"];
+            }))
+            if (currentUser.loaded) setIsLoading(false);
+        }
+        else {
+            setMessages([]);
+            if (currentUser.loaded) setIsLoading(false);
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [messagesSent]);
 
     useEffect(() => {
-        if (currentUser.loaded && messages) setIsLoading(false);
         findChat(chat.other_id);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [messages]);
@@ -63,6 +78,13 @@ const Inbox = () => {
         if (document.getElementById('sendMessageInputID')) document.getElementById('sendMessageInputID').focus();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [chat]);
+
+
+    function updateMessages() {
+        Axios.get(url + '/messages/' + currentUser.id).then((response) => {
+            setMessagesRecieved([...response.data]);
+        });
+    }
 
     function findChat(otherID) {
         if (otherID !== null) {
@@ -92,12 +114,6 @@ const Inbox = () => {
             if (username.toLowerCase() === userList[i].username.toLowerCase()) return userList[i].id;
         }
         return '';
-    }
-
-    function updateMessages() {
-        Axios.get(url + '/messages/' + currentUser.id).then((response) => {
-            setMessagesRecieved([...response.data]);
-        });
     }
 
     function sendMessage() {
