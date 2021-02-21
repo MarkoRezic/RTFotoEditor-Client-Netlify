@@ -268,6 +268,7 @@
 	max-width: 12rem;
 	max-height: 12rem;
 	margin: auto;
+    margin-bottom: 15px;
 }
 .profile-icon{
 	width: 100%;
@@ -275,6 +276,13 @@
 }
 .profile-buttons .dropdown{
 	padding: 0 !important;
+}
+.profileUploadButton{
+	margin-left: 0 !important;
+	width: 130px !important;
+	height: 50px !important;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	font-size: 20px;
 }
 .display-inline{
 	display: inline-block;

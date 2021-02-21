@@ -1,7 +1,8 @@
 import Axios from 'axios';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AuthorityContext } from './AuthorityContext';
 import { Form } from 'react-bootstrap';
+import { Image } from 'cloudinary-react';
 import PROFILEICON from '../images/profile-icon.png';
 
 const Profil = () => {
@@ -11,11 +12,70 @@ const Profil = () => {
     let url = 'https://rt-foto-editor.herokuapp.com';
     //let url = 'http://localhost:3001';
 
-    const checkAuth = () => {
-        Axios.get(url+'/userAuthentication').then((response) => {
-            console.log(response);
-        }).catch(error => {
-            console.log(error);
+    const [fileInputState, setFileInputState] = useState('');
+    const [previewSource, setPreviewSource] = useState('');
+    const [profileImage, setProfileImage] = useState();
+    const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        if (currentUser.id) {
+            Axios.get(url + '/profile_images/' + currentUser.id).then((response) => {
+                if (response.data.length) setProfileImage(response.data[0]);
+            });
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    useEffect(() => {
+        if (currentUser.id) {
+            Axios.get(url + '/profile_images/' + currentUser.id).then((response) => {
+                if (response.data.length) setProfileImage(response.data[0]);
+            });
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [currentUser]);
+
+    const handleFileInputChange = (e) => {
+        const file = e.target.files[0];
+        if (file && file.type.match('image.*')) {
+            previewFile(file);
+            setFileInputState(e.target.value);
+        }
+        else {
+            setFileInputState('');
+            setPreviewSource('');
+        }
+    }
+
+    const previewFile = (file) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = () => {
+            setPreviewSource(reader.result);
+        }
+    }
+
+    const postFile = (e) => {
+        setIsLoading(true);
+        console.log('submitting');
+        e.preventDefault();
+        if (!previewSource) {
+            setIsLoading(false);
+            return;
+        }
+        postImage(previewSource);
+    }
+
+    const postImage = (base64EncodedImage) => {
+        setFileInputState('');
+        if (document.getElementById('fileUploadForm')) document.getElementById('fileUploadForm').reset();
+        Axios.post(url + '/image/upload/profile', {
+            data: base64EncodedImage,
+            userID: currentUser.id
+        }).then((response) => {
+            console.log(response.data.id);
+            setIsLoading(false);
+            window.location.reload();
         })
     }
 
@@ -44,26 +104,42 @@ const Profil = () => {
 
                             </div>
                             <hr className="round" />
-                            <button onClick={checkAuth}>Check authentication</button>
                         </div>
 
                     </div>
-                    <div className="col-md-6 blog-main">
+                    <div className="col-md-6 blog-main text-center">
 
                         <div className="blog-post Profil">
                             <hr className="round" />
-                            <p className="text-center">Profile picture { }</p>
+                            <p className="text-center">Profile image</p>
                             <div className="profile-border large-border">
-                                <img alt="" src={PROFILEICON} className="profile-icon" />
+                                {
+                                    previewSource ? <img alt="" src={previewSource} className="profile-icon" />
+                                        : profileImage ? <Image
+                                            cloudName={'rt-foto-editor'}
+                                            publicId={profileImage.public_id}
+                                            width="300"
+                                            crop="scale"
+                                            className="profile-icon"
+                                        />
+                                            : <img alt="" src={PROFILEICON} className="profile-icon" />
+                                }
                             </div>
-                            <Form>
+                            <Form acceptCharset="UTF-8" onSubmit={postFile} id="fileUploadForm">
                                 <Form.Group>
-                                    <Form.File className="fileUpload" id="exampleFormControlFile1" label="Upload photo" />
+                                    <Form.File accept="image/x-png,image/jpeg" value={fileInputState} onChange={handleFileInputChange} className="fileUpload" id="fileUploadID" name="image" label="Upload photo" />
+                                </Form.Group>
+                                <hr className="round" />
+                                <Form.Group className="postButtonHolder">
+                                    <button type="submit" name="button" disabled={isLoading} className="genericButton profileUploadButton">Upload</button>
+                                    {isLoading ?
+                                        <div className="centeredFlex">
+                                            <div className="lds-spinner-small"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+                                        </div>
+                                        : null
+                                    }
                                 </Form.Group>
                             </Form>
-                            <div className="row justify-content-center">
-
-                            </div>
                             <hr className="round" />
                         </div>
 
