@@ -15,7 +15,6 @@ const Posts = () => {
     const [isLoading, setIsLoading] = useState(true);
     const loadImages = () => {
         Axios.get(url + '/posts/public').then((response) => {
-            console.log(response);
             setPosts(response.data.sort(function(a,b){
                 return b.id - a.id;
             }));

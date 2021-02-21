@@ -26,7 +26,6 @@ const Users = () => {
 
     function removeUser(userID) {
         Axios.delete(url + '/remove-user', { data: { userID: userID } }).then((response) => {
-            console.log(response);
             Axios.get(url + '/users').then((response) => {
                 setUserList([...response.data]);
             });
@@ -35,7 +34,6 @@ const Users = () => {
 
     function changeRole(newRole, userID) {
         Axios.put(url + '/update-role', { data: { userID: userID, newRole: newRole } }).then((response) => {
-            console.log(response);
             Axios.get(url + '/users').then((response) => {
                 setUserList([...response.data]);
             });

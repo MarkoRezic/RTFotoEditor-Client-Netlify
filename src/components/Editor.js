@@ -60,7 +60,6 @@ const Editor = (props) => {
             description: tempDescription,
             view: tempPostView
         }).then((response) => {
-            console.log(response.data[0].id);
             props.history.push('/posts/' + response.data[0].id);
             setIsLoading(false);
         })

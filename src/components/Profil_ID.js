@@ -17,11 +17,9 @@ const Post = (props) => {
     const loadProfile = () => {
         if (currentUser.loggedIn) {
             Axios.get(url + '/users/' + props.match.params.id).then((response) => {
-                console.log(response);
                 if (response.data.length) {
                     var user = JSON.parse(JSON.stringify(response.data[0]));
                     Axios.get(url + '/profile_images/' + user.id).then((response) => {
-                        console.log(response);
                         if (response.data.length) setProfileImage(response.data[0]);
                         setUserProfile(user);
                         setIsLoading(false);

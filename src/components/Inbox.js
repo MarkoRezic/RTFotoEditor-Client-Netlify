@@ -136,7 +136,6 @@ const Inbox = () => {
         }
         if (validUsername === 1 && text !== '') {
             Axios.post(url + '/send-message', { sender_id: currentUser.id, reciever_id: findID(username), text: text }).then((response) => {
-                console.log(response);
                 updateMessages();
                 setUsernameError('');
             });
@@ -155,21 +154,18 @@ const Inbox = () => {
 
     function deleteMessage(message_id) {
         Axios.delete(url + '/remove-message', { data: { message_id: message_id } }).then((response) => {
-            console.log(response);
             updateMessages();
         });
     }
 
     function deleteAllRecieved(reciever_id) {
         Axios.delete(url + '/remove-messages-recieved', { data: { reciever_id: reciever_id } }).then((response) => {
-            console.log(response);
             updateMessages();
         });
     }
 
     function deleteAllSent(sender_id) {
         Axios.delete(url + '/remove-messages-sent', { data: { sender_id: sender_id } }).then((response) => {
-            console.log(response);
             updateMessages();
         });
     }
