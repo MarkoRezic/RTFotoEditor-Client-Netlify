@@ -537,12 +537,12 @@
 	cursor: pointer;
 }
 .postProfileBorder{
-    width: 3rem !important;
-    height: 3rem !important;
-    margin-right: 10px !important;
+    width: 2rem !important;
+    height: 2rem !important;
+    margin-right: 6px !important;
 }
 .postProfileName{
-    font-size: 20px !important;
+    font-size: 15px !important;
     margin-bottom: 0 !important;
 }
 .userProfile{
@@ -985,6 +985,14 @@ svg{
 }
 @media only screen and (min-width: 600px) {
   /* Desktop: */
+  [class*="postProfileBorder"] {
+    width: 3rem !important;
+    height: 3rem !important;
+    margin-right: 10px !important;
+  }
+  [class*="postProfileName"] {
+    font-size: 20px !important;
+  }
   [class*="IDProfileBorder"] {
     width: 8rem !important;
     height: 8rem !important;
