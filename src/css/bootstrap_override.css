@@ -982,6 +982,9 @@ svg{
     text-align: center !important;
 	padding: 25px !important;
   }
+}
+@media only screen and (min-width: 600px) {
+  /* Desktop: */
   [class*="IDProfileBorder"] {
     width: 8rem !important;
     height: 8rem !important;
