@@ -56,20 +56,20 @@ const Post = (props) => {
                             : userProfile ?
                                 <div className="userProfile">
                                     <hr className="round" />
-                                    <div className="postProfile">
-                                        <div className="profile-border postProfileBorder">
+                                    <div className="IDProfile">
+                                        <div className="profile-border IDProfileBorder">
                                             {profileImage ?
                                                 <Image
                                                     cloudName={'rt-foto-editor'}
                                                     publicId={profileImage.public_id}
-                                                    width="60"
+                                                    width="140"
                                                     crop="scale"
                                                     className="profile-icon"
                                                 />
                                                 : <img alt="" src={PROFILEICON} className="profile-icon" />
                                             }
                                         </div>
-                                        <p className="postProfileName">{userProfile.displayname}</p>
+                                        <p className="IDProfileName">{userProfile.displayname}</p>
                                     </div>
                                     <hr className="round" />
                                     <p>Email: {userProfile.email}</p>
