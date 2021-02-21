@@ -4,17 +4,22 @@ import { AuthorityContext } from './AuthorityContext';
 import PROFILEICON from '../images/profile-icon.png';
 import BootstrapIcon from '../svg icons/BootstrapIcon';
 import { Dropdown, DropdownButton } from 'react-bootstrap';
+import { Image } from 'cloudinary-react';
 
 const Users = () => {
     const [userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
     Axios.defaults.withCredentials = true;
     let url = 'https://rt-foto-editor.herokuapp.com';
+    const [profileImages, setProfileImages] = useState();
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         Axios.get(url + '/users').then((response) => {
             setUserList([...response.data]);
-            setIsLoading(false);
+            Axios.get(url + '/images/all/profile_images').then((response) => {
+                setProfileImages([...response.data]);
+                setIsLoading(false);
+            });
         });
         // eslint-disable-next-line
     }, []);
@@ -37,6 +42,15 @@ const Users = () => {
         })
     }
 
+    function findProfileImagePublicID(userID) {
+        if (profileImages) {
+            for (var i = 0; i < profileImages.length; i++) {
+                if (profileImages[i].user_id === userID) return profileImages[i].public_id;
+            }
+        }
+        return null;
+    }
+
     return (
         <div>
             {isLoading ?
@@ -47,7 +61,16 @@ const Users = () => {
                     return (
                         <div className="user-card btrans" key={user.id}>
                             <div className="profile-border display-inline">
-                                <img alt="" src={PROFILEICON} className="profile-icon" />
+                                {profileImages && findProfileImagePublicID(user.id) ?
+                                    <Image
+                                        cloudName={'rt-foto-editor'}
+                                        publicId={findProfileImagePublicID(user.id)}
+                                        width="100"
+                                        crop="scale"
+                                        className="profile-icon"
+                                    />
+                                    : <img alt="" src={PROFILEICON} className="profile-icon" />
+                                }
                             </div>
                             <div className="profile-text display-inline">
                                 <p>Username: {user.displayname}
