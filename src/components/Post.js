@@ -18,11 +18,11 @@ const Post = (props) => {
         if (currentUser.loggedIn) {
             Axios.get(url + '/posts/' + props.match.params.id).then((response) => {
                 console.log(response);
-                var poster_id = response.data[0].poster_id;
-                setPost(response.data[0]);
-                Axios.get(url + '/profile_images/' + poster_id).then((response) => {
+                var post = JSON.parse(JSON.stringify(response.data[0]));
+                Axios.get(url + '/profile_images/' + post.poster_id).then((response) => {
                     console.log(response);
                     if (response.data.length) setProfileImage(response.data[0]);
+                    setPost(post);
                     setIsLoading(false);
                 });
             });
