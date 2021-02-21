@@ -108,11 +108,11 @@ const Navbar = () => {
 
     function logout() {
         Axios.get(url + '/logout').then((response) => {
+            setLegalRoute(true);
+            setCurrentUser(response.data);
             redirectReload('/login').then((response) => {
                 //window.location.reload();
             });
-            setLegalRoute(true);
-            setCurrentUser(response.data);
         })
     }
 

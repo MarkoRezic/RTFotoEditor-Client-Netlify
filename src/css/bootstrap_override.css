@@ -263,6 +263,9 @@
 	height: 5rem;
 	overflow: hidden;
 	margin-right: 25px;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 }
 .large-border{
 	width: 12rem;
@@ -272,7 +275,6 @@
 }
 .profile-icon{
 	width: 100%;
-	height: 100%;
 }
 .profile-buttons .dropdown{
 	padding: 0 !important;
@@ -523,6 +525,24 @@
     border-bottom: 2px solid #666;
     box-shadow: 0 15px 25px 5px black;
     overflow: overlay;
+}
+.postProfile{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #777;
+    border-radius: 1.8rem;
+    padding: 0.3rem;
+    padding-right: 1rem;
+}
+.postProfileBorder{
+    width: 3rem !important;
+    height: 3rem !important;
+    margin-right: 10px !important;
+}
+.postProfileName{
+    font-size: 20px !important;
+    margin-bottom: 0 !important;
 }
 .postPhotoContainer{
 	background-image: linear-gradient(to bottom, #333, #111);

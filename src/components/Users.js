@@ -65,7 +65,7 @@ const Users = () => {
                                     <Image
                                         cloudName={'rt-foto-editor'}
                                         publicId={findProfileImagePublicID(user.id)}
-                                        width="100"
+                                        width="90"
                                         crop="scale"
                                         className="profile-icon"
                                     />

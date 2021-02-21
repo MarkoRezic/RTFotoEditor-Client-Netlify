@@ -2,8 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import Axios from 'axios';
 import { Image } from 'cloudinary-react';
 import { AuthorityContext } from './AuthorityContext';
-import { Redirect } from 'react-router';
-import Error403 from './Error403';
+import PROFILEICON from '../images/profile-icon.png';
 
 const Post = (props) => {
     // eslint-disable-next-line
@@ -13,13 +12,17 @@ const Post = (props) => {
     //let url = 'http://localhost:3001';
 
     const [post, setPost] = useState();
+    const [profileImage, setProfileImage] = useState();
     const [isLoading, setIsLoading] = useState(true);
     const loadPost = () => {
         if (currentUser.loggedIn) {
             Axios.get(url + '/posts/' + props.match.params.id).then((response) => {
                 console.log(response);
                 setPost(response.data[0]);
-                setIsLoading(false);
+                Axios.get(url + '/profile_images/' + response.data[0].poster_id).then((response) => {
+                    if (response.data.length) setProfileImage(response.data[0]);
+                    setIsLoading(false);
+                });
             });
         }
     };
@@ -42,8 +45,22 @@ const Post = (props) => {
                             : (post && post.view === 'public') ?
                                 <div className="postLargeContainer">
                                     <div className="postHeader">
-                                        <p className="timestamp">{post.date.substr(8, 2) + '/' + post.date.substr(5, 2) + '/' + post.date.substr(0, 4)} {post.time}</p>
-                                        <p>Posted by: {post.displayname}<br />[{post.view}]</p>
+                                        <p className="timestamp">{post.date.substr(8, 2) + '/' + post.date.substr(5, 2) + '/' + post.date.substr(0, 4)} {post.time}<br />[{post.view}]</p>
+                                        <div className="postProfile">
+                                            <div className="profile-border postProfileBorder">
+                                                {profileImage ?
+                                                    <Image
+                                                        cloudName={'rt-foto-editor'}
+                                                        publicId={profileImage.public_id}
+                                                        width="60"
+                                                        crop="scale"
+                                                        className="profile-icon"
+                                                    />
+                                                    : <img alt="" src={PROFILEICON} className="profile-icon" />
+                                                }
+                                            </div>
+                                            <p className="postProfileName">{post.displayname}</p>
+                                        </div>
                                     </div>
                                     <div className="postPhotoContainer">
                                         <Image
