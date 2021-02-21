@@ -29,7 +29,6 @@ const Post = (props) => {
         }
     };
     useEffect(() => {
-        console.log(currentUser.loggedIn);
         loadPost();
     }, [currentUser]);
 
@@ -48,7 +47,7 @@ const Post = (props) => {
                                 <div className="postLargeContainer">
                                     <div className="postHeader">
                                         <p className="timestamp">{post.date.substr(8, 2) + '/' + post.date.substr(5, 2) + '/' + post.date.substr(0, 4)} {post.time}<br />[{post.view}]</p>
-                                        <div className="postProfile">
+                                        <div className="postProfile" onClick={()=>{props.history.push('/profil/' + post.poster_id);}}>
                                             <div className="profile-border postProfileBorder">
                                                 {profileImage ?
                                                     <Image
