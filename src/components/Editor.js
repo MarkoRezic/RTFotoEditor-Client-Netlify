@@ -31,7 +31,7 @@ import HEMINGWAY from '../images/presetFilters/HEMINGWAY.png';
 import CONCENTRATE from '../images/presetFilters/CONCENTRATE.png';
 
 const Editor = (props) => {
-    const [currentUser] = useContext(AuthorityContext);
+    const [currentUser, setCurrentUser] = useContext(AuthorityContext);
     Axios.defaults.withCredentials = true;
     let url = 'https://rt-foto-editor.herokuapp.com';
     //let url = 'http://localhost:3001';
@@ -545,7 +545,7 @@ const Editor = (props) => {
     useEffect(() => {
         setUserVerified(currentUser.verified === 'verified' ? true : false);
         console.log(currentUser);
-    }, [currentUser])
+    }, [currentUser, setCurrentUser])
 
     useEffect(() => {
         if (!isRendering && !renderPaused) {
