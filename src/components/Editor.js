@@ -159,6 +159,7 @@ const Editor = (props) => {
         motionBlurAngle: 45,    //   0 .. 360
         motionBlurLayers: 0,    //   0 .. 3
     };
+    const [userVerified, setUserVerified] = useState(false);
     var canvas, canvasCopy, presetCopy;
     var ctxPreset, ctxCopy;
 
@@ -541,6 +542,9 @@ const Editor = (props) => {
     }, []);
 
     /* eslint-enable */
+    useEffect(() => {
+        setUserVerified(currentUser.verified === 'verified' ? true : false);
+    }, [currentUser])
 
     useEffect(() => {
         if (!isRendering && !renderPaused) {
@@ -1716,7 +1720,7 @@ const Editor = (props) => {
                                 </div>
 
                                 <hr className="round" />
-                                <div className={(currentUser.loggedIn && currentUser.verified === 'verified') ? '' : 'display-none'}>
+                                <div className={userVerified ? '' : 'display-none'}>
                                     <Form.Group controlId="newPostDescription">
                                         <Form.Label>Description</Form.Label>
                                         <Form.Control autoComplete="off" as="textarea" rows={5} onChange={(e) => { setDescription(checkText(e.target.value)); document.getElementById('newPostDescription').value = checkText(e.target.value); }} />
