@@ -538,14 +538,13 @@ const Editor = (props) => {
             return this.processPlugin("dither", [algo]);
         });
 
-        startEditor();
-        
     }, []);
 
     /* eslint-enable */
 
     useEffect(() => {
         if (!isRendering && !renderPaused) {
+            setIsRendering(true);
             if (currentPreset !== previousPreset) {
                 window.Caman("#presetCopy", img, function () {
                     this.revert(false);
@@ -631,6 +630,7 @@ const Editor = (props) => {
                     this.render(function () {
                         if ((activeTransformContainer === 0 || activeTransformContainer === 1) && document.getElementById('canvas')) document.getElementById('canvas').classList.add('invisible');
                         setPreviousPreset(values.presetFilter);
+                        setIsRendering(false);
                     });
                 }
                 else {
@@ -645,6 +645,7 @@ const Editor = (props) => {
                     this.render(function () {
                         if ((activeTransformContainer === 0 || activeTransformContainer === 1) && document.getElementById('canvas')) document.getElementById('canvas').classList.add('invisible');
                         setPreviousPreset(values.presetFilter);
+                        setIsRendering(false);
                     });
                 }
             });
@@ -693,301 +694,6 @@ const Editor = (props) => {
         while (attr = attributes.pop()) {
             element.setAttribute(attr.nodeName, attr.nodeValue);
         }
-    }
-
-    function startEditor() {
-
-        //OnClick Event handlers
-        document.getElementById("brightness-add").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                brightness: (prevState.brightness < 95) ? (prevState.brightness + 5) : 100
-            }))
-
-        });
-        document.getElementById("brightness-remove").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                brightness: (prevState.brightness > -95) ? (prevState.brightness - 5) : -100
-            }))
-        });
-        document.getElementById("contrast-add").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                contrast: (prevState.contrast < 95) ? (prevState.contrast + 5) : 100
-            }))
-
-        });
-        document.getElementById("contrast-remove").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                contrast: (prevState.contrast > -95) ? (prevState.contrast - 5) : -100
-            }))
-        });
-        document.getElementById("exposure-add").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                exposure: (prevState.exposure < 95) ? (prevState.exposure + 5) : 100
-            }))
-
-        });
-        document.getElementById("exposure-remove").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                exposure: (prevState.exposure > -95) ? (prevState.exposure - 5) : -100
-            }))
-        });
-        document.getElementById("gamma-add").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                gamma: (prevState.gamma < 4.9) ? (prevState.gamma + 0.1) : 5
-            }))
-        });
-        document.getElementById("gamma-remove").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                gamma: (prevState.gamma > 0.1) ? (prevState.gamma - 0.1) : 0
-            }))
-        });
-        document.getElementById("stackBlur-add").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                stackBlur: (prevState.stackBlur < 98) ? (prevState.stackBlur + 2) : 100
-            }))
-
-        });
-        document.getElementById("stackBlur-remove").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                stackBlur: (prevState.stackBlur > 2) ? (prevState.stackBlur - 2) : 0
-            }))
-        });
-        document.getElementById("radialBlur-add").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                radialBlur: (prevState.radialBlur < 19) ? (prevState.radialBlur + 1) : 20
-            }))
-
-        });
-        document.getElementById("radialBlur-remove").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                radialBlur: (prevState.radialBlur > 1) ? (prevState.radialBlur - 1) : 0
-            }))
-        });
-        document.getElementById("saturation-add").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                saturation: (prevState.saturation < 95) ? (prevState.saturation + 5) : 100
-            }))
-
-        });
-        document.getElementById("saturation-remove").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                saturation: (prevState.saturation > -95) ? (prevState.saturation - 5) : -100
-            }))
-        });
-        document.getElementById("vibrance-add").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                vibrance: (prevState.vibrance < 95) ? (prevState.vibrance + 5) : 100
-            }))
-
-        });
-        document.getElementById("vibrance-remove").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                vibrance: (prevState.vibrance > -95) ? (prevState.vibrance - 5) : -100
-            }))
-        });
-        document.getElementById("hue-add").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                hue: (prevState.hue < 95) ? (prevState.hue + 5) : 100
-            }))
-
-        });
-        document.getElementById("hue-remove").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                hue: (prevState.hue > 5) ? (prevState.hue - 5) : 0
-            }))
-        });
-        document.getElementById("invert-add").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                invert: true
-            }))
-        });
-        document.getElementById("invert-remove").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                invert: false
-            }))
-        });
-        document.getElementById("sepia-add").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                sepia: (prevState.sepia < 95) ? (prevState.sepia + 5) : 100
-            }))
-        });
-        document.getElementById("sepia-remove").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                sepia: (prevState.sepia > 5) ? (prevState.sepia - 5) : 0
-            }))
-        });
-        document.getElementById("clip-add").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                clip: (prevState.clip < 95) ? (prevState.clip + 5) : 100
-            }))
-
-        });
-        document.getElementById("clip-remove").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                clip: (prevState.clip > 5) ? (prevState.clip - 5) : 0
-            }))
-        });
-        document.getElementById("colorizeStrength-add").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                colorizeStrength: (prevState.colorizeStrength < 95) ? (prevState.colorizeStrength + 5) : 100
-            }))
-
-        });
-        document.getElementById("colorizeStrength-remove").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                colorizeStrength: (prevState.colorizeStrength > 5) ? (prevState.colorizeStrength - 5) : 0
-            }))
-        });
-        document.getElementById("channelR-add").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                channelR: (prevState.channelR < 95) ? (prevState.channelR + 5) : 100
-            }))
-
-        });
-        document.getElementById("channelR-remove").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                channelR: (prevState.channelR > -95) ? (prevState.channelR - 5) : -100
-            }))
-        });
-        document.getElementById("channelG-add").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                channelG: (prevState.channelG < 95) ? (prevState.channelG + 5) : 100
-            }))
-
-        });
-        document.getElementById("channelG-remove").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                channelG: (prevState.channelG > -95) ? (prevState.channelG - 5) : -100
-            }))
-        });
-        document.getElementById("channelB-add").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                channelB: (prevState.channelB < 95) ? (prevState.channelB + 5) : 100
-            }))
-
-        });
-        document.getElementById("channelB-remove").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                channelB: (prevState.channelB > -95) ? (prevState.channelB - 5) : -100
-            }))
-        });
-        document.getElementById("greyscale-add").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                greyscale: true
-            }))
-        });
-        document.getElementById("greyscale-remove").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                greyscale: false
-            }))
-        });
-        document.getElementById("noise-add").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                noise: (prevState.noise < 95) ? (prevState.noise + 5) : 100
-            }))
-        });
-        document.getElementById("noise-remove").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                noise: (prevState.noise > 5) ? (prevState.noise - 5) : 0
-            }))
-        });
-        document.getElementById("dither-add").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                dither: true
-            }))
-        });
-        document.getElementById("dither-remove").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                dither: false
-            }))
-        });
-        document.getElementById("ditherAlgo-add").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                ditherAlgo: prevState.ditherAlgo < 7 ? prevState.ditherAlgo + 1 : 0
-            }))
-        });
-        document.getElementById("ditherAlgo-remove").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                ditherAlgo: prevState.ditherAlgo > 0 ? prevState.ditherAlgo - 1 : 7
-            }))
-        });
-        document.getElementById("sharpen-add").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                sharpen: (prevState.sharpen < 195) ? (prevState.sharpen + 5) : 200
-            }))
-        });
-        document.getElementById("sharpen-remove").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                sharpen: (prevState.sharpen > 5) ? (prevState.sharpen - 5) : 0
-            }))
-        });
-        document.getElementById("motionBlurLayers-add").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                motionBlurLayers: (prevState.motionBlurLayers < 28) ? (prevState.motionBlurLayers + 2) : 30
-            }))
-        });
-        document.getElementById("motionBlurLayers-remove").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                motionBlurLayers: (prevState.motionBlurLayers > 2) ? (prevState.motionBlurLayers - 2) : 0
-            }))
-        });
-        document.getElementById("motionBlurAngle-add").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                motionBlurAngle: ((prevState.motionBlurAngle % 45) !== 0) ? 0 : (prevState.motionBlurAngle + 45) % 360
-            }))
-        });
-        document.getElementById("motionBlurAngle-remove").addEventListener('click', e => {
-            setValues((prevState) => ({
-                ...prevState,
-                motionBlurAngle: ((prevState.motionBlurAngle % 45) !== 0) ? 0 : (prevState.motionBlurAngle - 45 + (prevState.motionBlurAngle < 45 ? 360 : 0)) % 360
-            }))
-        });
-
     }
 
     // Download
@@ -1054,16 +760,16 @@ const Editor = (props) => {
                     canvasCopy.removeAttribute("data-caman-id");
                     copyCanvas();
                 };
+                /*
                 window.Caman.Event.listen("processStart", function (job) {
-                    if (!isRendering) setIsRendering(true);
                 });
                 window.Caman.Event.listen("processComplete", function (job) {
                     //console.log("Finished:", job.name);
                 });
                 window.Caman.Event.listen("renderFinished", function () {
-                    setIsRendering(false);
                     //console.log("Finished Rendering");
                 });
+                */
             });
         }
     }
@@ -1115,7 +821,7 @@ const Editor = (props) => {
                     <div className="col-sm-12 blog-main">
 
                         <div className="blog-post">
-                            <Form acceptCharset="UTF-8" onSubmit={(e)=>{e.preventDefault();}} id="fileUploadForm">
+                            <Form acceptCharset="UTF-8" onSubmit={(e) => { e.preventDefault(); }} id="fileUploadForm">
                                 <Form.Group>
                                     <Form.File accept="image/x-png,image/gif,image/jpeg" value={fileInputState} onChange={handleFileInputChange} className="fileUpload" id="fileUploadID" name="image" label="Upload photo" />
                                 </Form.Group>
@@ -1532,89 +1238,249 @@ const Editor = (props) => {
                                         <div className={"buttonCoupleContainer" + (activeFilterContainer === 1 ? '' : ' display-none')}>
                                             <div className="buttonCouple">
                                                 <BootstrapIcon type={23} />
-                                                <div id="brightness-add" className="valueButton">+</div>
-                                                <div id="brightness-remove" className="valueButton">-</div>
+                                                <div id="brightness-add" className="valueButton" onClick={() => {
+                                                    setValues((prevState) => ({
+                                                        ...prevState,
+                                                        brightness: (prevState.brightness < 95) ? (prevState.brightness + 5) : 100
+                                                    }))
+                                                }}>+</div>
+                                                <div id="brightness-remove" className="valueButton" onClick={() => {
+                                                    setValues((prevState) => ({
+                                                        ...prevState,
+                                                        brightness: (prevState.brightness > -95) ? (prevState.brightness - 5) : -100
+                                                    }))
+                                                }}>-</div>
                                             </div>
                                             <div className="buttonCouple">
                                                 <BootstrapIcon type={24} />
-                                                <div id="contrast-add" className="valueButton">+</div>
-                                                <div id="contrast-remove" className="valueButton">-</div>
+                                                <div id="contrast-add" className="valueButton" onClick={() => {
+                                                    setValues((prevState) => ({
+                                                        ...prevState,
+                                                        contrast: (prevState.contrast < 95) ? (prevState.contrast + 5) : 100
+                                                    }))
+                                                }}>+</div>
+                                                <div id="contrast-remove" className="valueButton" onClick={() => {
+                                                    setValues((prevState) => ({
+                                                        ...prevState,
+                                                        contrast: (prevState.contrast > -95) ? (prevState.contrast - 5) : -100
+                                                    }))
+                                                }}>-</div>
                                             </div>
                                             <div className="buttonCouple">
                                                 <BootstrapIcon type={25} />
-                                                <div id="exposure-add" className="valueButton">+</div>
-                                                <div id="exposure-remove" className="valueButton">-</div>
+                                                <div id="exposure-add" className="valueButton" onClick={() => {
+                                                    setValues((prevState) => ({
+                                                        ...prevState,
+                                                        exposure: (prevState.exposure < 95) ? (prevState.exposure + 5) : 100
+                                                    }))
+                                                }}>+</div>
+                                                <div id="exposure-remove" className="valueButton" onClick={() => {
+                                                    setValues((prevState) => ({
+                                                        ...prevState,
+                                                        exposure: (prevState.exposure > -95) ? (prevState.exposure - 5) : -100
+                                                    }))
+                                                }}>-</div>
                                             </div>
                                             <div className="buttonCouple">
                                                 <BootstrapIcon type={36} />
-                                                <div id="gamma-add" className="valueButton">+</div>
-                                                <div id="gamma-remove" className="valueButton">-</div>
+                                                <div id="gamma-add" className="valueButton" onClick={() => {
+                                                    setValues((prevState) => ({
+                                                        ...prevState,
+                                                        gamma: (prevState.gamma < 4.9) ? (prevState.gamma + 0.1) : 5
+                                                    }))
+                                                }}>+</div>
+                                                <div id="gamma-remove" className="valueButton" onClick={() => {
+                                                    setValues((prevState) => ({
+                                                        ...prevState,
+                                                        gamma: (prevState.gamma > 0.1) ? (prevState.gamma - 0.1) : 0
+                                                    }))
+                                                }}>-</div>
                                             </div>
                                             <div className="buttonCouple">
                                                 <BootstrapIcon type={32} />
-                                                <div id="stackBlur-add" className="valueButton">+</div>
-                                                <div id="stackBlur-remove" className="valueButton">-</div>
+                                                <div id="stackBlur-add" className="valueButton" onClick={() => {
+                                                    setValues((prevState) => ({
+                                                        ...prevState,
+                                                        stackBlur: (prevState.stackBlur < 98) ? (prevState.stackBlur + 2) : 100
+                                                    }))
+                                                }}>+</div>
+                                                <div id="stackBlur-remove" className="valueButton" onClick={() => {
+                                                    setValues((prevState) => ({
+                                                        ...prevState,
+                                                        stackBlur: (prevState.stackBlur > 2) ? (prevState.stackBlur - 2) : 0
+                                                    }))
+                                                }}>-</div>
                                             </div>
                                             <div className="buttonCouple">
                                                 <BootstrapIcon type={58} />
-                                                <div id="radialBlur-add" className="valueButton">+</div>
-                                                <div id="radialBlur-remove" className="valueButton">-</div>
+                                                <div id="radialBlur-add" className="valueButton" onClick={() => {
+                                                    setValues((prevState) => ({
+                                                        ...prevState,
+                                                        radialBlur: (prevState.radialBlur < 19) ? (prevState.radialBlur + 1) : 20
+                                                    }))
+                                                }}>+</div>
+                                                <div id="radialBlur-remove" className="valueButton" onClick={() => {
+                                                    setValues((prevState) => ({
+                                                        ...prevState,
+                                                        radialBlur: (prevState.radialBlur > 1) ? (prevState.radialBlur - 1) : 0
+                                                    }))
+                                                }}>-</div>
                                             </div>
                                         </div>
 
                                         <div className={"buttonCoupleContainer" + (activeFilterContainer === 2 ? '' : ' display-none')}>
                                             <div className="buttonCouple">
                                                 <BootstrapIcon type={26} />
-                                                <div id="saturation-add" className="valueButton">+</div>
-                                                <div id="saturation-remove" className="valueButton">-</div>
+                                                <div id="saturation-add" className="valueButton" onClick={() => {
+                                                    setValues((prevState) => ({
+                                                        ...prevState,
+                                                        saturation: (prevState.saturation < 95) ? (prevState.saturation + 5) : 100
+                                                    }))
+                                                }}>+</div>
+                                                <div id="saturation-remove" className="valueButton" onClick={() => {
+                                                    setValues((prevState) => ({
+                                                        ...prevState,
+                                                        saturation: (prevState.saturation > -95) ? (prevState.saturation - 5) : -100
+                                                    }))
+                                                }}>-</div>
                                             </div>
                                             <div className="buttonCouple">
                                                 <BootstrapIcon type={27} />
-                                                <div id="vibrance-add" className="valueButton">+</div>
-                                                <div id="vibrance-remove" className="valueButton">-</div>
+                                                <div id="vibrance-add" className="valueButton" onClick={() => {
+                                                    setValues((prevState) => ({
+                                                        ...prevState,
+                                                        vibrance: (prevState.vibrance < 95) ? (prevState.vibrance + 5) : 100
+                                                    }))
+                                                }}>+</div>
+                                                <div id="vibrance-remove" className="valueButton" onClick={() => {
+                                                    setValues((prevState) => ({
+                                                        ...prevState,
+                                                        vibrance: (prevState.vibrance > -95) ? (prevState.vibrance - 5) : -100
+                                                    }))
+                                                }}>-</div>
                                             </div>
                                             <div className="buttonCouple">
                                                 <BootstrapIcon type={34} />
-                                                <div id="hue-add" className="valueButton">+</div>
-                                                <div id="hue-remove" className="valueButton">-</div>
+                                                <div id="hue-add" className="valueButton" onClick={() => {
+                                                    setValues((prevState) => ({
+                                                        ...prevState,
+                                                        hue: (prevState.hue < 95) ? (prevState.hue + 5) : 100
+                                                    }))
+                                                }}>+</div>
+                                                <div id="hue-remove" className="valueButton" onClick={() => {
+                                                    setValues((prevState) => ({
+                                                        ...prevState,
+                                                        hue: (prevState.hue > 5) ? (prevState.hue - 5) : 0
+                                                    }))
+                                                }}>-</div>
                                             </div>
                                             <div className="buttonCouple">
                                                 <BootstrapIcon type={59} />
-                                                <div id="invert-add" className="valueButton"><BootstrapIcon type={30} /></div>
-                                                <div id="invert-remove" className="valueButton"><BootstrapIcon type={31} /></div>
+                                                <div id="invert-add" className="valueButton" onClick={() => {
+                                                    setValues((prevState) => ({
+                                                        ...prevState,
+                                                        invert: true
+                                                    }))
+                                                }}><BootstrapIcon type={30} /></div>
+                                                <div id="invert-remove" className="valueButton" onClick={() => {
+                                                    setValues((prevState) => ({
+                                                        ...prevState,
+                                                        invert: false
+                                                    }))
+                                                }}><BootstrapIcon type={31} /></div>
                                             </div>
                                             <div className="buttonCouple">
                                                 <BootstrapIcon type={60} />
-                                                <div id="sepia-add" className="valueButton">+</div>
-                                                <div id="sepia-remove" className="valueButton">-</div>
+                                                <div id="sepia-add" className="valueButton" onClick={() => {
+                                                    setValues((prevState) => ({
+                                                        ...prevState,
+                                                        sepia: (prevState.sepia < 95) ? (prevState.sepia + 5) : 100
+                                                    }))
+                                                }}>+</div>
+                                                <div id="sepia-remove" className="valueButton" onClick={() => {
+                                                    setValues((prevState) => ({
+                                                        ...prevState,
+                                                        sepia: (prevState.sepia > 5) ? (prevState.sepia - 5) : 0
+                                                    }))
+                                                }}>-</div>
                                             </div>
                                             <div className="buttonCouple">
                                                 <BootstrapIcon type={33} />
-                                                <div id="clip-add" className="valueButton">+</div>
-                                                <div id="clip-remove" className="valueButton">-</div>
+                                                <div id="clip-add" className="valueButton" onClick={() => {
+                                                    setValues((prevState) => ({
+                                                        ...prevState,
+                                                        clip: (prevState.clip < 95) ? (prevState.clip + 5) : 100
+                                                    }))
+                                                }}>+</div>
+                                                <div id="clip-remove" className="valueButton" onClick={() => {
+                                                    setValues((prevState) => ({
+                                                        ...prevState,
+                                                        clip: (prevState.clip > 5) ? (prevState.clip - 5) : 0
+                                                    }))
+                                                }}>-</div>
                                             </div>
                                         </div>
 
                                         <div className={"buttonCoupleContainer" + (activeFilterContainer === 3 ? '' : ' display-none')}>
                                             <div className="buttonCouple">
                                                 <BootstrapIcon type={29} fill='red' />
-                                                <div id="channelR-add" className="valueButton">+</div>
-                                                <div id="channelR-remove" className="valueButton">-</div>
+                                                <div id="channelR-add" className="valueButton" onClick={() => {
+                                                    setValues((prevState) => ({
+                                                        ...prevState,
+                                                        channelR: (prevState.channelR < 95) ? (prevState.channelR + 5) : 100
+                                                    }))
+                                                }}>+</div>
+                                                <div id="channelR-remove" className="valueButton" onClick={() => {
+                                                    setValues((prevState) => ({
+                                                        ...prevState,
+                                                        channelR: (prevState.channelR > -95) ? (prevState.channelR - 5) : -100
+                                                    }))
+                                                }}>-</div>
                                             </div>
                                             <div className="buttonCouple">
                                                 <BootstrapIcon type={29} fill='green' />
-                                                <div id="channelG-add" className="valueButton">+</div>
-                                                <div id="channelG-remove" className="valueButton">-</div>
+                                                <div id="channelG-add" className="valueButton" onClick={() => {
+                                                    setValues((prevState) => ({
+                                                        ...prevState,
+                                                        channelG: (prevState.channelG < 95) ? (prevState.channelG + 5) : 100
+                                                    }))
+                                                }}>+</div>
+                                                <div id="channelG-remove" className="valueButton" onClick={() => {
+                                                    setValues((prevState) => ({
+                                                        ...prevState,
+                                                        channelG: (prevState.channelG > -95) ? (prevState.channelG - 5) : -100
+                                                    }))
+                                                }}>-</div>
                                             </div>
                                             <div className="buttonCouple">
                                                 <BootstrapIcon type={29} fill='blue' />
-                                                <div id="channelB-add" className="valueButton">+</div>
-                                                <div id="channelB-remove" className="valueButton">-</div>
+                                                <div id="channelB-add" className="valueButton" onClick={() => {
+                                                    setValues((prevState) => ({
+                                                        ...prevState,
+                                                        channelB: (prevState.channelB < 95) ? (prevState.channelB + 5) : 100
+                                                    }))
+                                                }}>+</div>
+                                                <div id="channelB-remove" className="valueButton" onClick={() => {
+                                                    setValues((prevState) => ({
+                                                        ...prevState,
+                                                        channelB: (prevState.channelB > -95) ? (prevState.channelB - 5) : -100
+                                                    }))
+                                                }}>-</div>
                                             </div>
                                             <div className="buttonCouple">
                                                 <BootstrapIcon type={29} fill='grey' />
-                                                <div id="greyscale-add" className="valueButton"><BootstrapIcon type={30} /></div>
-                                                <div id="greyscale-remove" className="valueButton"><BootstrapIcon type={31} /></div>
+                                                <div id="greyscale-add" className="valueButton" onClick={() => {
+                                                    setValues((prevState) => ({
+                                                        ...prevState,
+                                                        greyscale: true
+                                                    }))
+                                                }}><BootstrapIcon type={30} /></div>
+                                                <div id="greyscale-remove" className="valueButton" onClick={() => {
+                                                    setValues((prevState) => ({
+                                                        ...prevState,
+                                                        greyscale: false
+                                                    }))
+                                                }}><BootstrapIcon type={31} /></div>
                                             </div>
                                         </div>
 
@@ -1623,27 +1489,67 @@ const Editor = (props) => {
                                                 <div className="sliderFlexWrap">
                                                     <SliderPicker color={currentColor} onChange={(color) => { setCurrentColor(color.hex) }} onChangeComplete={(color) => { setEndColor(color.hex) }} />
                                                 </div>
-                                                <div id="colorizeStrength-add" className="valueButton">+</div>
-                                                <div id="colorizeStrength-remove" className="valueButton">-</div>
+                                                <div id="colorizeStrength-add" className="valueButton" onClick={() => {
+                                                    setValues((prevState) => ({
+                                                        ...prevState,
+                                                        colorizeStrength: (prevState.colorizeStrength < 95) ? (prevState.colorizeStrength + 5) : 100
+                                                    }))
+                                                }}>+</div>
+                                                <div id="colorizeStrength-remove" className="valueButton" onClick={() => {
+                                                    setValues((prevState) => ({
+                                                        ...prevState,
+                                                        colorizeStrength: (prevState.colorizeStrength > 5) ? (prevState.colorizeStrength - 5) : 0
+                                                    }))
+                                                }}>-</div>
                                             </div>
                                         </div>
 
                                         <div className={"buttonCoupleContainer" + (activeFilterContainer === 5 ? '' : ' display-none')}>
                                             <div className="buttonCouple">
                                                 <BootstrapIcon type={61} />
-                                                <div id="noise-add" className="valueButton">+</div>
-                                                <div id="noise-remove" className="valueButton">-</div>
+                                                <div id="noise-add" className="valueButton" onClick={() => {
+                                                    setValues((prevState) => ({
+                                                        ...prevState,
+                                                        noise: (prevState.noise < 95) ? (prevState.noise + 5) : 100
+                                                    }))
+                                                }}>+</div>
+                                                <div id="noise-remove" className="valueButton" onClick={() => {
+                                                    setValues((prevState) => ({
+                                                        ...prevState,
+                                                        noise: (prevState.noise > 5) ? (prevState.noise - 5) : 0
+                                                    }))
+                                                }}>-</div>
                                             </div>
                                             <div className="buttonCouple">
                                                 <BootstrapIcon type={68} />
-                                                <div id="sharpen-add" className="valueButton">+</div>
-                                                <div id="sharpen-remove" className="valueButton">-</div>
+                                                <div id="sharpen-add" className="valueButton" onClick={() => {
+                                                    setValues((prevState) => ({
+                                                        ...prevState,
+                                                        sharpen: (prevState.sharpen < 195) ? (prevState.sharpen + 5) : 200
+                                                    }))
+                                                }}>+</div>
+                                                <div id="sharpen-remove" className="valueButton" onClick={() => {
+                                                    setValues((prevState) => ({
+                                                        ...prevState,
+                                                        sharpen: (prevState.sharpen > 5) ? (prevState.sharpen - 5) : 0
+                                                    }))
+                                                }}>-</div>
                                             </div>
                                             <div className="buttonCouple">
                                                 <div className="buttonCouple">
                                                     <BootstrapIcon type={67} />
-                                                    <div id="dither-add" className="valueButton"><BootstrapIcon type={30} /></div>
-                                                    <div id="dither-remove" className="valueButton"><BootstrapIcon type={31} /></div>
+                                                    <div id="dither-add" className="valueButton" onClick={() => {
+                                                        setValues((prevState) => ({
+                                                            ...prevState,
+                                                            dither: true
+                                                        }))
+                                                    }}><BootstrapIcon type={30} /></div>
+                                                    <div id="dither-remove" className="valueButton" onClick={() => {
+                                                        setValues((prevState) => ({
+                                                            ...prevState,
+                                                            dither: false
+                                                        }))
+                                                    }}><BootstrapIcon type={31} /></div>
                                                 </div>
                                                 <div className="buttonCouple">
                                                     <BootstrapIcon type={69} text={
@@ -1655,15 +1561,35 @@ const Editor = (props) => {
                                                                             values.ditherAlgo === 6 ? 's2' :
                                                                                 values.ditherAlgo === 7 ? 'sl' :
                                                                                     'f'} />
-                                                    <div id="ditherAlgo-add" className="valueButton"><BootstrapIcon type={70} /></div>
-                                                    <div id="ditherAlgo-remove" className="valueButton"><BootstrapIcon type={71} /></div>
+                                                    <div id="ditherAlgo-add" className="valueButton" onClick={() => {
+                                                        setValues((prevState) => ({
+                                                            ...prevState,
+                                                            ditherAlgo: prevState.ditherAlgo < 7 ? prevState.ditherAlgo + 1 : 0
+                                                        }))
+                                                    }}><BootstrapIcon type={70} /></div>
+                                                    <div id="ditherAlgo-remove" className="valueButton" onClick={() => {
+                                                        setValues((prevState) => ({
+                                                            ...prevState,
+                                                            ditherAlgo: prevState.ditherAlgo > 0 ? prevState.ditherAlgo - 1 : 7
+                                                        }))
+                                                    }}><BootstrapIcon type={71} /></div>
                                                 </div>
                                             </div>
                                             <div className="buttonCouple">
                                                 <div className="buttonCouple">
                                                     <BootstrapIcon type={62} />
-                                                    <div id="motionBlurLayers-add" className="valueButton">+</div>
-                                                    <div id="motionBlurLayers-remove" className="valueButton">-</div>
+                                                    <div id="motionBlurLayers-add" className="valueButton" onClick={() => {
+                                                        setValues((prevState) => ({
+                                                            ...prevState,
+                                                            motionBlurLayers: (prevState.motionBlurLayers < 28) ? (prevState.motionBlurLayers + 2) : 30
+                                                        }))
+                                                    }}>+</div>
+                                                    <div id="motionBlurLayers-remove" className="valueButton" onClick={() => {
+                                                        setValues((prevState) => ({
+                                                            ...prevState,
+                                                            motionBlurLayers: (prevState.motionBlurLayers > 2) ? (prevState.motionBlurLayers - 2) : 0
+                                                        }))
+                                                    }}>-</div>
                                                 </div>
                                                 <div className="buttonCouple">
                                                     <BootstrapIcon type={
@@ -1671,8 +1597,18 @@ const Editor = (props) => {
                                                             (values.motionBlurAngle === 90 || values.motionBlurAngle === 270) ? 63 :
                                                                 (values.motionBlurAngle === 135 || values.motionBlurAngle === 315) ? 66 :
                                                                     65} />
-                                                    <div id="motionBlurAngle-add" className="valueButton"><BootstrapIcon type={70} /></div>
-                                                    <div id="motionBlurAngle-remove" className="valueButton"><BootstrapIcon type={71} /></div>
+                                                    <div id="motionBlurAngle-add" className="valueButton" onClick={() => {
+                                                        setValues((prevState) => ({
+                                                            ...prevState,
+                                                            motionBlurAngle: ((prevState.motionBlurAngle % 45) !== 0) ? 0 : (prevState.motionBlurAngle + 45) % 360
+                                                        }))
+                                                    }}><BootstrapIcon type={70} /></div>
+                                                    <div id="motionBlurAngle-remove" className="valueButton" onClick={() => {
+                                                        setValues((prevState) => ({
+                                                            ...prevState,
+                                                            motionBlurAngle: ((prevState.motionBlurAngle % 45) !== 0) ? 0 : (prevState.motionBlurAngle - 45 + (prevState.motionBlurAngle < 45 ? 360 : 0)) % 360
+                                                        }))
+                                                    }}><BootstrapIcon type={71} /></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -1786,7 +1722,7 @@ const Editor = (props) => {
                                             <Dropdown.Item onSelect={() => { setPostView('Private') }} >Private</Dropdown.Item>
                                         </DropdownButton>
                                     </div>
-                                    : null
+                                    : <div></div>
                                 }
                             </Form>
                             <hr className="round" />
