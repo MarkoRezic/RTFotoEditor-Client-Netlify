@@ -77,7 +77,7 @@ const Editor = (props) => {
         brightness: 0,          //-100 .. 100
         contrast: 0,            //-100 .. 100
         exposure: 0,            //-100 .. 100
-        stackBlur: 0,           //   0 .. 20
+        stackBlur: 0,           //   0 .. 8
 
         saturation: 0,          //-100 .. 100
         vibrance: 0,            //-100 .. 100
@@ -91,50 +91,7 @@ const Editor = (props) => {
 
         colorizeStrength: 0,    //   0 .. 100
 
-        gamma: 1,               //   0 .1. 10
-        presetFilter: '',
-
-        mirrorX: 0,             //   0 .. 1
-        mirrorY: 0,             //   0 .. 1
-
-        resizeWidth: 100,       //   1 .. 100%
-        resizeHeight: 100,      //   1 .. 100%
-
-        rotateAngle: 0,         //   0 .. 360
-
-        opacity: 1,             //   0 .. 1
-
-        vignetteSize: 0,        //   0 .. 100%
-        vignetteStrength: 0,    //   0 .. 100
-        sepia: 0,               //   0 .. 100
-        noise: 0,               //   0 .. 100
-        invert: false,          //true .. false
-        dither: 0,              //   0 .. 100
-        ditherAlgo: 0,          //   0 .. 7
-        sharpen: 0,             //   0 .. 200
-        radialBlur: 0,          //   0 .. 10
-        motionBlurAngle: 45,    //   0 .. 360
-        motionBlurLayers: 0,    //   0 .. 50
-    });
-    const resetValues = {
-        brightness: 0,          //-100 .. 100
-        contrast: 0,            //-100 .. 100
-        exposure: 0,            //-100 .. 100
-        stackBlur: 0,           //   0 .. 20
-
-        saturation: 0,          //-100 .. 100
-        vibrance: 0,            //-100 .. 100
-        hue: 0,                 //   0 .. 100
-        clip: 0,                //   0 .. 100
-
-        channelR: 0,            //-100 .. 100 
-        channelG: 0,            //-100 .. 100 
-        channelB: 0,            //-100 .. 100 
-        greyscale: false,       //true .. false
-
-        colorizeStrength: 0,    //   0 .. 100
-
-        gamma: 1,               //   0 .1. 10
+        gamma: 1,               //   0 .1. 4
         presetFilter: '',
 
         mirrorX: 0,             //   0 .. 1
@@ -154,10 +111,53 @@ const Editor = (props) => {
         invert: false,          //true .. false
         dither: false,          //true .. false
         ditherAlgo: 0,          //   0 .. 7
-        sharpen: 0,             //   0 .. 200
-        radialBlur: 0,          //   0 .. 10
+        sharpen: 0,             //   0 .. 60
+        radialBlur: 0,          //   0 .. 3
         motionBlurAngle: 45,    //   0 .. 360
-        motionBlurLayers: 0,    //   0 .. 50
+        motionBlurLayers: 0,    //   0 .. 3
+    });
+    const resetValues = {
+        brightness: 0,          //-100 .. 100
+        contrast: 0,            //-100 .. 100
+        exposure: 0,            //-100 .. 100
+        stackBlur: 0,           //   0 .. 8
+
+        saturation: 0,          //-100 .. 100
+        vibrance: 0,            //-100 .. 100
+        hue: 0,                 //   0 .. 100
+        clip: 0,                //   0 .. 100
+
+        channelR: 0,            //-100 .. 100 
+        channelG: 0,            //-100 .. 100 
+        channelB: 0,            //-100 .. 100 
+        greyscale: false,       //true .. false
+
+        colorizeStrength: 0,    //   0 .. 100
+
+        gamma: 1,               //   0 .1. 4
+        presetFilter: '',
+
+        mirrorX: 0,             //   0 .. 1
+        mirrorY: 0,             //   0 .. 1
+
+        resizeWidth: 100,       //   1 .. 100%
+        resizeHeight: 100,      //   1 .. 100%
+
+        rotateAngle: 0,         //   0 .. 360
+
+        opacity: 1,             //   0 .. 1
+
+        vignetteSize: 0,        //   0 .. 100%
+        vignetteStrength: 0,    //   0 .. 100
+        sepia: 0,               //   0 .. 100
+        noise: 0,               //   0 .. 100
+        invert: false,          //true .. false
+        dither: false,          //true .. false
+        ditherAlgo: 0,          //   0 .. 7
+        sharpen: 0,             //   0 .. 60
+        radialBlur: 0,          //   0 .. 3
+        motionBlurAngle: 45,    //   0 .. 360
+        motionBlurLayers: 0,    //   0 .. 3
     };
     var canvas, canvasCopy, presetCopy;
     var ctxPreset, ctxCopy;
@@ -623,10 +623,10 @@ const Editor = (props) => {
                         .crop(currentCrop.width, currentCrop.height, currentCrop.x, currentCrop.y)
                         .mirror(values.mirrorX, values.mirrorY)
                         .resizePercent({ width: values.resizeWidth, height: values.resizeHeight })
-                        .rotate(values.rotateAngle);
+                        .rotate(values.rotateAngle)
+                        .resize((currentCrop.width / 100) * this.canvas.width > (currentCrop.height / 100) * this.canvas.height ? { width: 250 } : { height: 250 })
 
                     if (values.vignetteSize !== 0 && values.vignetteStrength !== 0) this.vignette(values.vignetteSize + '%', values.vignetteStrength);
-                    //.resize((this.canvas.width > 500 || this.canvas.height > 500) ? (currentCrop.width > currentCrop.height ? { width: 500 } : { height: 500 }) : { width: this.canvas.width })
                     this.render(function () {
                         if ((activeTransformContainer === 0 || activeTransformContainer === 1) && document.getElementById('canvas')) document.getElementById('canvas').classList.add('invisible');
                         setPreviousPreset(values.presetFilter);
@@ -638,10 +638,9 @@ const Editor = (props) => {
                         .opacity(values.opacity)
                         .crop(currentCrop.width, currentCrop.height, currentCrop.x, currentCrop.y)
                         .resizePercent({ width: values.resizeWidth, height: values.resizeHeight })
-                        .rotate(values.rotateAngle);
-
+                        .rotate(values.rotateAngle)
+                        .resize((currentCrop.width / 100) * this.canvas.width > (currentCrop.height / 100) * this.canvas.height ? { width: 250 } : { height: 250 });
                     if (values.vignetteSize !== 0 && values.vignetteStrength !== 0) this.vignette(values.vignetteSize + '%', values.vignetteStrength);
-                    //.resize((this.canvas.width*values.resizeWidth > 500 || this.canvas.height*values.resizeHeight > 500) ? (currentCrop.width > currentCrop.height ? { width: 500 } : { height: 500 }) : { width: 0 })
                     this.render(function () {
                         if ((activeTransformContainer === 0 || activeTransformContainer === 1) && document.getElementById('canvas')) document.getElementById('canvas').classList.add('invisible');
                         setPreviousPreset(values.presetFilter);
@@ -898,10 +897,10 @@ const Editor = (props) => {
                                         <div className={"sliderCoupleContainer" + (activeTransformContainer === 3 ? '' : ' display-none')}>
                                             <div className="sliderCouple">
                                                 <div id="resizeWidth-add" onClick={() => {
-                                                    setCurrentWidth(values.resizeWidth < 300 ? values.resizeWidth + 1 : 300);
+                                                    setCurrentWidth(values.resizeWidth < 99 ? values.resizeWidth + 1 : 100);
                                                     setValues((prevState) => ({
                                                         ...prevState,
-                                                        resizeWidth: prevState.resizeWidth < 300 ? prevState.resizeWidth + 1 : 300
+                                                        resizeWidth: prevState.resizeWidth < 99 ? prevState.resizeWidth + 1 : 100
                                                     }))
                                                 }} className="valueButton">
                                                     +
@@ -916,10 +915,10 @@ const Editor = (props) => {
                                                     <BootstrapIcon type={42} />
                                                 </div>
                                                 <div id="resizeWidth-remove" onClick={() => {
-                                                    setCurrentWidth(values.resizeWidth > 5 ? values.resizeWidth - 1 : 5);
+                                                    setCurrentWidth(values.resizeWidth > 6 ? values.resizeWidth - 1 : 5);
                                                     setValues((prevState) => ({
                                                         ...prevState,
-                                                        resizeWidth: prevState.resizeWidth > 5 ? prevState.resizeWidth - 1 : 5
+                                                        resizeWidth: prevState.resizeWidth > 6 ? prevState.resizeWidth - 1 : 5
                                                     }))
                                                 }} className="valueButton">
                                                     -
@@ -938,7 +937,7 @@ const Editor = (props) => {
                                                             }
                                                         }
                                                         min={5}
-                                                        max={300}
+                                                        max={100}
                                                         step={1}
                                                         className="resizeRange"
                                                         variant="light"
@@ -962,7 +961,7 @@ const Editor = (props) => {
                                                             }
                                                         }
                                                         min={5}
-                                                        max={300}
+                                                        max={100}
                                                         step={1}
                                                         className="resizeRange"
                                                         variant="light"
@@ -972,10 +971,10 @@ const Editor = (props) => {
                                                     />
                                                 </div>
                                                 <div id="resizeHeight-add" onClick={() => {
-                                                    setCurrentHeight(values.resizeHeight < 300 ? values.resizeHeight + 1 : 300);
+                                                    setCurrentHeight(values.resizeHeight < 99 ? values.resizeHeight + 1 : 100);
                                                     setValues((prevState) => ({
                                                         ...prevState,
-                                                        resizeHeight: prevState.resizeHeight < 300 ? prevState.resizeHeight + 1 : 300
+                                                        resizeHeight: prevState.resizeHeight < 99 ? prevState.resizeHeight + 1 : 100
                                                     }))
                                                 }} className="valueButton">
                                                     +
@@ -990,10 +989,10 @@ const Editor = (props) => {
                                                     <BootstrapIcon type={43} />
                                                 </div>
                                                 <div id="resizeHeight-remove" onClick={() => {
-                                                    setCurrentHeight(values.resizeHeight > 5 ? values.resizeHeight - 1 : 5);
+                                                    setCurrentHeight(values.resizeHeight > 6 ? values.resizeHeight - 1 : 5);
                                                     setValues((prevState) => ({
                                                         ...prevState,
-                                                        resizeHeight: prevState.resizeHeight > 5 ? prevState.resizeHeight - 1 : 5
+                                                        resizeHeight: prevState.resizeHeight > 6 ? prevState.resizeHeight - 1 : 5
                                                     }))
                                                 }} className="valueButton">
                                                     -
@@ -1286,7 +1285,7 @@ const Editor = (props) => {
                                                 <div id="gamma-add" className="valueButton" onClick={() => {
                                                     setValues((prevState) => ({
                                                         ...prevState,
-                                                        gamma: (prevState.gamma < 4.9) ? (prevState.gamma + 0.1) : 5
+                                                        gamma: (prevState.gamma < 3.9) ? (prevState.gamma + 0.1) : 4
                                                     }))
                                                 }}>+</div>
                                                 <div id="gamma-remove" className="valueButton" onClick={() => {
@@ -1301,13 +1300,13 @@ const Editor = (props) => {
                                                 <div id="stackBlur-add" className="valueButton" onClick={() => {
                                                     setValues((prevState) => ({
                                                         ...prevState,
-                                                        stackBlur: (prevState.stackBlur < 98) ? (prevState.stackBlur + 2) : 100
+                                                        stackBlur: (prevState.stackBlur < 7) ? (prevState.stackBlur + 1) : 8
                                                     }))
                                                 }}>+</div>
                                                 <div id="stackBlur-remove" className="valueButton" onClick={() => {
                                                     setValues((prevState) => ({
                                                         ...prevState,
-                                                        stackBlur: (prevState.stackBlur > 2) ? (prevState.stackBlur - 2) : 0
+                                                        stackBlur: (prevState.stackBlur > 1) ? (prevState.stackBlur - 1) : 0
                                                     }))
                                                 }}>-</div>
                                             </div>
@@ -1316,7 +1315,7 @@ const Editor = (props) => {
                                                 <div id="radialBlur-add" className="valueButton" onClick={() => {
                                                     setValues((prevState) => ({
                                                         ...prevState,
-                                                        radialBlur: (prevState.radialBlur < 19) ? (prevState.radialBlur + 1) : 20
+                                                        radialBlur: (prevState.radialBlur < 2) ? (prevState.radialBlur + 1) : 3
                                                     }))
                                                 }}>+</div>
                                                 <div id="radialBlur-remove" className="valueButton" onClick={() => {
@@ -1510,7 +1509,7 @@ const Editor = (props) => {
                                                 <div id="noise-add" className="valueButton" onClick={() => {
                                                     setValues((prevState) => ({
                                                         ...prevState,
-                                                        noise: (prevState.noise < 95) ? (prevState.noise + 5) : 100
+                                                        noise: (prevState.noise < 75) ? (prevState.noise + 5) : 80
                                                     }))
                                                 }}>+</div>
                                                 <div id="noise-remove" className="valueButton" onClick={() => {
@@ -1525,7 +1524,7 @@ const Editor = (props) => {
                                                 <div id="sharpen-add" className="valueButton" onClick={() => {
                                                     setValues((prevState) => ({
                                                         ...prevState,
-                                                        sharpen: (prevState.sharpen < 195) ? (prevState.sharpen + 5) : 200
+                                                        sharpen: (prevState.sharpen < 55) ? (prevState.sharpen + 5) : 60
                                                     }))
                                                 }}>+</div>
                                                 <div id="sharpen-remove" className="valueButton" onClick={() => {
@@ -1581,13 +1580,13 @@ const Editor = (props) => {
                                                     <div id="motionBlurLayers-add" className="valueButton" onClick={() => {
                                                         setValues((prevState) => ({
                                                             ...prevState,
-                                                            motionBlurLayers: (prevState.motionBlurLayers < 28) ? (prevState.motionBlurLayers + 2) : 30
+                                                            motionBlurLayers: (prevState.motionBlurLayers < 2) ? (prevState.motionBlurLayers + 1) : 3
                                                         }))
                                                     }}>+</div>
                                                     <div id="motionBlurLayers-remove" className="valueButton" onClick={() => {
                                                         setValues((prevState) => ({
                                                             ...prevState,
-                                                            motionBlurLayers: (prevState.motionBlurLayers > 2) ? (prevState.motionBlurLayers - 2) : 0
+                                                            motionBlurLayers: (prevState.motionBlurLayers > 1) ? (prevState.motionBlurLayers - 1) : 0
                                                         }))
                                                     }}>-</div>
                                                 </div>
@@ -1616,10 +1615,10 @@ const Editor = (props) => {
                                         <div className={"sliderCoupleContainer" + (activeFilterContainer === 6 ? '' : ' display-none')}>
                                             <div className="sliderCouple">
                                                 <div id="vignetteSize-add" onClick={() => {
-                                                    setCurrentVignetteSize(values.vignetteSize < 99 ? values.vignetteSize + 1 : 100);
+                                                    setCurrentVignetteSize(values.vignetteSize < 79 ? values.vignetteSize + 1 : 80);
                                                     setValues((prevState) => ({
                                                         ...prevState,
-                                                        vignetteSize: prevState.vignetteSize < 99 ? prevState.vignetteSize + 1 : 100
+                                                        vignetteSize: prevState.vignetteSize < 79 ? prevState.vignetteSize + 1 : 80
                                                     }))
                                                 }} className="valueButton">
                                                     +
@@ -1647,7 +1646,7 @@ const Editor = (props) => {
                                                             }
                                                         }
                                                         min={0}
-                                                        max={100}
+                                                        max={80}
                                                         step={1}
                                                         className="resizeRange"
                                                         variant="light"
@@ -1707,23 +1706,20 @@ const Editor = (props) => {
                                 </div>
 
                                 <hr className="round" />
-                                {(currentUser.loggedIn && currentUser.verified === 'verified') ?
-                                    <div>
-                                        <Form.Group controlId="newPostDescription">
-                                            <Form.Label>Description</Form.Label>
-                                            <Form.Control autoComplete="off" as="textarea" rows={5} onChange={(e) => { setDescription(checkText(e.target.value)); document.getElementById('newPostDescription').value = checkText(e.target.value); }} />
-                                        </Form.Group>
-                                        <Form.Group className="postButtonHolder">
-                                            <button type="submit" onClick={postFile} name="button" className="genericButton">Post</button>
-                                        </Form.Group>
-                                        <DropdownButton className="changePostView" title={postView}>
-                                            <Dropdown.Item onSelect={() => { setPostView('Public') }}>Public</Dropdown.Item>
-                                            <Dropdown.Item onSelect={() => { setPostView('Friends') }} >Friends</Dropdown.Item>
-                                            <Dropdown.Item onSelect={() => { setPostView('Private') }} >Private</Dropdown.Item>
-                                        </DropdownButton>
-                                    </div>
-                                    : <div></div>
-                                }
+                                <div className={(currentUser.loggedIn && currentUser.verified === 'verified') ? '' : 'display-none'}>
+                                    <Form.Group controlId="newPostDescription">
+                                        <Form.Label>Description</Form.Label>
+                                        <Form.Control autoComplete="off" as="textarea" rows={5} onChange={(e) => { setDescription(checkText(e.target.value)); document.getElementById('newPostDescription').value = checkText(e.target.value); }} />
+                                    </Form.Group>
+                                    <Form.Group className="postButtonHolder">
+                                        <button type="submit" onClick={postFile} name="button" className="genericButton">Post</button>
+                                    </Form.Group>
+                                    <DropdownButton className="changePostView" title={postView}>
+                                        <Dropdown.Item onSelect={() => { setPostView('Public') }}>Public</Dropdown.Item>
+                                        <Dropdown.Item onSelect={() => { setPostView('Friends') }} >Friends</Dropdown.Item>
+                                        <Dropdown.Item onSelect={() => { setPostView('Private') }} >Private</Dropdown.Item>
+                                    </DropdownButton>
+                                </div>
                             </Form>
                             <hr className="round" />
                         </div>
