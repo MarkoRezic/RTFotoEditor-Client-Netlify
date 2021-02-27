@@ -544,6 +544,7 @@ const Editor = (props) => {
     /* eslint-enable */
     useEffect(() => {
         setUserVerified(currentUser.verified === 'verified' ? true : false);
+        console.log(currentUser);
     }, [currentUser])
 
     useEffect(() => {
