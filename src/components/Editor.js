@@ -547,7 +547,8 @@ const Editor = (props) => {
             setIsRendering(true);
             if (currentPreset !== previousPreset) {
                 window.Caman("#presetCopy", img, function () {
-                    this.revert(false);
+                    this.revert(false)
+                    this.resize(this.canvas.width > this.canvas.height ? { width: 250 } : { height: 250 })
 
                     switch (values.presetFilter) {
                         case 'vintage': this.vintage(); break;
@@ -584,9 +585,9 @@ const Editor = (props) => {
         presetCopy = document.getElementById("presetCopy");
         if (presetCopy) {
             window.Caman("#canvasCopy", img, function () {
-                this.revert(false);
-
-                this.cloneCanvas(presetCopy, "canvasCopy");
+                this.revert(false)
+                this.resize(this.canvas.width > this.canvas.height ? { width: 250 } : { height: 250 })
+                    .cloneCanvas(presetCopy, "canvasCopy");
                 if (values.channelR !== 0 || values.channelG !== 0 || values.channelB !== 0) this.channels({ red: values.channelR, green: values.channelG, blue: values.channelB });
                 if (values.saturation !== 0) this.saturation(values.saturation);
                 if (values.vibrance !== 0) this.vibrance(values.vibrance);
@@ -619,12 +620,12 @@ const Editor = (props) => {
             window.Caman("#canvas", img, function () {
                 if (values.mirrorX === 1 || values.mirrorY === 1) {
                     this.cloneCanvas(canvasCopy, "canvas")
+                        .resize((currentCrop.width / 100) * this.canvas.width > (currentCrop.height / 100) * this.canvas.height ? { width: 250 } : { height: 250 })
                         .opacity(values.opacity)
                         .crop(currentCrop.width, currentCrop.height, currentCrop.x, currentCrop.y)
                         .mirror(values.mirrorX, values.mirrorY)
                         .resizePercent({ width: values.resizeWidth, height: values.resizeHeight })
                         .rotate(values.rotateAngle)
-                        .resize((currentCrop.width / 100) * this.canvas.width > (currentCrop.height / 100) * this.canvas.height ? { width: 250 } : { height: 250 })
 
                     if (values.vignetteSize !== 0 && values.vignetteStrength !== 0) this.vignette(values.vignetteSize + '%', values.vignetteStrength);
                     this.render(function () {
@@ -635,11 +636,11 @@ const Editor = (props) => {
                 }
                 else {
                     this.cloneCanvas(canvasCopy, "canvas")
+                        .resize((currentCrop.width / 100) * this.canvas.width > (currentCrop.height / 100) * this.canvas.height ? { width: 250 } : { height: 250 })
                         .opacity(values.opacity)
                         .crop(currentCrop.width, currentCrop.height, currentCrop.x, currentCrop.y)
                         .resizePercent({ width: values.resizeWidth, height: values.resizeHeight })
                         .rotate(values.rotateAngle)
-                        .resize((currentCrop.width / 100) * this.canvas.width > (currentCrop.height / 100) * this.canvas.height ? { width: 250 } : { height: 250 });
                     if (values.vignetteSize !== 0 && values.vignetteStrength !== 0) this.vignette(values.vignetteSize + '%', values.vignetteStrength);
                     this.render(function () {
                         if ((activeTransformContainer === 0 || activeTransformContainer === 1) && document.getElementById('canvas')) document.getElementById('canvas').classList.add('invisible');
@@ -1128,12 +1129,12 @@ const Editor = (props) => {
                                             <div id="reset" className="editorButton" onClick={() => { setPreviousPreset('initial'); setCurrentPreset(''); setCurrentCrop({ ...cropReset }); setValues({ ...resetValues }); setRenderPaused(false); }}><BootstrapIcon type={55} /></div>
                                         </div>
                                         <div className={"originalImageContainer"}>
-                                            <canvas id="presetCopy"></canvas>
+                                            <canvas data-caman-hidpi-disabled="true" id="presetCopy"></canvas>
                                             <img src={previewSource ? previewSource : ''} alt="selected file" className={"originalImage" + (activeTransformContainer === 0 ? '' : ' invisible')} />
-                                            <canvas id="canvasCopy"></canvas>
+                                            <canvas data-caman-hidpi-disabled="true" id="canvasCopy"></canvas>
                                             <ReactCrop className={(activeTransformContainer === 1) ? '' : 'invisible'} src={previewSource} crop={currentCrop} onChange={(crop, percentCrop) => { setCurrentCrop(percentCrop) }} onComplete={cropCanvas} />
-                                            <canvas className={"blackCover " + ((activeTransformContainer !== 1) ? '' : 'invisible')}></canvas>
-                                            <canvas id="canvas" className={(activeTransformContainer !== 0 && activeTransformContainer !== 1) ? '' : 'invisible'}></canvas>
+                                            <canvas data-caman-hidpi-disabled="true" className={"blackCover " + ((activeTransformContainer !== 1) ? '' : 'invisible')}></canvas>
+                                            <canvas id="canvas" data-caman-hidpi-disabled="true" className={(activeTransformContainer !== 0 && activeTransformContainer !== 1) ? '' : 'invisible'}></canvas>
                                         </div>
                                         <div className="buttonRow">
                                             <div className={"editorButton" + (activeFilterContainer === 0 ? ' activeButton' : '')} onClick={() => { setActiveFilterContainer(activeFilterContainer === 0 ? -1 : 0) }}><BootstrapIcon type={50} /></div>
