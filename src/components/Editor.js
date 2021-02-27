@@ -548,7 +548,7 @@ const Editor = (props) => {
             if (currentPreset !== previousPreset) {
                 window.Caman("#presetCopy", img, function () {
                     this.revert(false)
-                    this.resize(this.canvas.width > this.canvas.height ? { width: 250 } : { height: 250 })
+                    this.resize(this.canvas.width > this.canvas.height ? { width: 500 } : { height: 500 })
 
                     switch (values.presetFilter) {
                         case 'vintage': this.vintage(); break;
@@ -581,13 +581,22 @@ const Editor = (props) => {
         //eslint-disable-next-line
     }, [values, endColor, renderPaused]);
 
+    function resizeCanvas(){
+        window.Caman("#presetCopy", img, function () {
+            this.resize(this.canvas.width > this.canvas.height ? { width: 500 } : { height: 500 })
+            this.render(function () {
+                copyCanvas();
+            });
+        });
+    }
+
     function copyCanvas() {
         presetCopy = document.getElementById("presetCopy");
         if (presetCopy) {
             window.Caman("#canvasCopy", img, function () {
                 this.revert(false)
-                this.resize(this.canvas.width > this.canvas.height ? { width: 250 } : { height: 250 })
-                    .cloneCanvas(presetCopy, "canvasCopy");
+                //this.resize(this.canvas.width > this.canvas.height ? { width: 500 } : { height: 500 })
+                this.cloneCanvas(presetCopy, "canvasCopy");
                 if (values.channelR !== 0 || values.channelG !== 0 || values.channelB !== 0) this.channels({ red: values.channelR, green: values.channelG, blue: values.channelB });
                 if (values.saturation !== 0) this.saturation(values.saturation);
                 if (values.vibrance !== 0) this.vibrance(values.vibrance);
@@ -620,7 +629,7 @@ const Editor = (props) => {
             window.Caman("#canvas", img, function () {
                 if (values.mirrorX === 1 || values.mirrorY === 1) {
                     this.cloneCanvas(canvasCopy, "canvas")
-                        .resize((currentCrop.width / 100) * this.canvas.width > (currentCrop.height / 100) * this.canvas.height ? { width: 250 } : { height: 250 })
+                        //.resize((currentCrop.width / 100) * this.canvas.width > (currentCrop.height / 100) * this.canvas.height ? { width: 500 } : { height: 500 })
                         .opacity(values.opacity)
                         .crop(currentCrop.width, currentCrop.height, currentCrop.x, currentCrop.y)
                         .mirror(values.mirrorX, values.mirrorY)
@@ -636,7 +645,7 @@ const Editor = (props) => {
                 }
                 else {
                     this.cloneCanvas(canvasCopy, "canvas")
-                        .resize((currentCrop.width / 100) * this.canvas.width > (currentCrop.height / 100) * this.canvas.height ? { width: 250 } : { height: 250 })
+                        .resize((currentCrop.width / 100) * this.canvas.width > (currentCrop.height / 100) * this.canvas.height ? { width: 500 } : { height: 500 })
                         .opacity(values.opacity)
                         .crop(currentCrop.width, currentCrop.height, currentCrop.x, currentCrop.y)
                         .resizePercent({ width: values.resizeWidth, height: values.resizeHeight })
@@ -758,7 +767,7 @@ const Editor = (props) => {
                     canvasCopy.height = img.height;
                     ctxCopy.drawImage(img, 0, 0, img.width, img.height);
                     canvasCopy.removeAttribute("data-caman-id");
-                    copyCanvas();
+                    resizeCanvas();
                 };
                 /*
                 window.Caman.Event.listen("processStart", function (job) {
