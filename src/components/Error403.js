@@ -18,7 +18,7 @@ const Error403 = (props) => {
             props.history.push(currentUser.loggedIn ? '/home' : '/login');
             window.location.reload();
         }
-    }, [counter]);
+    }, [counter, currentUser.loggedIn, props.history]);
     return (
         <div className="d-flex justify-content-center">
             <div>

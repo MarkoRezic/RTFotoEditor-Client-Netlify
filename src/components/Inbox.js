@@ -145,7 +145,7 @@ const Inbox = () => {
             setUsernameError('User not found');
         }
     }
-
+    /* eslint-disable */
     function replyFocus(usernameReply) {
         document.getElementById('newMessageText').focus();
         setUsername(usernameReply);
@@ -169,7 +169,7 @@ const Inbox = () => {
             updateMessages();
         });
     }
-
+    /* eslint-enable */
     function removeSelfSent(original) {
         let removed_duplicate = [...original];
         removed_duplicate = removed_duplicate.filter(message => message.sender_id !== message.reciever_id);

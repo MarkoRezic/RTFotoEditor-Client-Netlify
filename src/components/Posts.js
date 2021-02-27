@@ -23,6 +23,7 @@ const Posts = () => {
     };
     useEffect(() => {
         loadImages();
+        // eslint-disable-next-line
     }, [currentUser]);
 
     return (

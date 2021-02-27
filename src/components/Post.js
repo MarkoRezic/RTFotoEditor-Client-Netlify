@@ -28,6 +28,7 @@ const Post = (props) => {
     };
     useEffect(() => {
         loadPost();
+        // eslint-disable-next-line
     }, [currentUser]);
 
     return (

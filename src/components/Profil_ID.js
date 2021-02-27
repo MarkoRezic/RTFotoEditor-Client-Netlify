@@ -36,6 +36,7 @@ const Post = (props) => {
             props.history.push('/profil');
         }
         else loadProfile();
+        // eslint-disable-next-line
     }, [currentUser]);
 
     return (

@@ -8,7 +8,7 @@ import Editor from './Editor';
 import Home from './Home';
 import Login from './Login';
 import Profil from './Profil';
-import Profil_ID from './Profil_ID';
+import PROFIL_ID from './Profil_ID';
 import Register from './Register';
 import Users from './Users';
 import View from './View';
@@ -73,6 +73,7 @@ const Navbar = () => {
                  || window.location.pathname.startsWith('/profil/')) {
                 flag = false;
                 setLegalRoute(true);
+                //eslint-disable-next-line 
                 return new Promise(function (resolve, reject) {
                     resolve(flag)
                 })
@@ -164,7 +165,7 @@ const Navbar = () => {
                             <Route path='/register' component={Register}></Route>
                             <Route path='/inbox' component={Inbox}></Route>
                             <Route exact path='/profil' component={Profil}></Route>
-                            <Route path='/profil/:id' render={(props) => <Profil_ID {...props} />}></Route>
+                            <Route path='/profil/:id' render={(props) => <PROFIL_ID {...props} />}></Route>
                             <Route path='/postavke' component={Postavke}></Route>
                         </Switch>
                     </div>

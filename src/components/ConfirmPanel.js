@@ -1,10 +1,10 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext } from 'react';
 import Axios from 'axios';
 import { AuthorityContext } from './AuthorityContext';
 
 const ConfirmPanel = () => {
 
-    const [userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
+    const [currentUser] = useContext(AuthorityContext);
     Axios.defaults.withCredentials = true;
     let url = 'https://rt-foto-editor.herokuapp.com';
     let id = currentUser.id;
