@@ -23,14 +23,14 @@ export const AuthorityProvider = (props) => {
         window.onpopstate = function (event) {
             Axios.post(url + '/loginStatus').then((response => {
                 console.log(response);
-                let userMatch = response.data;
-                setCurrentUser({...userMatch});
+                setCurrentUser(response.data);
+                console.log(currentUser);
             }))
         }
         Axios.post(url + '/loginStatus').then((response => {
             console.log(response);
-            let userMatch = response.data;
-            setCurrentUser({...userMatch});
+            setCurrentUser(response.data);
+            console.log(currentUser);
         }))
         // eslint-disable-next-line
     }, []);

@@ -3,8 +3,9 @@ import Axios from 'axios';
 import { AuthorityContext } from './AuthorityContext';
 
 const ConfirmPanel = () => {
-
-    const [currentUser] = useContext(AuthorityContext);
+    /* eslint-disable */
+    const [userList, stUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
+    /* eslint-enable */
     Axios.defaults.withCredentials = true;
     let url = 'https://rt-foto-editor.herokuapp.com';
     let id = currentUser.id;

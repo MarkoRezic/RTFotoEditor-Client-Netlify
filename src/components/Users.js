@@ -7,7 +7,9 @@ import { Dropdown, DropdownButton } from 'react-bootstrap';
 import { Image } from 'cloudinary-react';
 
 const Users = () => {
-    const [userList, setUserList, currentUser] = useContext(AuthorityContext);
+    /* eslint-disable */
+    const [userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
+    /* eslint-enable */
     Axios.defaults.withCredentials = true;
     let url = 'https://rt-foto-editor.herokuapp.com';
     const [profileImages, setProfileImages] = useState();
