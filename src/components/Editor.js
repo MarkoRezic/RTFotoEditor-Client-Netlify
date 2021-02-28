@@ -543,19 +543,20 @@ const Editor = (props) => {
 
     /* eslint-enable */
     useEffect(() => {
-        if(currentUser) setUserVerified(currentUser.verified === 'verified' ? true : false);
+        if (currentUser) setUserVerified(currentUser.verified === 'verified' ? true : false);
         console.log(currentUser);
     }, [currentUser, setCurrentUser])
 
     useEffect(() => {
         if (!isRendering && !renderPaused) {
             setIsRendering(true);
+            console.log(currentPreset + ' ' + previousPreset);
             if (currentPreset !== previousPreset) {
                 window.Caman("#presetCopy", img, function () {
-                    this.revert(false)
-                    this.resize(this.canvas.width > this.canvas.height ? { width: 500 } : { height: 500 })
+                    //this.resize(this.canvas.width > this.canvas.height ? { width: 500 } : { height: 500 })
+                    this.revert(false);
 
-                    switch (values.presetFilter) {
+                    switch (currentPreset) {
                         case 'vintage': this.vintage(); break;
                         case 'lomo': this.lomo(); break;
                         case 'clarity': this.clarity(); break;
@@ -581,19 +582,13 @@ const Editor = (props) => {
                     });
                 });
             }
-            else copyCanvas();
+            else{
+                copyCanvas();
+            }
         }
         //eslint-disable-next-line
     }, [values, endColor, renderPaused]);
 
-    function resizeCanvas(){
-        window.Caman("#presetCopy", img, function () {
-            this.resize(this.canvas.width > this.canvas.height ? { width: 500 } : { height: 500 })
-            this.render(function () {
-                copyCanvas();
-            });
-        });
-    }
 
     function copyCanvas() {
         presetCopy = document.getElementById("presetCopy");
@@ -763,16 +758,28 @@ const Editor = (props) => {
                 img.src = reader.result;
                 // On image load add to canvas
                 img.onload = function () {
-                    presetCopy.width = img.width;
-                    presetCopy.height = img.height;
-                    ctxPreset.drawImage(img, 0, 0, img.width, img.height);
+                    if (img.width > 500 || img.height > 500) {
+                        if (img.width > img.height) {
+                            presetCopy.width = 500;
+                            presetCopy.height = 500 * (img.height / img.width)
+                        }
+                        else {
+                            presetCopy.height = 500;
+                            presetCopy.width = 500 * (img.width / img.height)
+                        }
+                    }
+                    else {
+                        presetCopy.width = img.width;
+                        presetCopy.height = img.height;
+                    }
+                    ctxPreset.drawImage(img, 0, 0, img.width, img.height, 0, 0, presetCopy.width, presetCopy.height);
                     presetCopy.removeAttribute("data-caman-id");
 
-                    canvasCopy.width = img.width;
-                    canvasCopy.height = img.height;
-                    ctxCopy.drawImage(img, 0, 0, img.width, img.height);
+                    canvasCopy.width = presetCopy.width;
+                    canvasCopy.height = presetCopy.height;
+                    ctxCopy.drawImage(presetCopy, 0, 0, presetCopy.width, presetCopy.height);
                     canvasCopy.removeAttribute("data-caman-id");
-                    resizeCanvas();
+                    copyCanvas();
                 };
                 /*
                 window.Caman.Event.listen("processStart", function (job) {
