@@ -640,6 +640,7 @@
     position: absolute;
     z-index: 10;
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	background-color: rgba(0,0,0,0.65);
 }
 .editorButtonInfoBottom{
 	bottom: 50px;
