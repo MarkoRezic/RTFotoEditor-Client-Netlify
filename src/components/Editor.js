@@ -13,6 +13,7 @@ import 'react-image-crop/dist/ReactCrop.css';
 import TEMPLATE from '../images/presetFilters/presetTemplate.png';
 import VINTAGE from '../images/presetFilters/VINTAGE.png';
 import LOMO from '../images/presetFilters/LOMO.png';
+import THEA from '../images/presetFilters/THEA.png';
 import CLARITY from '../images/presetFilters/CLARITY.png';
 import SINCITY from '../images/presetFilters/SINCITY.png';
 import SUNRISE from '../images/presetFilters/SUNRISE.png';
@@ -509,6 +510,14 @@ const Editor = (props) => {
             }
         });
 
+        window.Caman.Filter.register("thea", function () {
+                this.channels({ red: 0, green: 0, blue: 15 })
+                    .vibrance(50)
+                    .sepia(10)
+                    .contrast(5)
+                    .vignette("61%", 30);
+        });
+
         window.Caman.Filter.register("motionBlur", function (degrees) {
             var kernel;
             degrees %= 360;
@@ -539,6 +548,13 @@ const Editor = (props) => {
             return this.processPlugin("dither", [algo]);
         });
 
+        window.Caman.Filter.register("dither", function (algo) {
+            if (algo == null) {
+                algo = "floyd-steinberg";
+            }
+            return this.processPlugin("dither", [algo]);
+        });
+
     }, []);
 
     /* eslint-enable */
@@ -559,6 +575,7 @@ const Editor = (props) => {
                     switch (currentPreset) {
                         case 'vintage': this.vintage(); break;
                         case 'lomo': this.lomo(); break;
+                        case 'thea': this.thea(); break;
                         case 'clarity': this.clarity(); break;
                         case 'sinCity': this.sinCity(); break;
                         case 'sunrise': this.sunrise(); break;
@@ -1189,6 +1206,10 @@ const Editor = (props) => {
                                             <div className={"presetButton " + ((values.presetFilter === 'lomo') ? 'activePreset' : '')} onClick={() => { setCurrentPreset(currentPreset === 'lomo' ? '' : 'lomo') }}>
                                                 <img src={LOMO} alt='preset' className="presetTemplate" />
                                                 <p>Lomo</p>
+                                            </div>
+                                            <div className={"presetButton " + ((values.presetFilter === 'thea') ? 'activePreset' : '')} onClick={() => { setCurrentPreset(currentPreset === 'thea' ? '' : 'thea') }}>
+                                                <img src={THEA} alt='preset' className="presetTemplate" />
+                                                <p>Thea</p>
                                             </div>
                                             <div className={"presetButton " + ((values.presetFilter === 'clarity') ? 'activePreset' : '')} onClick={() => { setCurrentPreset(currentPreset === 'clarity' ? '' : 'clarity') }}>
                                                 <img src={CLARITY} alt='preset' className="presetTemplate" />
