@@ -712,7 +712,7 @@
 	overflow: auto;
 }
 .sliderCoupleContainer{
-	min-width: none !important;
+	min-width: unset !important;
 }
 .buttonCoupleContainer{
 	width: 100%;
