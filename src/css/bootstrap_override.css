@@ -711,6 +711,9 @@
     flex-direction: column;
 	overflow: auto;
 }
+.sliderCoupleContainer{
+	min-width: none !important;
+}
 .buttonCoupleContainer{
 	width: 100%;
 	padding-left: 10%;
