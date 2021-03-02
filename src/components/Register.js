@@ -96,50 +96,53 @@ const Register = () => {
 
         Axios.get(url + '/users').then((response) => {
             setUserList([...response.data]);
-            var {
-                validEmail,
-                emailError,
-                validUsername,
-                usernameError,
-                validPassword,
-                passwordError,
-                validRepassword,
-                repasswordError
-            } = regexTest(email, username, password, repassword, userList);
+            if (userList.length > 0) {
+                var {
+                    validEmail,
+                    emailError,
+                    validUsername,
+                    usernameError,
+                    validPassword,
+                    passwordError,
+                    validRepassword,
+                    repasswordError
+                } = regexTest(email, username, password, repassword, userList);
 
-            setErrorText({ emailError, usernameError, passwordError, repasswordError, });
+                setErrorText({ emailError, usernameError, passwordError, repasswordError, });
 
-            if (validEmail === 1 && validUsername === 1 && validPassword === 1 && validRepassword === 1) {
-                Axios.post(url + '/register/user', {
-                    email: email.toLowerCase(),
-                    username: username,
-                    password: password,
-                    authority: 'user'
-                }).then(() => {
-                    console.log('user registered');
-                    window.scrollTo(0, 0);
-                    Axios.post(url + '/login', {
-                        username: username.toLowerCase(),
-                        password: password
-                    }).then((response) => {
-                        Axios.post(url + '/confirmation/send', {
-                            id: response.data.id,
-                            email: email.toLowerCase(),
-                        }).then(() => {
-                            console.log('email sent');
+                if (validEmail === 1 && validUsername === 1 && validPassword === 1 && validRepassword === 1) {
+                    Axios.post(url + '/register/user', {
+                        email: email.toLowerCase(),
+                        username: username,
+                        password: password,
+                        authority: 'user'
+                    }).then(() => {
+                        console.log('user registered');
+                        window.scrollTo(0, 0);
+                        Axios.post(url + '/login', {
+                            username: username.toLowerCase(),
+                            password: password
+                        }).then((response) => {
+                            Axios.post(url + '/confirmation/send', {
+                                id: response.data.id,
+                                email: email.toLowerCase(),
+                            }).then(() => {
+                                console.log('email sent');
+                            });
+                            setIsLoading(false);
+
+                            if (autoLogin) {
+                                let userMatch = response.data;
+                                setCurrentUser(userMatch);
+                                setRedirect(true);
+                            }
+                            else window.location.reload();
                         });
-                        setIsLoading(false);
-
-                        if (autoLogin) {
-                            let userMatch = response.data;
-                            setCurrentUser(userMatch);
-                            setRedirect(true);
-                        }
-                        else window.location.reload();
-                    });
-                })
+                    })
+                }
+                else setIsLoading(false);
             }
-            else setIsLoading(false);
+            else console.log('user list empty');
         });
 
 

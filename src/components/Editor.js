@@ -1119,13 +1119,13 @@ const Editor = (props) => {
                                     </div>
                                     <div className="col-12 editorContaier">
                                         <div className="buttonRow">
-                                            <div id="toggle-original" onClick={() => { setActiveTransformContainer(activeTransformContainer === 0 ? -1 : 0) }} className={"editorButton" + (activeTransformContainer === 0 ? ' activeButton' : '')}><BootstrapIcon type={22} /></div>
-                                            <div id="crop" onClick={() => { setActiveTransformContainer(activeTransformContainer === 1 ? -1 : 1) }} className={"editorButton" + (activeTransformContainer === 1 ? ' activeButton' : '')}><BootstrapIcon type={35} /></div>
-                                            <div id="rotate" onClick={() => { setActiveTransformContainer(activeTransformContainer === 2 ? -1 : 2) }} className={"editorButton" + (activeTransformContainer === 2 ? ' activeButton' : '')}><BootstrapIcon type={38} /></div>
-                                            <div id="resize" onClick={() => { setActiveTransformContainer(activeTransformContainer === 3 ? -1 : 3) }} className={"editorButton" + (activeTransformContainer === 3 ? ' activeButton' : '')}><BootstrapIcon type={41} /></div>
-                                            <div id="mirror" onClick={() => { setActiveTransformContainer(activeTransformContainer === 4 ? -1 : 4) }} className={"editorButton" + (activeTransformContainer === 4 ? ' activeButton' : '')}><BootstrapIcon type={44} /></div>
-                                            <div id="imageSettings" onClick={() => { setActiveTransformContainer(activeTransformContainer === 5 ? -1 : 5) }} className={"editorButton" + (activeTransformContainer === 5 ? ' activeButton' : '')}><BootstrapIcon type={51} /></div>
-                                            <div id="render" className={"editorButton" + (!renderPaused ? ' activeButton' : '')} onClick={() => { setRenderPaused(!renderPaused) }}><BootstrapIcon type={!renderPaused ? 56 : 57} /></div>
+                                            <div id="toggle-original" onClick={() => { setActiveTransformContainer(activeTransformContainer === 0 ? -1 : 0) }} className={"editorButton" + (activeTransformContainer === 0 ? ' activeButton' : '')}><div className="editorButtonInfoTop infoLeft">Show Original</div><BootstrapIcon type={22} /></div>
+                                            <div id="crop" onClick={() => { setActiveTransformContainer(activeTransformContainer === 1 ? -1 : 1) }} className={"editorButton" + (activeTransformContainer === 1 ? ' activeButton' : '')}><div className="editorButtonInfoTop">Crop</div><BootstrapIcon type={35} /></div>
+                                            <div id="rotate" onClick={() => { setActiveTransformContainer(activeTransformContainer === 2 ? -1 : 2) }} className={"editorButton" + (activeTransformContainer === 2 ? ' activeButton' : '')}><div className="editorButtonInfoTop">Rotate</div><BootstrapIcon type={38} /></div>
+                                            <div id="resize" onClick={() => { setActiveTransformContainer(activeTransformContainer === 3 ? -1 : 3) }} className={"editorButton" + (activeTransformContainer === 3 ? ' activeButton' : '')}><div className="editorButtonInfoTop">Resize</div><BootstrapIcon type={41} /></div>
+                                            <div id="mirror" onClick={() => { setActiveTransformContainer(activeTransformContainer === 4 ? -1 : 4) }} className={"editorButton" + (activeTransformContainer === 4 ? ' activeButton' : '')}><div className="editorButtonInfoTop">Mirror</div><BootstrapIcon type={44} /></div>
+                                            <div id="imageSettings" onClick={() => { setActiveTransformContainer(activeTransformContainer === 5 ? -1 : 5) }} className={"editorButton" + (activeTransformContainer === 5 ? ' activeButton' : '')}><div className="editorButtonInfoTop">Settings</div><BootstrapIcon type={51} /></div>
+                                            <div id="render" className={"editorButton" + (!renderPaused ? ' activeButton' : '')} onClick={() => { setRenderPaused(!renderPaused) }}><div className="editorButtonInfoTop">{!renderPaused ? 'Render: ON' : 'Render: OFF'}</div><BootstrapIcon type={!renderPaused ? 56 : 57} /></div>
                                             <div id="download" className="editorButton" onClick={
                                                 () => {
                                                     // Get ext
@@ -1146,8 +1146,8 @@ const Editor = (props) => {
                                                     canvas = document.getElementById('canvas');
                                                     download(canvas, newFilename);
                                                 }
-                                            }><BootstrapIcon type={54} /></div>
-                                            <div id="reset" className="editorButton" onClick={() => { setPreviousPreset('initial'); setCurrentPreset(''); setCurrentCrop({ ...cropReset }); setValues({ ...resetValues }); setRenderPaused(false); }}><BootstrapIcon type={55} /></div>
+                                            }><div className="editorButtonInfoTop">Download</div><BootstrapIcon type={54} /></div>
+                                            <div id="reset" className="editorButton" onClick={() => { setPreviousPreset('initial'); setCurrentPreset(''); setCurrentCrop({ ...cropReset }); setValues({ ...resetValues }); setRenderPaused(false); }}><div className="editorButtonInfoTop infoRight">Reset</div><BootstrapIcon type={55} /></div>
                                         </div>
                                         <div className={"originalImageContainer"}>
                                             <canvas data-caman-hidpi-disabled="true" id="presetCopy"></canvas>
@@ -1158,15 +1158,15 @@ const Editor = (props) => {
                                             <canvas id="canvas" data-caman-hidpi-disabled="true" className={(activeTransformContainer !== 0 && activeTransformContainer !== 1) ? '' : 'invisible'}></canvas>
                                         </div>
                                         <div className="buttonRow">
-                                            <div className={"editorButton" + (activeFilterContainer === 0 ? ' activeButton' : '')} onClick={() => { setActiveFilterContainer(activeFilterContainer === 0 ? -1 : 0) }}><BootstrapIcon type={50} /></div>
-                                            <div className={"editorButton" + (activeFilterContainer === 1 ? ' activeButton' : '')} onClick={() => { setActiveFilterContainer(activeFilterContainer === 1 ? -1 : 1) }}><BootstrapIcon type={37} /></div>
-                                            <div className={"editorButton" + (activeFilterContainer === 2 ? ' activeButton' : '')} onClick={() => { setActiveFilterContainer(activeFilterContainer === 2 ? -1 : 2) }}><BootstrapIcon type={46} /></div>
-                                            <div className={"editorButton" + (activeFilterContainer === 3 ? ' activeButton' : '')} onClick={() => { setActiveFilterContainer(activeFilterContainer === 3 ? -1 : 3) }}><BootstrapIcon type={47} /></div>
-                                            <div className={"editorButton" + (activeFilterContainer === 4 ? ' activeButton' : '')} onClick={() => { setActiveFilterContainer(activeFilterContainer === 4 ? -1 : 4) }}><BootstrapIcon type={48} /></div>
-                                            <div className={"editorButton" + (activeFilterContainer === 5 ? ' activeButton' : '')} onClick={() => { setActiveFilterContainer(activeFilterContainer === 5 ? -1 : 5) }}><BootstrapIcon type={49} /></div>
-                                            <div className={"editorButton" + (activeFilterContainer === 6 ? ' activeButton' : '')} onClick={() => { setActiveFilterContainer(activeFilterContainer === 6 ? -1 : 6) }}><BootstrapIcon type={72} /></div>
-                                            <div className="editorButton" onClick={() => { }}><BootstrapIcon type={52} /></div>
-                                            <div className="editorButton" onClick={() => { }}><BootstrapIcon type={53} /></div>
+                                            <div className={"editorButton" + (activeFilterContainer === 0 ? ' activeButton' : '')} onClick={() => { setActiveFilterContainer(activeFilterContainer === 0 ? -1 : 0) }}><div className="editorButtonInfoBottom infoLeft">Preset Filter</div><BootstrapIcon type={50} /></div>
+                                            <div className={"editorButton" + (activeFilterContainer === 1 ? ' activeButton' : '')} onClick={() => { setActiveFilterContainer(activeFilterContainer === 1 ? -1 : 1) }}><div className="editorButtonInfoBottom">Light Level</div><BootstrapIcon type={37} /></div>
+                                            <div className={"editorButton" + (activeFilterContainer === 2 ? ' activeButton' : '')} onClick={() => { setActiveFilterContainer(activeFilterContainer === 2 ? -1 : 2) }}><div className="editorButtonInfoBottom">Colors</div><BootstrapIcon type={46} /></div>
+                                            <div className={"editorButton" + (activeFilterContainer === 3 ? ' activeButton' : '')} onClick={() => { setActiveFilterContainer(activeFilterContainer === 3 ? -1 : 3) }}><div className="editorButtonInfoBottom">RGB</div><BootstrapIcon type={47} /></div>
+                                            <div className={"editorButton" + (activeFilterContainer === 4 ? ' activeButton' : '')} onClick={() => { setActiveFilterContainer(activeFilterContainer === 4 ? -1 : 4) }}><div className="editorButtonInfoBottom">Colorize</div><BootstrapIcon type={48} /></div>
+                                            <div className={"editorButton" + (activeFilterContainer === 5 ? ' activeButton' : '')} onClick={() => { setActiveFilterContainer(activeFilterContainer === 5 ? -1 : 5) }}><div className="editorButtonInfoBottom">Noise</div><BootstrapIcon type={49} /></div>
+                                            <div className={"editorButton" + (activeFilterContainer === 6 ? ' activeButton' : '')} onClick={() => { setActiveFilterContainer(activeFilterContainer === 6 ? -1 : 6) }}><div className="editorButtonInfoBottom">Vignette</div><BootstrapIcon type={72} /></div>
+                                            <div className="editorButton" onClick={() => { }}><BootstrapIcon type={52} /><div className="editorButtonInfoBottom">Undo</div></div>
+                                            <div className="editorButton" onClick={() => { }}><BootstrapIcon type={53} /><div className="editorButtonInfoBottom infoRight">Redo</div></div>
                                         </div>
 
                                     </div>
