@@ -729,8 +729,11 @@
 	text-align: center;
 	margin-bottom: 0 !important;
 }
+.sliderCoupleContainer p{
+	font-size: 20px;
+}
 .imageTypeCoupleContainer p{
-	font-size: 18px !important;
+	font-size: 15px !important;
 }
 .imageTypeCoupleContainer{
 	border: 1px solid #333;
@@ -768,8 +771,24 @@
 .sliderFlexWrap span{
 	margin-top: 18px;
 }
+.sliderFlexWrap p{
+	margin: 5px;
+	margin-top: 21px;
+	font-size: 15px !important;
+}
 .Aspect span{
 	margin-top: 0 !important;
+}
+#maxImageSizeContainer{
+	margin: auto;
+	width: 100% !important;
+}
+#maxImageSizeContainer .sliderCouple{
+	margin: auto;
+	width: 100% !important;
+}
+#maxImageSizeContainer .sliderCouple p{
+	font-size: 15px !important;
 }
 .range-slider__wrap{
 	z-index: 0 !important;
@@ -799,10 +818,10 @@
 .slider-picker{
 	width: 100%;
 }
-#colorizeStrength-remove, #mirrorX, #opacity-remove, #vignetteSize-remove, #vignetteStrength-remove{
+#colorizeStrength-remove, #mirrorX, #vignetteSize-remove, #vignetteStrength-remove, #maxSize-remove{
 	margin-right: 15px;
 }
-#opacity-add{
+#vignetteSize-add, #vignetteStrength-add, #maxSize-add{
 	margin-left: 15px;
 }
 #mirrorX, #mirrorY{
@@ -1439,4 +1458,10 @@ svg{
 	[class*="infoRight"] {
 		right: auto;
   }
+}
+@media only screen and (min-width: 680px){
+	/* Desktop: */
+	.sliderCoupleContainer p{
+		font-size: 25px;
+	}
 }

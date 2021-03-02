@@ -68,9 +68,9 @@ const Editor = (props) => {
     const [endColor, setEndColor] = useState('#B3DEE5');
     const [currentVignetteSize, setCurrentVignetteSize] = useState(0);
     const [currentVignetteStrength, setCurrentVignetteStrength] = useState(0);
-    const [currentOpacity, setCurrentOpacity] = useState(1);
     const [isPNG, setIsPNG] = useState(false);
     const [imageQuality, setImageQuality] = useState(0.8);
+    const [maxSize, setMaxSize] = useState(1000);
     const [postOriginal, setPostOriginal] = useState(false);
     const [renderPaused, setRenderPaused] = useState(false);
     const [fileName, setFileName] = useState("");
@@ -511,11 +511,11 @@ const Editor = (props) => {
         });
 
         window.Caman.Filter.register("thea", function () {
-                this.channels({ red: 0, green: 0, blue: 15 })
-                    .vibrance(50)
-                    .sepia(10)
-                    .contrast(5)
-                    .vignette("61%", 30);
+            this.channels({ red: 0, green: 0, blue: 15 })
+                .vibrance(50)
+                .sepia(10)
+                .contrast(5)
+                .vignette("61%", 30);
         });
 
         window.Caman.Filter.register("motionBlur", function (degrees) {
@@ -599,7 +599,7 @@ const Editor = (props) => {
                     });
                 });
             }
-            else{
+            else {
                 copyCanvas();
             }
         }
@@ -662,7 +662,7 @@ const Editor = (props) => {
                 }
                 else {
                     this.cloneCanvas(canvasCopy, "canvas")
-                        .resize((currentCrop.width / 100) * this.canvas.width > (currentCrop.height / 100) * this.canvas.height ? { width: 500 } : { height: 500 })
+                        //.resize((currentCrop.width / 100) * this.canvas.width > (currentCrop.height / 100) * this.canvas.height ? { width: 500 } : { height: 500 })
                         .opacity(values.opacity)
                         .crop(currentCrop.width, currentCrop.height, currentCrop.x, currentCrop.y)
                         .resizePercent({ width: values.resizeWidth, height: values.resizeHeight })
@@ -705,9 +705,6 @@ const Editor = (props) => {
             presetFilter: currentPreset
         }))
     }, [currentPreset]);
-    useEffect(() => {
-        setCurrentOpacity(values.opacity);
-    }, [values.opacity]);
     useEffect(() => {
         setCurrentVignetteSize(values.vignetteSize);
         setCurrentVignetteStrength(values.vignetteStrength);
@@ -775,14 +772,14 @@ const Editor = (props) => {
                 img.src = reader.result;
                 // On image load add to canvas
                 img.onload = function () {
-                    if (img.width > 500 || img.height > 500) {
+                    if (img.width > maxSize || img.height > maxSize) {
                         if (img.width > img.height) {
-                            presetCopy.width = 500;
-                            presetCopy.height = 500 * (img.height / img.width)
+                            presetCopy.width = maxSize;
+                            presetCopy.height = maxSize * (img.height / img.width)
                         }
                         else {
-                            presetCopy.height = 500;
-                            presetCopy.width = 500 * (img.width / img.height)
+                            presetCopy.height = maxSize;
+                            presetCopy.width = maxSize * (img.width / img.height)
                         }
                     }
                     else {
@@ -862,6 +859,46 @@ const Editor = (props) => {
                             <Form acceptCharset="UTF-8" onSubmit={(e) => { e.preventDefault(); }} id="fileUploadForm">
                                 <Form.Group>
                                     <Form.File accept="image/x-png,image/gif,image/jpeg" value={fileInputState} onChange={handleFileInputChange} className="fileUpload" id="fileUploadID" name="image" label="Upload photo" />
+
+                                    <div id="maxImageSizeContainer" className="sliderCoupleContainer">
+
+                                        <div className="sliderCouple">
+                                            <div className="sliderFlexWrap">
+                                                <p>50px</p>
+                                                <RangeSlider
+                                                    value={maxSize}
+                                                    onChange={(e) => { setMaxSize(e.target.value) }}
+                                                    onAfterChange={
+                                                        (e) => { setMaxSize(e.target.value) }
+                                                    }
+                                                    min={50}
+                                                    max={1600}
+                                                    step={50}
+                                                    className="rotateRange"
+                                                    variant="light"
+                                                    tooltipLabel={currentValue => `${currentValue}px`}
+                                                    tooltipPlacement='top'
+                                                    tooltip='on'
+                                                />
+                                                <p>1600px</p>
+                                            </div>
+                                            <div id="maxSize-add" onClick={() => {
+                                                setMaxSize((prevState) => (
+                                                    prevState < 1550 ? prevState + 50 : 1600
+                                                ))
+                                            }} className="valueButton">
+                                                +
+                                                </div>
+                                            <p>Max Size</p>
+                                            <div id="maxSize-remove" onClick={() => {
+                                                setMaxSize((prevState) => (
+                                                    prevState > 100 ? prevState - 50 : 50
+                                                ))
+                                            }} className="valueButton">
+                                                -
+                                                </div>
+                                        </div>
+                                    </div>
                                 </Form.Group>
 
                                 <div className="row">
@@ -876,6 +913,7 @@ const Editor = (props) => {
                                         </div>
 
                                         <div className={"sliderCoupleContainer" + (activeTransformContainer === 2 ? '' : ' display-none')}>
+                                            <p>Rotate</p>
                                             <div className="sliderCouple">
                                                 <div className="sliderFlexWrap">
 
@@ -1063,48 +1101,35 @@ const Editor = (props) => {
                                         </div>
 
                                         <div className={"sliderCoupleContainer" + (activeTransformContainer === 5 ? '' : ' display-none')}>
+                                            <p>Image Settings</p>
                                             <div className="sliderCouple">
-                                                <div id="opacity-add" onClick={() => {
-                                                    setCurrentOpacity(values.opacity < 0.95 ? values.opacity + 0.05 : 1);
-                                                    setValues((prevState) => ({
-                                                        ...prevState,
-                                                        opacity: prevState.opacity < 0.95 ? prevState.opacity + 0.05 : 1
-                                                    }))
-                                                }} className="valueButton">
-                                                    +
-                                                </div>
-                                                <p>Opacity</p>
-                                                <div id="opacity-remove" onClick={() => {
-                                                    setCurrentOpacity(values.opacity > 0.05 ? values.opacity - 0.05 : 0);
-                                                    setValues((prevState) => ({
-                                                        ...prevState,
-                                                        opacity: prevState.opacity > 0.05 ? prevState.opacity - 0.05 : 0
-                                                    }))
-                                                }} className="valueButton">
-                                                    -
-                                                    </div>
-                                                <div className="sliderFlexWrap Aspect">
 
-                                                    <RangeSlider
-                                                        value={currentOpacity}
-                                                        onChange={(e) => { setCurrentOpacity(e.target.value) }}
-                                                        onAfterChange={
-                                                            (e) => {
-                                                                setValues((prevState) => ({
-                                                                    ...prevState,
-                                                                    opacity: parseFloat(e.target.value)
-                                                                }))
-                                                            }
-                                                        }
-                                                        min={0}
-                                                        max={1}
-                                                        step={0.05}
-                                                        className="rotateRange"
-                                                        variant="light"
-                                                        tooltipLabel={currentValue => `${Math.round(currentValue * 100)}%`}
-                                                        tooltipPlacement='top'
-                                                        tooltip='auto'
-                                                    />
+                                                <div className="imageTypeCoupleContainer">
+                                                    <div className="imageTypeCouple">
+                                                        <div id="quality-add" onClick={() => {
+                                                            setImageQuality((prevState) => (
+                                                                prevState < 0.9 ? prevState + 0.1 : 1
+                                                            ))
+                                                        }} className="valueButton">
+                                                            +
+                                                        </div>
+                                                        <div id="quality-minmax" onClick={() => {
+                                                            setImageQuality((prevState) => (
+                                                                prevState < 1 ? 1 : 0.1
+                                                            ))
+                                                        }} className="imageTypeButton">
+                                                            <p>{imageQuality < 1 ? 'MAX' : 'MIN'}</p>
+                                                        </div>
+                                                        <div id="quality-remove" onClick={() => {
+                                                            setImageQuality((prevState) => (
+                                                                prevState > 0.2 ? prevState - 0.1 : 0.1
+                                                            ))
+                                                        }} className="valueButton">
+                                                            -
+                                                        </div>
+                                                    </div>
+
+                                                    <p>Quality: {Number((imageQuality).toFixed(1))}</p>
                                                 </div>
                                                 <div className="imageTypeCoupleContainer">
                                                     <div className="imageTypeCouple">
@@ -1339,35 +1364,25 @@ const Editor = (props) => {
                                                 }}>-</div>
                                             </div>
                                             <div className="buttonCouple">
-                                                <BootstrapIcon type={32} />
-                                                <div id="stackBlur-add" className="valueButton" onClick={() => {
+                                                <BootstrapIcon type={73} />
+                                                <div id="opacity-add" onClick={() => {
                                                     setValues((prevState) => ({
                                                         ...prevState,
-                                                        stackBlur: (prevState.stackBlur < 19) ? (prevState.stackBlur + 1) : 20
+                                                        opacity: prevState.opacity < 0.95 ? prevState.opacity + 0.05 : 1
                                                     }))
-                                                }}>+</div>
-                                                <div id="stackBlur-remove" className="valueButton" onClick={() => {
+                                                }} className="valueButton">
+                                                    +
+                                                </div>
+                                                <div id="opacity-remove" onClick={() => {
                                                     setValues((prevState) => ({
                                                         ...prevState,
-                                                        stackBlur: (prevState.stackBlur > 1) ? (prevState.stackBlur - 1) : 0
+                                                        opacity: prevState.opacity > 0.05 ? prevState.opacity - 0.05 : 0
                                                     }))
-                                                }}>-</div>
+                                                }} className="valueButton">
+                                                    -
+                                                    </div>
                                             </div>
-                                            <div className="buttonCouple">
-                                                <BootstrapIcon type={58} />
-                                                <div id="radialBlur-add" className="valueButton" onClick={() => {
-                                                    setValues((prevState) => ({
-                                                        ...prevState,
-                                                        radialBlur: (prevState.radialBlur < 7) ? (prevState.radialBlur + 1) : 8
-                                                    }))
-                                                }}>+</div>
-                                                <div id="radialBlur-remove" className="valueButton" onClick={() => {
-                                                    setValues((prevState) => ({
-                                                        ...prevState,
-                                                        radialBlur: (prevState.radialBlur > 1) ? (prevState.radialBlur - 1) : 0
-                                                    }))
-                                                }}>-</div>
-                                            </div>
+
                                         </div>
 
                                         <div className={"buttonCoupleContainer" + (activeFilterContainer === 2 ? '' : ' display-none')}>
@@ -1578,6 +1593,36 @@ const Editor = (props) => {
                                                 }}>-</div>
                                             </div>
                                             <div className="buttonCouple">
+                                                <BootstrapIcon type={32} />
+                                                <div id="stackBlur-add" className="valueButton" onClick={() => {
+                                                    setValues((prevState) => ({
+                                                        ...prevState,
+                                                        stackBlur: (prevState.stackBlur < 19) ? (prevState.stackBlur + 1) : 20
+                                                    }))
+                                                }}>+</div>
+                                                <div id="stackBlur-remove" className="valueButton" onClick={() => {
+                                                    setValues((prevState) => ({
+                                                        ...prevState,
+                                                        stackBlur: (prevState.stackBlur > 1) ? (prevState.stackBlur - 1) : 0
+                                                    }))
+                                                }}>-</div>
+                                            </div>
+                                            <div className="buttonCouple">
+                                                <BootstrapIcon type={58} />
+                                                <div id="radialBlur-add" className="valueButton" onClick={() => {
+                                                    setValues((prevState) => ({
+                                                        ...prevState,
+                                                        radialBlur: (prevState.radialBlur < 7) ? (prevState.radialBlur + 1) : 8
+                                                    }))
+                                                }}>+</div>
+                                                <div id="radialBlur-remove" className="valueButton" onClick={() => {
+                                                    setValues((prevState) => ({
+                                                        ...prevState,
+                                                        radialBlur: (prevState.radialBlur > 1) ? (prevState.radialBlur - 1) : 0
+                                                    }))
+                                                }}>-</div>
+                                            </div>
+                                            <div className="buttonCouple">
                                                 <div className="buttonCouple">
                                                     <BootstrapIcon type={67} />
                                                     <div id="dither-add" className="valueButton" onClick={() => {
@@ -1658,14 +1703,15 @@ const Editor = (props) => {
                                         <div className={"sliderCoupleContainer" + (activeFilterContainer === 6 ? '' : ' display-none')}>
                                             <div className="sliderCouple">
                                                 <div id="vignetteSize-add" onClick={() => {
-                                                    setCurrentVignetteSize(values.vignetteSize < 79 ? values.vignetteSize + 1 : 80);
+                                                    setCurrentVignetteSize(values.vignetteSize < 99 ? values.vignetteSize + 1 : 100);
                                                     setValues((prevState) => ({
                                                         ...prevState,
-                                                        vignetteSize: prevState.vignetteSize < 79 ? prevState.vignetteSize + 1 : 80
+                                                        vignetteSize: prevState.vignetteSize < 99 ? prevState.vignetteSize + 1 : 100
                                                     }))
                                                 }} className="valueButton">
                                                     +
                                                 </div>
+                                                <p>V Size</p>
                                                 <div id="vignetteSize-remove" onClick={() => {
                                                     setCurrentVignetteSize(values.vignetteSize > 1 ? values.vignetteSize - 1 : 0);
                                                     setValues((prevState) => ({
@@ -1689,7 +1735,7 @@ const Editor = (props) => {
                                                             }
                                                         }
                                                         min={0}
-                                                        max={80}
+                                                        max={100}
                                                         step={1}
                                                         className="resizeRange"
                                                         variant="light"
@@ -1731,6 +1777,7 @@ const Editor = (props) => {
                                                 }} className="valueButton">
                                                     +
                                                 </div>
+                                                <p>Effect</p>
                                                 <div id="vignetteStrength-remove" onClick={() => {
                                                     setCurrentVignetteStrength(values.vignetteStrength > 1 ? values.vignetteStrength - 1 : 0);
                                                     setValues((prevState) => ({

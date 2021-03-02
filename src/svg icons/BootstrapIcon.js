@@ -679,6 +679,27 @@ const BootstrapIcon = (props) => {
                     <ellipse cx="8" cy="8" rx="9" ry="9" fill="url(#grad13)" />
                 </svg>
             )
+        case 73: //Opacity
+            return (
+                <svg width="20" height="20" viewBox="0 0 22 22">
+                    <defs>
+                        <linearGradient id="grad14" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="10%" style={{ 'stopColor': 'rgb(255,255,255)', 'stopOpacity': 0 }} />
+                            <stop offset="100%" style={{ 'stopColor': 'rgb(255,255,255)', 'stopOpacity': 1 }} />
+                        </linearGradient>
+                        <mask id="opacityMask">
+                            <rect width="22" height="22" fill="url(#grad14)" style={{ 'strokeWidth': 2, stroke: '#ccc' }} />
+                        </mask>
+                    </defs>
+                    <g mask="url(#opacityMask)">
+                        <rect width="22" height="22" style={{ 'strokeWidth': 2, stroke: '#ccc' }} />
+                        <rect x="2" y="2" width="9" height="9" fill="rgb(50,50,50)" />
+                        <rect x="11" y="2" width="9" height="9" fill="rgb(170,170,170)" />
+                        <rect x="2" y="11" width="9" height="9" fill="rgb(170,170,170)" />
+                        <rect x="11" y="11" width="9" height="9" fill="rgb(50,50,50)" />
+                    </g>
+                </svg>
+            )
         default: return <div></div>
     }
 }
