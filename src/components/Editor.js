@@ -77,7 +77,7 @@ const Editor = (props) => {
         brightness: 0,          //-100 .. 100
         contrast: 0,            //-100 .. 100
         exposure: 0,            //-100 .. 100
-        stackBlur: 0,           //   0 .. 8
+        stackBlur: 0,           //   0 .. 20
 
         saturation: 0,          //-100 .. 100
         vibrance: 0,            //-100 .. 100
@@ -91,7 +91,7 @@ const Editor = (props) => {
 
         colorizeStrength: 0,    //   0 .. 100
 
-        gamma: 1,               //   0 .1. 4
+        gamma: 1,               //   0 .1. 5
         presetFilter: '',
 
         mirrorX: 0,             //   0 .. 1
@@ -111,16 +111,16 @@ const Editor = (props) => {
         invert: false,          //true .. false
         dither: false,          //true .. false
         ditherAlgo: 0,          //   0 .. 7
-        sharpen: 0,             //   0 .. 60
-        radialBlur: 0,          //   0 .. 3
+        sharpen: 0,             //   0 .. 120
+        radialBlur: 0,          //   0 .. 8
         motionBlurAngle: 45,    //   0 .. 360
-        motionBlurLayers: 0,    //   0 .. 3
+        motionBlurLayers: 0,    //   0 .. 6
     });
     const resetValues = {
         brightness: 0,          //-100 .. 100
         contrast: 0,            //-100 .. 100
         exposure: 0,            //-100 .. 100
-        stackBlur: 0,           //   0 .. 8
+        stackBlur: 0,           //   0 .. 20
 
         saturation: 0,          //-100 .. 100
         vibrance: 0,            //-100 .. 100
@@ -134,7 +134,7 @@ const Editor = (props) => {
 
         colorizeStrength: 0,    //   0 .. 100
 
-        gamma: 1,               //   0 .1. 4
+        gamma: 1,               //   0 .1. 5
         presetFilter: '',
 
         mirrorX: 0,             //   0 .. 1
@@ -154,10 +154,10 @@ const Editor = (props) => {
         invert: false,          //true .. false
         dither: false,          //true .. false
         ditherAlgo: 0,          //   0 .. 7
-        sharpen: 0,             //   0 .. 60
-        radialBlur: 0,          //   0 .. 3
+        sharpen: 0,             //   0 .. 120
+        radialBlur: 0,          //   0 .. 8
         motionBlurAngle: 45,    //   0 .. 360
-        motionBlurLayers: 0,    //   0 .. 3
+        motionBlurLayers: 0,    //   0 .. 6
     };
     const [userVerified, setUserVerified] = useState(false);
     var canvas, canvasCopy, presetCopy;
@@ -1307,7 +1307,7 @@ const Editor = (props) => {
                                                 <div id="gamma-add" className="valueButton" onClick={() => {
                                                     setValues((prevState) => ({
                                                         ...prevState,
-                                                        gamma: (prevState.gamma < 3.9) ? (prevState.gamma + 0.1) : 4
+                                                        gamma: (prevState.gamma < 4.9) ? (prevState.gamma + 0.1) : 5
                                                     }))
                                                 }}>+</div>
                                                 <div id="gamma-remove" className="valueButton" onClick={() => {
@@ -1322,7 +1322,7 @@ const Editor = (props) => {
                                                 <div id="stackBlur-add" className="valueButton" onClick={() => {
                                                     setValues((prevState) => ({
                                                         ...prevState,
-                                                        stackBlur: (prevState.stackBlur < 7) ? (prevState.stackBlur + 1) : 8
+                                                        stackBlur: (prevState.stackBlur < 19) ? (prevState.stackBlur + 1) : 20
                                                     }))
                                                 }}>+</div>
                                                 <div id="stackBlur-remove" className="valueButton" onClick={() => {
@@ -1337,7 +1337,7 @@ const Editor = (props) => {
                                                 <div id="radialBlur-add" className="valueButton" onClick={() => {
                                                     setValues((prevState) => ({
                                                         ...prevState,
-                                                        radialBlur: (prevState.radialBlur < 2) ? (prevState.radialBlur + 1) : 3
+                                                        radialBlur: (prevState.radialBlur < 7) ? (prevState.radialBlur + 1) : 8
                                                     }))
                                                 }}>+</div>
                                                 <div id="radialBlur-remove" className="valueButton" onClick={() => {
@@ -1546,7 +1546,7 @@ const Editor = (props) => {
                                                 <div id="sharpen-add" className="valueButton" onClick={() => {
                                                     setValues((prevState) => ({
                                                         ...prevState,
-                                                        sharpen: (prevState.sharpen < 55) ? (prevState.sharpen + 5) : 60
+                                                        sharpen: (prevState.sharpen < 115) ? (prevState.sharpen + 5) : 120
                                                     }))
                                                 }}>+</div>
                                                 <div id="sharpen-remove" className="valueButton" onClick={() => {
@@ -1602,7 +1602,7 @@ const Editor = (props) => {
                                                     <div id="motionBlurLayers-add" className="valueButton" onClick={() => {
                                                         setValues((prevState) => ({
                                                             ...prevState,
-                                                            motionBlurLayers: (prevState.motionBlurLayers < 2) ? (prevState.motionBlurLayers + 1) : 3
+                                                            motionBlurLayers: (prevState.motionBlurLayers < 5) ? (prevState.motionBlurLayers + 1) : 6
                                                         }))
                                                     }}>+</div>
                                                     <div id="motionBlurLayers-remove" className="valueButton" onClick={() => {
