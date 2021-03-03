@@ -70,7 +70,7 @@ const Editor = (props) => {
     const [currentVignetteStrength, setCurrentVignetteStrength] = useState(0);
     const [isPNG, setIsPNG] = useState(false);
     const [imageQuality, setImageQuality] = useState(0.8);
-    const [maxSize, setMaxSize] = useState(1000);
+    const [maxSize, setMaxSize] = useState(500);
     const [postOriginal, setPostOriginal] = useState(false);
     const [renderPaused, setRenderPaused] = useState(false);
     const [fileName, setFileName] = useState("");
