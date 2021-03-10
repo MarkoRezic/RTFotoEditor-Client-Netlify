@@ -4,7 +4,7 @@ import { AuthorityContext } from './AuthorityContext';
 
 const Error403 = (props) => {
     // eslint-disable-next-line
-    const [userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
+    const [userList, setUserList, currentUser, setCurrentUser, url] = useContext(AuthorityContext);
     const [counter, setCounter] = useState(3);
 
     useEffect(() => {
@@ -16,7 +16,6 @@ const Error403 = (props) => {
     useEffect(() => {
         if (counter <= 0) {
             props.history.push(currentUser.loggedIn ? '/home' : '/login');
-            window.location.reload();
         }
     }, [counter, currentUser.loggedIn, props.history]);
     return (

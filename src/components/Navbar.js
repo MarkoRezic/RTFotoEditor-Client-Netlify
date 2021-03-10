@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect } from 'react';
 import { Dropdown, Nav } from 'react-bootstrap';
-import { NavLink, BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
+import { NavLink, HashRouter, Route, Redirect, Switch } from 'react-router-dom';
 import Axios from 'axios';
 import BootstrapIcon from '../svg icons/BootstrapIcon';
 import Inbox from './Inbox';
@@ -21,14 +21,13 @@ import Post from './Post';
 
 const Navbar = () => {
     // eslint-disable-next-line
-    const [userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
+    const [userList, setUserList, currentUser, setCurrentUser, url] = useContext(AuthorityContext);
     Axios.defaults.withCredentials = true;
-    let url = 'https://rt-foto-editor.herokuapp.com';
-    //let url = 'http://localhost:3001';
 
     const [legalRoute, setLegalRoute] = useState(true);
 
     useEffect(() => {
+        console.log(window.location.hash)
         if (currentUser.loaded) {
             checkLegalRoute().then(function (message) {
                 console.log(message);
@@ -43,22 +42,22 @@ const Navbar = () => {
         if (currentUser.loggedIn) {
             switch (currentUser.authority) {
                 case 'user':
-                    legalRouteList = ['/home', '/posts', '/editor', '/login', '/register', '/inbox', '/profil', '/postavke'];
+                    legalRouteList = ['home', 'posts', 'editor', 'login', 'register', 'inbox', 'profil', 'postavke'];
                     break;
                 case 'admin':
-                    legalRouteList = ['/home', '/posts', '/editor', '/login', '/register', '/inbox', '/profil', '/postavke', '/users'];
+                    legalRouteList = ['home', 'posts', 'editor', 'login', 'register', 'inbox', 'profil', 'postavke', 'users'];
                     break;
                 case 'super-admin':
-                    legalRouteList = ['/home', '/posts', '/editor', '/login', '/register', '/inbox', '/profil', '/postavke', '/users', '/database'];
+                    legalRouteList = ['home', 'posts', 'editor', 'login', 'register', 'inbox', 'profil', 'postavke', 'users', 'database'];
                     break;
                 default:
-                    legalRouteList = ['/home', '/editor', '/login', '/register'];
+                    legalRouteList = ['home', 'editor', 'login', 'register'];
                     break;
             }
 
         }
         else {
-            legalRouteList = ['/home', '/editor', '/login', '/register'];
+            legalRouteList = ['home', 'editor', 'login', 'register'];
         }
         return new Promise(function (resolve, reject) {
             resolve(legalRouteList)
@@ -68,9 +67,10 @@ const Navbar = () => {
     function setRealValues(legalRouteList) {
         var flag = true;
         for (var i = 0; i < legalRouteList.length; i++) {
-            if (window.location.pathname === legalRouteList[i]
-                 || window.location.pathname.startsWith('/posts/')
-                 || window.location.pathname.startsWith('/profil/')) {
+            console.log(window.location.hash)
+            if (window.location.hash === '#/'+legalRouteList[i]
+                 || (window.location.hash.startsWith('#/posts/') && currentUser.loggedIn)
+                 || (window.location.hash.startsWith('#/profil/') && currentUser.loggedIn)) {
                 flag = false;
                 setLegalRoute(true);
                 //eslint-disable-next-line 
@@ -102,26 +102,21 @@ const Navbar = () => {
             .then(validate)
     }
 
-    function redirectReload(redirectPath) {
-        window.history.pushState({}, '', redirectPath);
-        return new Promise(function (resolve, reject) {
-            resolve();
-        })
-    }
-
 
     function logout() {
         Axios.get(url + '/logout').then((response) => {
             setLegalRoute(true);
-            setCurrentUser(response.data);
-            redirectReload('/login').then((response) => {
-                //window.location.reload();
-            });
-        })
+            return new Promise(function (resolve, reject) {
+                resolve(response.data);
+            })
+        }).then((res)=>{
+            
+            window.location.reload();
+        });
     }
 
     return (
-        <BrowserRouter>
+        <HashRouter basename="">
             <div className="blog-masthead break">
                 <div className="container break">
                     <Nav className="d-flex justify-content-center row">
@@ -151,7 +146,7 @@ const Navbar = () => {
                 </div>
             </div>
             <div>
-                {window.location.pathname === '/' ? <Redirect to='/home' /> : null}
+                {window.location.hash === '#/' ? <Redirect to='home' /> : null}
                 {legalRoute
                     ? <div>
                         {(currentUser.verified === 'no') ? <ConfirmPanel /> : ''}
@@ -169,10 +164,10 @@ const Navbar = () => {
                             <Route path='/postavke' component={Postavke}></Route>
                         </Switch>
                     </div>
-                    : <Error403 path={window.location.pathname} />}
-                {currentUser.loggedIn && (window.location.pathname === '/login' || window.location.pathname === '/register') ? <Redirect to='/home' /> : null}
+                    : <Error403 path={window.location.hash} />}
+                {currentUser.loggedIn && (window.location.hash === '#/login' || window.location.hash === '#/register') ? <Redirect to='home' /> : null}
             </div>
-        </BrowserRouter>
+        </HashRouter>
     );
 }
 

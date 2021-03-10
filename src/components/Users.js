@@ -8,22 +8,25 @@ import { Image } from 'cloudinary-react';
 
 const Users = () => {
     /* eslint-disable */
-    const [userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
+    const [userList, setUserList, currentUser, setCurrentUser, url] = useContext(AuthorityContext);
     /* eslint-enable */
     Axios.defaults.withCredentials = true;
-    let url = 'https://rt-foto-editor.herokuapp.com';
     const [profileImages, setProfileImages] = useState();
     const [isLoading, setIsLoading] = useState(true);
+    let mounted = false;
 
     useEffect(() => {
+        // eslint-disable-next-line
+        mounted = true;
         Axios.get(url + '/users').then((response) => {
-            setUserList([...response.data]);
+            if(mounted) setUserList([...response.data]);
             Axios.get(url + '/images/all/profile_images').then((response) => {
-                setProfileImages([...response.data]);
-                setIsLoading(false);
+                if(mounted) setProfileImages([...response.data]);
+                if(mounted) setIsLoading(false);
             });
         });
-        // eslint-disable-next-line
+        return () => mounted = false;
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     function removeUser(userID) {

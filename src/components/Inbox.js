@@ -7,10 +7,8 @@ import BootstrapIcon from '../svg icons/BootstrapIcon';
 
 const Inbox = () => {
     // eslint-disable-next-line
-    const [userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
+    const [userList, setUserList, currentUser, setCurrentUser, url] = useContext(AuthorityContext);
     Axios.defaults.withCredentials = true;
-    let url = 'https://rt-foto-editor.herokuapp.com';
-    //let url = 'http://localhost:3001';
 
     const [messagesRecieved, setMessagesRecieved] = useState();
     const [messagesSent, setMessagesSent] = useState();
@@ -55,13 +53,13 @@ const Inbox = () => {
 
     useEffect(() => {
         if (messagesRecieved && messagesSent && (messagesRecieved.length || messagesSent.length)) {
-            setMessages([...mergeChunks(makeChunks(messagesRecieved, "sender_id"), makeChunks(removeSelfSent(messagesSent, messagesRecieved), "reciever_id"), "sender_id", "reciever_id")].sort(function (a, b) {
+            setMessages([...mergeChunks(makeChunks(messagesRecieved, "sender_id"), makeChunks(removeSelfSent(messagesSent), "reciever_id"), "sender_id", "reciever_id")].sort(function (a, b) {
                 return b[0]["id"] - a[0]["id"];
             }))
             if (currentUser.loaded && messages && messages.length) setIsLoading(false);
             else {
                 window.setTimeout(function () {
-                    if (currentUser.loaded && messages) setIsLoading(false);
+                    if (currentUser.loaded && messages !== undefined) setIsLoading(false);
                 }, 5000);
             }
         }
@@ -94,13 +92,25 @@ const Inbox = () => {
     function findChat(otherID) {
         if (otherID !== null) {
             var i;
+            
             for (i = 0; i < messages.length; i++) {
-                if ((otherID === messages[i][0].sender_id) || (otherID === messages[i][0].reciever_id)) {
-                    setChat({
-                        other_id: otherID,
-                        messages: [...(messages[i])]
-                    })
-                    break;
+                if (otherID === currentUser.id) {
+                    if (messages[i][0].sender_id === messages[i][0].reciever_id) {
+                        setChat({
+                            other_id: otherID,
+                            messages: [...(messages[i])]
+                        })
+                        break;
+                    }
+                }
+                else {
+                    if ((otherID === messages[i][0].sender_id) || (otherID === messages[i][0].reciever_id)) {
+                        setChat({
+                            other_id: otherID,
+                            messages: [...(messages[i])]
+                        })
+                        break;
+                    }
                 }
             }
         }
@@ -249,9 +259,7 @@ const Inbox = () => {
         });
         setUsername('');
         setUsernameError('');
-        window.setInterval(function(){
-            if (document.getElementById('newMessageUsername')) document.getElementById('newMessageUsername').focus();
-        },300);
+        if (document.getElementById('newMessageUsername')) document.getElementById('newMessageUsername').focus();
     }
 
     return (
@@ -379,64 +387,6 @@ const Inbox = () => {
                         </div>
                     }
                 </div>
-                {null/*
-                <div className="row justify-content-center">
-
-                <div className="col-lg-4 blog-main">
-
-                    <div className="blog-post Poruke">
-                        <p>Broj novih poruka: {messagesRecieved.length}</p>
-                        <hr className="round" />
-                        <button onClick={() => { deleteAllRecieved(currentUser.id) }}>Delete All</button>
-                        {
-                            messagesRecieved.map(message => {
-                                return (
-                                    <div className={message.opened ? 'message opened' : 'message'} key={message.id}>
-                                        <p>From: {findUsername(message.sender_id)}
-                                            <br />Date: {message.date.substr(8, 2) + '/' + message.date.substr(5, 2) + '/' + message.date.substr(0, 4)} at {message.time}</p>
-                                        <div className="message-text">
-                                            <p>
-                                                {message.text}
-                                            </p>
-                                        </div>
-                                        <button onClick={() => { replyFocus(findUsername(message.sender_id)) }}>Reply</button>
-                                        <button onClick={() => { deleteMessage(message.id) }}>Delete</button>
-                                    </div>
-                                );
-                            })
-                        }
-                    </div>
-
-                </div>
-                <div className="col-lg-4 blog-main">
-
-                    <div className="blog-post Poruke">
-                        <p>Poslano: {messagesSent.length}</p>
-                        <hr className="round" />
-                        <button onClick={() => { deleteAllSent(currentUser.id) }}>Delete All</button>
-                        {
-                            messagesSent.map(message => {
-                                return (
-                                    <div className='message' key={message.id}>
-                                        <p>To: {findUsername(message.reciever_id)}
-                                            <br />Date: {message.date.substr(8, 2) + '/' + message.date.substr(5, 2) + '/' + message.date.substr(0, 4)} at {message.time}</p>
-                                        <div className="message-text">
-                                            <p>
-                                                {message.text}
-                                            </p>
-                                        </div>
-                                        <button onClick={() => { deleteMessage(message.id) }}>Delete</button>
-                                    </div>
-                                );
-                            })
-                        }
-                    </div>
-
-                </div>
-
-            </div>
-
-            */}
 
             </div>
         </div>

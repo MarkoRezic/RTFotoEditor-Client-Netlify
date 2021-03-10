@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext } from 'react';
 import Axios from 'axios';
 import { Redirect, NavLink } from 'react-router-dom';
 import { Form, InputGroup } from 'react-bootstrap';
@@ -7,10 +7,8 @@ import BootstrapIcon from '../svg icons/BootstrapIcon.js';
 
 const Login = () => {
     // eslint-disable-next-line
-    const [userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
+    const [userList, setUserList, currentUser, setCurrentUser, url] = useContext(AuthorityContext);
     Axios.defaults.withCredentials = true;
-    let url = 'https://rt-foto-editor.herokuapp.com';
-    //let url = 'http://localhost:3001';
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -21,14 +19,6 @@ const Login = () => {
     });
     const [showPassword, toggleShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-
-    useEffect(() => {
-        if (currentUser.loggedIn) {
-            console.log('user logged in');
-            setRedirect(true);
-        }
-        // eslint-disable-next-line
-    }, []);
 
 
     function userLogin() {
@@ -41,27 +31,26 @@ const Login = () => {
             username: username.toLowerCase(),
             password: password,
         }).then((response) => {
-            console.log(response.data);
-            let userMatch = response.data;
-            if (username.length === 0 || userMatch.username === null) {
-                validUsername = 0;
-                newErrorText[0] = username.length === 0 ? 'Username is required' : 'Username not recognized';
-            }
-            else if (password.length === 0 || userMatch.id === null) {
-                validPassword = 0;
-                newErrorText[1] = password.length === 0 ? 'Password is required' : 'Password is incorrect';
-            }
-            setErrorText({
-                usernameError: newErrorText[0],
-                passwordError: newErrorText[1],
-            });
+                let userMatch = response.data;
+                if (username.length === 0 || userMatch.username === null) {
+                    validUsername = 0;
+                    newErrorText[0] = username.length === 0 ? 'Username is required' : 'Username not recognized';
+                }
+                else if (password.length === 0 || userMatch.id === null) {
+                    validPassword = 0;
+                    newErrorText[1] = password.length === 0 ? 'Password is required' : 'Password is incorrect';
+                }
+                setErrorText({
+                    usernameError: newErrorText[0],
+                    passwordError: newErrorText[1],
+                });
 
-            if (validUsername === 1 && validPassword === 1) {
-                window.scrollTo(0,0);
-                setCurrentUser(userMatch);
-                setRedirect(true);
-            }
-            else setIsLoading(false);
+                if (validUsername === 1 && validPassword === 1) {
+                    window.scrollTo(0, 0);
+                    setCurrentUser(userMatch);
+                    setRedirect(true);
+                }
+                else setIsLoading(false);
         });
     }
 

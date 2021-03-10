@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext } from 'react';
 import Axios from 'axios';
 import { Redirect, NavLink } from 'react-router-dom';
 import { Form, InputGroup } from 'react-bootstrap';
@@ -7,10 +7,8 @@ import BootstrapIcon from '../svg icons/BootstrapIcon.js';
 
 const Register = () => {
     // eslint-disable-next-line
-    const [userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
+    const [userList, setUserList, currentUser, setCurrentUser, url] = useContext(AuthorityContext);
     Axios.defaults.withCredentials = true;
-    let url = 'https://rt-foto-editor.herokuapp.com';
-    //let url = 'http://localhost:3001';
 
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
@@ -27,14 +25,6 @@ const Register = () => {
     const [showPassword, toggleShowPassword] = useState(false);
     const [showRepassword, toggleShowRepassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-
-
-    useEffect(() => {
-        if (currentUser.loggedIn) {
-            setRedirect(true);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
 
     function regexTest(email, username, password, repassword, users) {
 
@@ -73,7 +63,7 @@ const Register = () => {
                 validEmail = 0;
                 newErrorText[0] = 'Email is already taken';
             }
-            if (username.toLowerCase() === userList[i].username.toLowerCase()) {
+            if (username.toLowerCase() === users[i].username.toLowerCase()) {
                 validUsername = 0;
                 newErrorText[1] = 'Username is already taken';
             }
@@ -96,7 +86,8 @@ const Register = () => {
 
         Axios.get(url + '/users').then((response) => {
             setUserList([...response.data]);
-            if (userList.length > 0) {
+            let newUserList = [...response.data];
+            if (newUserList.length > 0) {
                 var {
                     validEmail,
                     emailError,
@@ -106,7 +97,7 @@ const Register = () => {
                     passwordError,
                     validRepassword,
                     repasswordError
-                } = regexTest(email, username, password, repassword, userList);
+                } = regexTest(email, username, password, repassword, newUserList);
 
                 setErrorText({ emailError, usernameError, passwordError, repasswordError, });
 

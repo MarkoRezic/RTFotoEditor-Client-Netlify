@@ -1,3 +1,9 @@
+/*Varijable*/
+:root{
+	--minimized-width: none;
+	--minimized-height: none;
+}
+
 /*Klase*/
 .nav-link, .alink{
 	font-family: Verdana;
@@ -476,6 +482,46 @@
     border: 2px solid white;
 	cursor: pointer;
 }
+.postContainer:hover .likeNumber{
+	color: #51d356;
+}
+.postContainer:hover .dislikeNumber{
+	color: rgb(223, 60, 60);
+}
+.likes{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+.postFooter .likes{
+	font-size: 18px;
+}
+.postFooter .likes svg{
+	width: 20px;
+	height: 20px;
+	margin: 2px;
+}
+.postFooter .likes svg:hover{
+	cursor: pointer;
+}
+.display-content{
+	display: contents;
+}
+.postFooter .likeNumber{
+	color: #45b649;
+}
+.postFooter .dislikeNumber{
+	color: rgb(184, 50, 50);
+}
+.likeNumber{
+	font-weight: 600;
+	color: #629664;
+}
+.dislikeNumber{
+	font-weight: 600;
+	color: rgb(151, 40, 40);
+}
 .postContainerP{
 	margin: auto;
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -511,6 +557,17 @@
     border-bottom: 2px solid #666;
     box-shadow: 0 15px 25px 5px black;
     overflow: overlay;
+}
+.postFooter{
+	background-color: #333;
+    min-height: 60px;
+    padding: 15px;
+	padding-top: 10px;
+	padding-left: 25px;
+    border-bottom: 2px solid #666;
+    box-shadow: 0 -15px 25px 5px black;
+    overflow: overlay;
+	user-select: none;
 }
 .postProfile{
     display: inline-flex;
@@ -568,7 +625,7 @@
     padding: 15px;
     border-top: 2px solid #333;
     font-size: 15px;
-    box-shadow: 0 -15px 25px 5px black;
+    box-shadow: 0 -7px 25px 5px black;
     overflow: overlay;
 }
 .postDescription p{
@@ -600,8 +657,8 @@
 	user-select: none;
     max-width: 100%;
     max-height: inherit;
-    width: auto;
-    height: auto;
+    width: var(--minimized-width, auto);
+    height: var(--minimized-height, auto);
 	z-index: 5;
 }
 .buttonRow{
@@ -836,6 +893,15 @@
 	margin-top: 3px;
 	z-index: 1;
 }
+.toggle-expandContainer{
+	flex-wrap: wrap !important;
+	flex-direction: row !important;
+	justify-content: center !important;
+}
+.toggle-expand-text{
+	width: 100%;
+	padding-bottom: 15px;
+}
 .presetContainer{
 	justify-content: left !important;
 	min-width: auto !important;
@@ -890,6 +956,14 @@ canvas {
     width: auto;
     height: auto;
 }
+.autoHeightCropped #canvas, .autoHeight #canvasCopy{
+	height: auto !important;
+	width: 100% !important;
+}
+.autoWidthCropped #canvas, .autoWidth #canvasCopy{
+	width: auto !important;
+	height: 100% !important;
+}
 #presetCopy{
 	z-index: -1;
 }
@@ -922,8 +996,8 @@ canvas {
 .ReactCrop__image{
     max-width: 100%;
     max-height: inherit;
-    width: auto;
-    height: auto;
+    width: var(--minimized-width, auto);
+    height: var(--minimized-height, auto);
 }
 
 /*Element, Element.klasa*/

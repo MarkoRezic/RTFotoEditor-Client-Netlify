@@ -7,31 +7,36 @@ import PROFILEICON from '../images/profile-icon.png';
 
 const Profil = () => {
     // eslint-disable-next-line
-    const [userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
+    const [userList, setUserList, currentUser, setCurrentUser, url] = useContext(AuthorityContext);
     Axios.defaults.withCredentials = true;
-    let url = 'https://rt-foto-editor.herokuapp.com';
-    //let url = 'http://localhost:3001';
 
     const [fileInputState, setFileInputState] = useState('');
     const [previewSource, setPreviewSource] = useState('');
     const [profileImage, setProfileImage] = useState();
     const [isLoading, setIsLoading] = useState(false);
+    let mounted = false;
 
     useEffect(() => {
+        // eslint-disable-next-line
+        mounted = true;
         if (currentUser.id) {
             Axios.get(url + '/profile_images/' + currentUser.id).then((response) => {
-                if (response.data.length) setProfileImage(response.data[0]);
+                if (mounted && response.data.length) setProfileImage(response.data[0]);
             });
         }
+        return () => mounted = false;
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
+        // eslint-disable-next-line
+        mounted = true;
         if (currentUser.id) {
             Axios.get(url + '/profile_images/' + currentUser.id).then((response) => {
-                if (response.data.length) setProfileImage(response.data[0]);
+                if (mounted && response.data.length) setProfileImage(response.data[0]);
             });
         }
+        return () => mounted = false;
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentUser]);
 

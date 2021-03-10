@@ -4,10 +4,9 @@ import { AuthorityContext } from './AuthorityContext';
 
 const ConfirmPanel = () => {
     /* eslint-disable */
-    const [userList, stUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
+    const [userList, stUserList, currentUser, setCurrentUser, url] = useContext(AuthorityContext);
     /* eslint-enable */
     Axios.defaults.withCredentials = true;
-    let url = 'https://rt-foto-editor.herokuapp.com';
     let id = currentUser.id;
     let email = currentUser.email;
     const [sent, setSent] = useState(false);

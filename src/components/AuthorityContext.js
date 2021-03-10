@@ -16,21 +16,18 @@ export const AuthorityProvider = (props) => {
         verified: 'guest'
     });
     Axios.defaults.withCredentials = true;
-    let url = 'https://rt-foto-editor.herokuapp.com';
-    //let url = 'http://localhost:3001';
+    const url = 'https://rt-foto-editor.herokuapp.com';
+    //const url = 'http://localhost:3001';
+    //const url = 'https://studenti.sum.ba/RTFotoEditor';
 
     useEffect(() => {
         window.onpopstate = function (event) {
             Axios.post(url + '/loginStatus').then((response => {
-                console.log(response);
                 setCurrentUser(response.data);
-                console.log(currentUser);
             }))
         }
         Axios.post(url + '/loginStatus').then((response => {
-            console.log(response);
             setCurrentUser(response.data);
-            console.log(currentUser);
         }))
         // eslint-disable-next-line
     }, []);
@@ -38,7 +35,7 @@ export const AuthorityProvider = (props) => {
 
 
     return (
-        <AuthorityContext.Provider value={[userList, setUserList, currentUser, setCurrentUser]}>
+        <AuthorityContext.Provider value={[userList, setUserList, currentUser, setCurrentUser, url]}>
             {props.children}
         </AuthorityContext.Provider>
     );

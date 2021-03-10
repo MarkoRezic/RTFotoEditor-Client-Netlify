@@ -3,28 +3,65 @@ import Axios from 'axios';
 import { Image } from 'cloudinary-react';
 import { AuthorityContext } from './AuthorityContext';
 import { NavLink } from 'react-router-dom';
+import BootstrapIcon from '../svg icons/BootstrapIcon';
 
 const Posts = () => {
     // eslint-disable-next-line
-    const [userList, setUserList, currentUser, setCurrentUser] = useContext(AuthorityContext);
+    const [userList, setUserList, currentUser, setCurrentUser, url] = useContext(AuthorityContext);
     Axios.defaults.withCredentials = true;
-    let url = 'https://rt-foto-editor.herokuapp.com';
-    //let url = 'http://localhost:3001';
 
     const [posts, setPosts] = useState();
     const [isLoading, setIsLoading] = useState(true);
+    const [likes, setLikes] = useState([]);
+    const [dislikes, setDislikes] = useState([]);
+    let mounted = false;
     const loadImages = () => {
         Axios.get(url + '/posts/public').then((response) => {
-            setPosts(response.data.sort(function(a,b){
+            setPosts(response.data.sort(function (a, b) {
                 return b.id - a.id;
             }));
-            setIsLoading(false);
+            if (mounted) {
+                setIsLoading(false);
+            }
+        });
+        Axios.get(url + '/posts-likesCount').then((response) => {
+            if (mounted) {
+                setLikes([...response.data]);
+            }
+        });
+        Axios.get(url + '/posts-dislikesCount').then((response) => {
+            if (mounted) {
+                setDislikes([...response.data]);
+            }
         });
     };
     useEffect(() => {
+        // eslint-disable-next-line
+        mounted = true;
+        return () => mounted = false;
+    }, []);
+
+    useEffect(() => {
+        // eslint-disable-next-line
+        mounted = true;
         loadImages();
         // eslint-disable-next-line
+        return () => mounted = false;
     }, [currentUser]);
+
+    function getLikes(postID) {
+        for (let i = 0; i < likes.length; i++) {
+            if (likes[i].post_id === postID) return likes[i].total;
+        }
+        return 0;
+    }
+
+    function getDislikes(postID) {
+        for (let i = 0; i < dislikes.length; i++) {
+            if (dislikes[i].post_id === postID) return dislikes[i].total;
+        }
+        return 0;
+    }
 
     return (
         <div>
@@ -58,6 +95,7 @@ const Posts = () => {
                                                         className="postThumbnailImage"
                                                     />
                                                 </NavLink>
+                                                <p className="likes"><BootstrapIcon type={76} /><b className="likeNumber">{getLikes(post.id)}</b>&emsp; <b className="dislikeNumber">{getDislikes(post.id)}</b><BootstrapIcon type={77} /></p>
                                             </div>
                                         ))
                                         : null}
