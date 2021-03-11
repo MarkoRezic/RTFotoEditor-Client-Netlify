@@ -15,7 +15,7 @@ const Error403 = (props) => {
 
     useEffect(() => {
         if (counter <= 0) {
-            props.history.push(currentUser.loggedIn ? '/home' : '/login');
+            props.history.replace(currentUser.loggedIn ? '/home' : '/login');
         }
     }, [counter, currentUser.loggedIn, props.history]);
     return (

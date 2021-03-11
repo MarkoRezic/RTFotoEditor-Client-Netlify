@@ -27,10 +27,8 @@ const Navbar = () => {
     const [legalRoute, setLegalRoute] = useState(true);
 
     useEffect(() => {
-        console.log(window.location.hash)
         if (currentUser.loaded) {
             checkLegalRoute().then(function (message) {
-                console.log(message);
             })
         }
         // eslint-disable-next-line
@@ -67,7 +65,6 @@ const Navbar = () => {
     function setRealValues(legalRouteList) {
         var flag = true;
         for (var i = 0; i < legalRouteList.length; i++) {
-            console.log(window.location.hash)
             if (window.location.hash === '#/'+legalRouteList[i]
                  || (window.location.hash.startsWith('#/posts/') && currentUser.loggedIn)
                  || (window.location.hash.startsWith('#/profil/') && currentUser.loggedIn)) {

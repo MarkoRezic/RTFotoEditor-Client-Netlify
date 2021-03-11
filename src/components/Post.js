@@ -4,6 +4,8 @@ import { Image } from 'cloudinary-react';
 import { AuthorityContext } from './AuthorityContext';
 import PROFILEICON from '../images/profile-icon.png';
 import BootstrapIcon from '../svg icons/BootstrapIcon';
+import { Form, InputGroup } from 'react-bootstrap';
+import { checkText } from 'smile2emoji';
 
 const Post = (props) => {
     // eslint-disable-next-line
@@ -18,6 +20,9 @@ const Post = (props) => {
     const [numLikes, setNumLikes] = useState(0);
     const [numDislikes, setNumDislikes] = useState(0);
     const [numComments, setNumComments] = useState(0);
+    const [comments, setComments] = useState([]);
+    const [text, setText] = useState('');
+    const hour = 1*60*60*1000;
     let mounted = false;
     const loadPost = () => {
         if (currentUser.loggedIn) {
@@ -56,6 +61,14 @@ const Post = (props) => {
                     }
                 }
             });
+            Axios.get(url + '/post/comments/' + props.match.params.id).then((response) => {
+                if (mounted) {
+                    setNumComments(response.data.length);
+                    setComments([...response.data].sort(function (a, b) {
+                        return a.id - b.id;
+                    }));
+                }
+            });
         }
     };
     useEffect(() => {
@@ -85,7 +98,6 @@ const Post = (props) => {
                     userID: currentUser.id,
                     type: newStatus
                 }).then((response) => {
-                    console.log(response.data);
                     Axios.get(url + '/post/likes/' + post.id).then((response) => {
                         if (mounted) {
                             setNumLikes(response.data.length);
@@ -93,6 +105,59 @@ const Post = (props) => {
                     });
                 })
         }
+    }
+
+    function removeComment(commentID) {
+        Axios.delete(url + '/remove-comment', { data: { commentID: commentID } }).then((response) => {
+            Axios.get(url + '/post/comments/' + props.match.params.id).then((response) => {
+                setNumComments(response.data.length);
+                setComments([...response.data].sort(function (a, b) {
+                    return a.id - b.id;
+                }));
+            });
+        });
+    }
+
+    function postComment() {
+        if (text !== '') {
+            Axios.post(url + '/post-comment/' + props.match.params.id, { userID: currentUser.id, text: text }).then((response) => {
+                console.log(response);
+                setText('');
+                Axios.get(url + '/post/comments/' + props.match.params.id).then((response) => {
+                    setNumComments(response.data.length);
+                    setComments([...response.data].sort(function (a, b) {
+                        return a.id - b.id;
+                    }));
+                });
+            })
+        }
+    }
+
+    function timeSince(miliseconds) {
+        var seconds = Math.floor(miliseconds / 1000);
+
+        var interval = seconds / 31536000;
+
+        if (interval > 1) {
+            return Math.floor(interval) + " years";
+        }
+        interval = seconds / 2592000;
+        if (interval > 1) {
+            return Math.floor(interval) + " months";
+        }
+        interval = seconds / 86400;
+        if (interval > 1) {
+            return Math.floor(interval) + " days";
+        }
+        interval = seconds / 3600;
+        if (interval > 1) {
+            return Math.floor(interval) + " hours";
+        }
+        interval = seconds / 60;
+        if (interval > 1) {
+            return Math.floor(interval) + " minutes";
+        }
+        return Math.floor(seconds) + " seconds";
     }
 
     return (
@@ -157,6 +222,73 @@ const Post = (props) => {
                                     </div>
                                     <div className="postDescription">
                                         <p>{post.description}</p>
+                                    </div>
+                                    <div className={"postCommentsContainer " + (chatSelected ? '' : 'display-none')}>
+                                        {
+                                            comments.map((comment) => {
+                                                return (
+                                                    <div className="commentContainer" key={comment.id} onClick={
+                                                        (e) => {
+                                                            if (!e.target.classList.contains('commentProfileBorder') 
+                                                            && !e.target.classList.contains('deleteCommentButton')
+                                                            && !e.target.classList.contains('removeCommentX')
+                                                            ) {
+                                                                e.currentTarget.classList.toggle('flex-direction-column');
+                                                                e.currentTarget.childNodes[1].childNodes[0].classList.toggle('fullComment');
+                                                            }
+                                                        }
+                                                    }>
+                                                        <p className="commentTimestamp">{timeSince((new Date(Date.now()).getTime()) - (new Date(comment.date).getTime() + hour) ) + ' ago'}</p>
+                                                        <div className="commentProfile">
+                                                            <div className="profile-border commentProfileBorder" onClick={() => { props.history.push('/profil/' + comment.user_id); }}>
+                                                                {comment.public_id !== null ?
+                                                                    <Image
+                                                                        cloudName={'rt-foto-editor'}
+                                                                        publicId={comment.public_id}
+                                                                        width="50"
+                                                                        crop="scale"
+                                                                        className="profile-icon"
+                                                                    />
+                                                                    : <img alt="" src={PROFILEICON} className="profile-icon" />
+                                                                }
+                                                            </div>
+                                                            <p className="commentProfileName">{comment.displayname}: </p>
+                                                            {(currentUser.id === parseInt(comment.user_id))
+                                                                || (currentUser.authority === 'super-admin')
+                                                                || (currentUser.authority === 'admin') ?
+                                                                <div className="deleteCommentButton" onClick={
+                                                                    (e) => {
+                                                                        if (!e.currentTarget.classList.contains('isDeleting')) {
+                                                                            e.currentTarget.classList.add('isDeleting');
+                                                                            removeComment(comment.id);
+                                                                        }
+                                                                    }
+                                                                }>
+                                                                    <BootstrapIcon type={84} />
+                                                                    <BootstrapIcon type={85} />
+                                                                </div>
+                                                                : null
+
+                                                            }
+                                                        </div>
+                                                        <div className="commentTextContainer">
+                                                            <p className="commentText">{comment.text}</p>
+                                                        </div>
+                                                    </div>
+                                                )
+                                            })
+                                        }
+                                    </div>
+                                    <div className={"newCommentContainer " + (chatSelected ? '' : 'display-none')}>
+                                        <Form acceptCharset="UTF-8" onSubmit={(e) => { e.preventDefault(); e.target.reset(); }}>
+                                            <Form.Group controlId="newMessageText">
+                                                <Form.Label srOnly>Text</Form.Label>
+                                                <Form.Control placeholder="Novi komentar..." autoComplete="off" as="textarea" rows={3} onChange={(e) => { setText(checkText(e.target.value)); document.getElementById('newMessageText').value = checkText(e.target.value); }} />
+                                            </Form.Group>
+                                            <Form.Group className="justify-content-center">
+                                                <button className="resendButton" type="submit" onClick={postComment} name="button">Post Comment</button>
+                                            </Form.Group>
+                                        </Form>
                                     </div>
                                 </div>
                                 : null

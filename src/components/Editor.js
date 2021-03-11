@@ -572,7 +572,6 @@ const Editor = (props) => {
     useEffect(() => {
         mounted = true;
         if (currentUser) setUserVerified(currentUser.verified === 'verified' ? true : false);
-        console.log(currentUser);
         return () => mounted = false;
     }, [currentUser, setCurrentUser])
 
@@ -580,7 +579,6 @@ const Editor = (props) => {
         mounted = true;
         if (!isRendering && !renderPaused) {
             setIsRendering(true);
-            console.log(currentPreset + ' ' + previousPreset);
             if (currentPreset !== previousPreset) {
                 window.Caman("#presetCopy", img, function () {
                     //this.resize(this.canvas.width > this.canvas.height ? { width: 500 } : { height: 500 })
@@ -808,7 +806,6 @@ const Editor = (props) => {
 
     const handleFileInputChange = (e) => {
         const file = e.target.files[0];
-        console.log(e.target.files[0]);
         if (file && file.type.match('image.*')) {
             setFileName(file.name);
             previewFile(file);
@@ -891,7 +888,6 @@ const Editor = (props) => {
     }
 
     const postFile = (e) => {
-        console.log('submitting');
         e.preventDefault();
         if (!previewSource) return;
         canvas = document.getElementById("canvas");
@@ -1270,8 +1266,6 @@ const Editor = (props) => {
                                                     if (fileExtension === ".jpg" || fileExtension === ".png" || fileExtension === ".gif") {
                                                         // new filename
                                                         newFilename = fileName.substring(0, fileName.length - 4) + "-edited." + (isPNG ? 'png' : 'jpg');
-                                                        console.log(isPNG ? 'PNG' : 'JPG');
-                                                        console.log(newFilename);
                                                     }
 
                                                     // Call download

@@ -35,8 +35,8 @@ const Profil_ID = (props) => {
     useEffect(() => {
         // eslint-disable-next-line
         mounted = true;
-        if (props.match.params.id === currentUser.id) {
-            props.history.push('/profil');
+        if (parseInt(props.match.params.id) === currentUser.id) {
+            props.history.replace('/profil');
         }
         else loadProfile();
         return () => mounted = false;

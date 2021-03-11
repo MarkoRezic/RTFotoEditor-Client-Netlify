@@ -409,12 +409,12 @@
 .sendButtonGroup{
     float: right;
 }
-.sendMessageInput, #newMessageUsername, #newMessageText{
+.sendMessageInput, #newMessageUsername, #newMessageText, .newCommentInput{
 	background-color: #111 !important;
     color: #fff !important;
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-.sendMessageGroup{
+.sendMessageGroup, .newCommentGroup{
 	display: inline-block;
     width: 85%;
 }
@@ -588,6 +588,119 @@
     font-size: 15px !important;
     margin-bottom: 0 !important;
 }
+.commentContainer{
+    display: inline-flex;
+	flex-direction: column;
+	width: 100%;
+    align-items: flex-start;
+    justify-content: left;
+    border: 2px solid #777;
+    border-top-left-radius: 1.2rem;
+    border-bottom-left-radius: 1.2rem;
+    padding: 0.2rem;
+	overflow: hidden;
+	cursor: pointer;
+	margin-bottom: 5px;
+	position: relative;
+}
+.commentProfile{
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+	max-height: 2rem;
+	min-width: fit-content;
+	width: 100px;
+}
+.commentProfileBorder{
+    width: 2rem !important;
+    height: 2rem !important;
+	min-width: 2rem;
+	min-height: 2rem;
+    margin-right: 6px !important;
+}
+.commentProfileName{
+    font-size: 13px !important;
+	font-family: Verdana, 'Segoe UI', Tahoma, Geneva, sans-serif;
+	font-weight: bold;
+    margin-bottom: 0 !important;
+	max-height: 2rem;
+}
+.commentTextContainer{
+	display: flex;
+}
+.commentText{
+    font-size: 14px !important;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-bottom: 0 !important;
+	margin-left: 10px;
+	padding: 5px;
+	padding-top: 8px;
+	border-left: 1px solid #666;
+	overflow: hidden;
+   	text-overflow: ellipsis;
+   	display: -webkit-box;
+   	-webkit-line-clamp: 3; /* number of lines to show */
+   	-webkit-box-orient: vertical;
+    word-break: break-word;
+    max-width: 100%;
+	overflow: hidden;
+	cursor: pointer;
+}
+.commentTimestamp{
+	font-size: 10px;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	color: #999;
+	position: absolute;
+	right: 0;
+	top: 0;
+	margin-bottom: 0;
+}
+.fullComment{
+	-webkit-line-clamp: unset;
+}
+.flex-direction-column{
+	flex-direction: column !important;
+}
+.deleteCommentButton{
+	width: 20px;
+	height: 20px;
+	justify-content: center;
+	align-items: center;
+	display: flex;
+	opacity: 0.5;
+	margin-left: 5px;
+}
+.deleteCommentButton:hover{
+	opacity: 1;
+}
+.removeCommentWait, .removeCommentX{
+	display: none;
+}
+.isDeleting .removeCommentX{
+	display: none !important;
+}
+.isDeleting .removeCommentWait{
+	display: initial;
+}
+.removeCommentX, .removeCommentWait{
+	padding: 0 !important;
+}
+.removeCommentWait{
+	animation: rotation 2s infinite linear;
+}
+.commentContainer:hover .commentProfile .removeCommentX{
+	display: initial;
+}
+.newCommentContainer{
+	padding: 25px;
+    padding-bottom: 0;
+    border-top: 2px solid #777;
+    box-shadow: 0 -15px 20px 5px black;
+    overflow: overlay;
+}
+.newCommentContainer .form-control{
+	border-color: #555 !important;
+}
 .userProfile{
 	text-align: center;
 }
@@ -630,6 +743,16 @@
 }
 .postDescription p{
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.postCommentsContainer{
+	background-color: #111;
+    min-height: 70px;
+	max-height: 400px;
+    padding: 15px;
+    border-top: 2px solid #333;
+    font-size: 15px;
+    box-shadow: 0 -7px 25px 5px black;
+    overflow: overlay;
 }
 .display-none{
 	display: none !important;
@@ -1186,6 +1309,14 @@ svg{
     text-shadow: 0 0 10px #fff, 0 0 30px #adc3ff, 0 0 15px #adc3ff, 0 0 20px #adc3ff, 0 0 30px #adc3ff, 0 0 40px #adc3ff, 0 0 50px #adc3ff;
   }
 }
+@keyframes rotation {
+	from {
+	  transform: rotate(0deg);
+	}
+	to {
+	  transform: rotate(359deg);
+	}
+  }
 /*Loading spinner*/
 .lds-spinner {
 	color: official;
@@ -1448,6 +1579,9 @@ svg{
 	}
 	[class*="sliderCouple"] {
 		width: 80% !important;
+	}
+	.commentContainer{
+		flex-direction: row;
 	}
 }
 @media only screen and (min-width: 350px) and  (min-height: 350px){
