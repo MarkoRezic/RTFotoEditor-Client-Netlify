@@ -654,6 +654,7 @@
 	right: 0;
 	top: 0;
 	margin-bottom: 0;
+	margin-right: 5px;
 }
 .fullComment{
 	-webkit-line-clamp: unset;

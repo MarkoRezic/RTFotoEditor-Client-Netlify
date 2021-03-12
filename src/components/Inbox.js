@@ -5,7 +5,7 @@ import { AuthorityContext } from './AuthorityContext';
 import { checkText } from 'smile2emoji';
 import BootstrapIcon from '../svg icons/BootstrapIcon';
 
-const Inbox = () => {
+const Inbox = (props) => {
     // eslint-disable-next-line
     const [userList, setUserList, currentUser, setCurrentUser, url] = useContext(AuthorityContext);
     Axios.defaults.withCredentials = true;
@@ -26,9 +26,24 @@ const Inbox = () => {
     useEffect(() => {
         Axios.get(url + '/users').then((response) => {
             setUserList([...response.data]);
+            if (props.match.params.displayname) {
+                setUsername(props.match.params.displayname);
+            }
         });
+        console.log(props.match.params.displayname);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    useEffect(() => {
+        var newMessageUsernameInput = document.getElementById('newMessageUsername');
+        var newMessageTextInput = document.getElementById('newMessageText');
+        if (newMessageUsernameInput && newMessageTextInput && username !== newMessageUsernameInput.value) {
+            newMessageUsernameInput.value = username;
+            window.setTimeout(function () {
+                newMessageTextInput.focus();
+            }, 500);
+        }
+    }, [username]);
 
     useEffect(() => {
         if (currentUser.loaded) {
@@ -92,7 +107,7 @@ const Inbox = () => {
     function findChat(otherID) {
         if (otherID !== null) {
             var i;
-            
+
             for (i = 0; i < messages.length; i++) {
                 if (otherID === currentUser.id) {
                     if (messages[i][0].sender_id === messages[i][0].reciever_id) {

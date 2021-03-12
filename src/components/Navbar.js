@@ -67,7 +67,8 @@ const Navbar = () => {
         for (var i = 0; i < legalRouteList.length; i++) {
             if (window.location.hash === '#/'+legalRouteList[i]
                  || (window.location.hash.startsWith('#/posts/') && currentUser.loggedIn)
-                 || (window.location.hash.startsWith('#/profil/') && currentUser.loggedIn)) {
+                 || (window.location.hash.startsWith('#/profil/') && currentUser.loggedIn)
+                 || (window.location.hash.startsWith('#/inbox/') && currentUser.loggedIn)) {
                 flag = false;
                 setLegalRoute(true);
                 //eslint-disable-next-line 
@@ -152,10 +153,11 @@ const Navbar = () => {
                             <Route exact path='/posts' component={Posts}></Route>
                             <Route path='/posts/:id' render={(props) => <Post {...props} />}></Route>
                             <Route path='/editor' component={Editor}></Route>
-                            <Route path='/users' component={Users}></Route>
+                            <Route path='/users' render={(props) => <Users {...props} />}></Route>
                             <Route path='/login' component={Login}></Route>
                             <Route path='/register' component={Register}></Route>
-                            <Route path='/inbox' component={Inbox}></Route>
+                            <Route exact path='/inbox' component={Inbox}></Route>
+                            <Route path='/inbox/:displayname' render={(props) => <Inbox {...props} />}></Route>
                             <Route exact path='/profil' component={Profil}></Route>
                             <Route path='/profil/:id' render={(props) => <PROFIL_ID {...props} />}></Route>
                             <Route path='/postavke' component={Postavke}></Route>

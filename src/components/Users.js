@@ -6,7 +6,7 @@ import BootstrapIcon from '../svg icons/BootstrapIcon';
 import { Dropdown, DropdownButton } from 'react-bootstrap';
 import { Image } from 'cloudinary-react';
 
-const Users = () => {
+const Users = (props) => {
     /* eslint-disable */
     const [userList, setUserList, currentUser, setCurrentUser, url] = useContext(AuthorityContext);
     /* eslint-enable */
@@ -92,12 +92,12 @@ const Users = () => {
                                         </DropdownButton>
                                     }
                                     {(user.authority === 'super-admin') ? null : <button>Block Posts</button>}
-                                    <button>Send Message</button>
+                                    <button onClick={()=>{props.history.push('/inbox/' + user.displayname)}}>Send Message</button>
                                 </div>
                                 : <div className="profile-buttons">
                                     {(user.authority === 'admin' || user.authority === 'super-admin') ? null : <button onClick={() => { removeUser(user.id) }}>Remove</button>}
                                     {(user.authority === 'admin' || user.authority === 'super-admin') ? null : <button>Block Posts</button>}
-                                    <button>Send Message</button>
+                                    <button onClick={()=>{props.history.push('/inbox/' + user.displayname)}}>Send Message</button>
                                 </div>
                             }
 
