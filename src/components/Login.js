@@ -107,7 +107,7 @@ const Login = () => {
                                             }
                                         </button>
 
-                                        <Form.Text muted>
+                                        <Form.Text muted className="text-center">
                                             Don't have an account?<NavLink to='/register' className="underlined"> Sign up.</NavLink>
                                         </Form.Text>
                                     </Form.Group>

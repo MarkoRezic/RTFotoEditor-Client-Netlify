@@ -4,7 +4,7 @@ import { AuthorityContext } from './AuthorityContext';
 
 const ConfirmPanel = () => {
     /* eslint-disable */
-    const [userList, stUserList, currentUser, setCurrentUser, url] = useContext(AuthorityContext);
+    const [userList, setUserList, currentUser, setCurrentUser, url] = useContext(AuthorityContext);
     /* eslint-enable */
     Axios.defaults.withCredentials = true;
     let id = currentUser.id;

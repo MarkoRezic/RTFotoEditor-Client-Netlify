@@ -15,6 +15,8 @@ const Register = () => {
     const [password, setPassword] = useState('');
     const [repassword, setRepassword] = useState('');
     const [autoLogin, setAutoLogin] = useState(true);
+    const [acceptedCookies, setAcceptedCookies] = useState(false);
+    const [showPolicy, setShowPolicy] = useState(false);
     const [redirect, setRedirect] = useState(false);
     const [errorText, setErrorText] = useState({
         emailError: '',
@@ -108,7 +110,6 @@ const Register = () => {
                         password: password,
                         authority: 'user'
                     }).then(() => {
-                        console.log('user registered');
                         window.scrollTo(0, 0);
                         Axios.post(url + '/login', {
                             username: username.toLowerCase(),
@@ -118,7 +119,6 @@ const Register = () => {
                                 id: response.data.id,
                                 email: email.toLowerCase(),
                             }).then(() => {
-                                console.log('email sent');
                             });
                             setIsLoading(false);
 
@@ -133,7 +133,7 @@ const Register = () => {
                 }
                 else setIsLoading(false);
             }
-            else console.log('user list empty');
+            else return;
         });
 
 
@@ -219,17 +219,29 @@ const Register = () => {
                                     <Form.Group controlId="formBasicCheckbox">
                                         <Form.Check className="checkbox" checked={autoLogin} onChange={() => { setAutoLogin(!autoLogin) }} type="checkbox" label="Login after registration" />
                                     </Form.Group>
+                                    <Form.Group controlId="formCookieCheckbox">
+                                        <Form.Check className="checkbox" checked={acceptedCookies} onChange={() => { setAcceptedCookies(!acceptedCookies) }} type="checkbox" label="Accept Cookies Policy*" />
+                                    </Form.Group>
                                     <Form.Group className="justify-content-center">
-                                        <button className={isLoading ? "registerButton revert-color" : "registerButton"} disabled={isLoading} type="submit" onClick={addUser} name="button">
+                                        <button className={isLoading ? "registerButton revert-color" : !acceptedCookies ? "registerButton not-accepted" : "registerButton"} disabled={isLoading || !acceptedCookies} type="submit" onClick={addUser} name="button">
                                             {isLoading ?
                                                 <div className="lds-spinner-small"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
                                                 : 'Register'
                                             }
                                         </button>
 
-                                        <Form.Text muted>
+                                        <Form.Text muted className="text-center">
                                             Already have an account?<NavLink to='/login' className="underlined"> Sign in.</NavLink>
                                         </Form.Text>
+                                        <Form.Text muted className="text-center">
+                                            Terms of Service<p className="underlined policy-link" onClick={()=>{setShowPolicy(!showPolicy)}}> Cookies Policy</p>
+                                        </Form.Text>
+                                        <div className={"cookiePolicy " + (showPolicy ? '' : 'display-none')}>
+                                            <p className="policy-text">
+                                                This site (RTFotoEditor) uses Cookies in order to store the Session ID of the current user, and is essential for the functionality of our Service.
+                                                <br /><br />By using this Service, you consent to the use of Cookies.
+                                            </p>
+                                        </div>
                                     </Form.Group>
                                 </Form>
 

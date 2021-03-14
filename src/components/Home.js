@@ -10,6 +10,8 @@ import REACT from '../images/React_logo.png';
 import MYSQL from '../images/mysql_logo.png';
 import EXPRESS from '../images/ExpressJS_logo.png';
 import AUTORI from '../images/Autori.jpeg';
+import GITHUB from '../images/GitHub.png';
+import GITHUBLOGO from '../images/GitHubLogo.png';
 import BootstrapIcon from '../svg icons/BootstrapIcon.js';
 
 const Home = () => {
@@ -148,6 +150,12 @@ const Home = () => {
                         <div className="blog-post">
                             <h5 className="w">Link Vizije</h5>
                             <p className="blog-post-meta">Zadnje ažurirano 8. studenog 2020. <strong> <a className="alink" href="https://docs.google.com/document/d/141DHijMdyPfeffnDDo_hYwJRKfGQT5NC6UDfMsEDl3Y/edit?usp=sharing" target="_blank" rel="noreferrer">Vizija</a> </strong></p>
+                            <a href="https://github.com/MarkoRezic/RTFotoEditor" target="_blank" rel="noreferrer">
+                                <span className="githubContainer">
+                                    <img alt='' src={GITHUB} className="github" />
+                                    <img alt='' src={GITHUBLOGO} className="githubLogo" />
+                                </span>
+                            </a>
                         </div>
 
 

@@ -30,6 +30,10 @@ import HERMAJESTY from '../images/presetFilters/HERMAJESTY.jpg';
 import NOSTALGIA from '../images/presetFilters/NOSTALGIA.jpg';
 import HEMINGWAY from '../images/presetFilters/HEMINGWAY.jpg';
 import CONCENTRATE from '../images/presetFilters/CONCENTRATE.jpg';
+import GITHUB from '../images/GitHub.png';
+import GITHUBLOGO from '../images/GitHubLogo.png';
+import CAMANJS from '../images/camanjs.png';
+import CAMERA from '../images/Camera.png';
 
 const Editor = (props) => {
     /* eslint-disable */
@@ -1788,7 +1792,7 @@ const Editor = (props) => {
                                         </div>
                                     </div>
                                     <div className="col-12 editorContaier">
-                                        <div className="buttonRow">
+                                        <div className="buttonRow border-bottom-5">
                                             <div id="toggle-original" onClick={() => { setActiveTransformContainer(activeTransformContainer === 0 ? -1 : 0) }} className={"editorButton" + (activeTransformContainer === 0 ? ' activeButton' : '')}><div className="editorButtonInfoTop infoLeft">Show Original</div><BootstrapIcon type={22} /></div>
                                             <div id="crop" onClick={() => { setActiveTransformContainer(activeTransformContainer === 1 ? -1 : 1) }} className={"editorButton" + (activeTransformContainer === 1 ? ' activeButton' : '')}><div className="editorButtonInfoTop">Crop</div><BootstrapIcon type={35} /></div>
                                             <div id="rotate" onClick={() => { setActiveTransformContainer(activeTransformContainer === 2 ? -1 : 2) }} className={"editorButton" + (activeTransformContainer === 2 ? ' activeButton' : '')}><div className="editorButtonInfoTop">Rotate</div><BootstrapIcon type={38} /></div>
@@ -1825,7 +1829,7 @@ const Editor = (props) => {
                                             <canvas id="canvasCover" data-caman-hidpi-disabled="true" className={"blackCover " + ((activeTransformContainer !== 1) ? '' : 'invisible')}></canvas>
                                             <canvas id="canvas" data-caman-hidpi-disabled="true" className={((activeTransformContainer !== 0 && activeTransformContainer !== 1) ? '' : 'invisible')}></canvas>
                                         </div>
-                                        <div className="buttonRow">
+                                        <div className="buttonRow border-top-5">
                                             <div className={"editorButton" + (activeFilterContainer === 0 ? ' activeButton' : '')} onClick={() => { setActiveFilterContainer(activeFilterContainer === 0 ? -1 : 0) }}><div className="editorButtonInfoBottom infoLeft">Preset Filter</div><BootstrapIcon type={50} /></div>
                                             <div className={"editorButton" + (activeFilterContainer === 1 ? ' activeButton' : '')} onClick={() => { setActiveFilterContainer(activeFilterContainer === 1 ? -1 : 1) }}><div className="editorButtonInfoBottom">Light Level</div><BootstrapIcon type={37} /></div>
                                             <div className={"editorButton" + (activeFilterContainer === 2 ? ' activeButton' : '')} onClick={() => { setActiveFilterContainer(activeFilterContainer === 2 ? -1 : 2) }}><div className="editorButtonInfoBottom">Colors</div><BootstrapIcon type={46} /></div>
@@ -2442,6 +2446,18 @@ const Editor = (props) => {
                         <div className="blog-post">
                             <h5 className="w">Link Vizije</h5>
                             <p className="blog-post-meta">Zadnje ažurirano 8. studenog 2020. <strong> <a className="alink" href="https://docs.google.com/document/d/141DHijMdyPfeffnDDo_hYwJRKfGQT5NC6UDfMsEDl3Y/edit?usp=sharing" target="_blank" rel="noreferrer">Vizija</a> </strong></p>
+                            <a href="https://github.com/MarkoRezic/RTFotoEditor" target="_blank" rel="noreferrer">
+                                <span className="githubContainer">
+                                    <img alt='' src={GITHUB} className="github" />
+                                    <img alt='' src={GITHUBLOGO} className="githubLogo" />
+                                </span>
+                            </a>
+                            <a href="http://camanjs.com/" target="_blank" rel="noreferrer">
+                                <span className="githubContainer">
+                                    <img alt='' src={CAMANJS} className="github" />
+                                    <img alt='' src={CAMERA} className="githubLogo" />
+                                </span>
+                            </a>
                         </div>
 
 

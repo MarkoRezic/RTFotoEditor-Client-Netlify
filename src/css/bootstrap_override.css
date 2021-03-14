@@ -168,6 +168,39 @@
 	cursor: auto !important;
     opacity: 0.5 !important;
 }
+label[for="formCookieCheckbox"], label[for="formBasicCheckbox"]{
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	font-size: 15px;
+	color: #aaa;
+}
+input[type="checkbox"]{
+	cursor: pointer;
+}
+.not-accepted{
+    background-color: rgb(73, 110, 71) !important;
+    opacity: 0.5 !important;
+}
+.not-accepted:hover{
+	cursor: auto !important;
+    opacity: 0.5 !important;
+}
+.policy-link{
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	cursor: pointer;
+	width: fit-content;
+	margin: auto;
+}
+.cookiePolicy{
+	border: 2px solid #555;
+    padding: 15px;
+    text-align: center;
+    background-color: #020212;
+    margin: 15px;
+}
+.policy-text{
+	font-size: 13px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
 .append{
 	width: 110px;
 	font-size: 15px !important;
@@ -832,6 +865,13 @@
     margin: 0 !important;
 	display: flex;
 	z-index: 4;
+	background-color: #111;
+}
+.border-bottom-5{
+	border-bottom: 5px solid #333;
+}
+.border-top-5{
+	border-top: 5px solid #333;
 }
 .editorButton, .editorButtonToggle, .valueButton, .imageTypeButton{
 	user-select: none;
@@ -1163,6 +1203,27 @@ canvas {
     max-height: inherit;
     width: var(--minimized-width, auto);
     height: var(--minimized-height, auto);
+}
+.githubContainer{
+	display: inline-flex;
+	background-color: #ccc;
+    min-width: fit-content;
+	width: 180px;
+    padding: 5px;
+    border: 5px solid #555;
+    border-radius: 15px;
+	opacity: 0.8;
+	cursor: pointer;
+	margin-right: 15px;
+	margin-bottom: 15px;
+	justify-content: center;
+}
+.githubContainer:hover{
+	opacity: 1;
+}
+.github,.githubLogo{
+	height: 35px;
+	width: auto;
 }
 
 /*Element, Element.klasa*/
