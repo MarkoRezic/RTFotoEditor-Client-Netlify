@@ -33,7 +33,7 @@ const AdminView = () => {
 
         <NavLink activeClassName="active" className="nav-link" to="/editor"><BootstrapIcon type={1} /> Foto Editor</NavLink>
 
-        <NavLink activeClassName="active" className="nav-link" to="/users"><BootstrapIcon type={6} /> Users</NavLink>
+        <NavLink activeClassName="active" className="nav-link" to="/users"><BootstrapIcon type={88} /> Users</NavLink>
 
         <NavLink activeClassName="active" className="nav-link" to="/inbox"><BootstrapIcon type={4} /> Inbox
         {getNewMessages() ?

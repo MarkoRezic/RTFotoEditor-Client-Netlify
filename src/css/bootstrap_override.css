@@ -31,8 +31,11 @@
   -moz-animation: glow 1s ease-in-out infinite alternate;
   animation: glow 1s ease-in-out infinite alternate;
 }
+.nav-link:hover .navIcon{
+	fill: white !important;
+}
 .break{
-	min-height: 65px;
+	min-height: fit-content;
 }
 .teh{
 	border: 2px solid rgba(210,210,230, 0.2);
@@ -1774,5 +1777,25 @@ svg{
 	/* Desktop: */
 	.sliderCoupleContainer p{
 		font-size: 25px;
+	}
+}
+@media only screen and (max-width: 700px){
+	/* Mobile: */
+	.nav-link{
+		border: 2px solid #555;
+    	line-height: 0;
+    	color: transparent;
+    	font-size: 0;
+		padding: 15px !important;
+	}
+	.navIcon{
+		width: 20px !important;
+		height: 20px !important;
+	}
+}
+@media only screen and (max-width: 500px){
+	/* Mobile: */
+	.nav-link{
+		padding: 10px !important;
 	}
 }
