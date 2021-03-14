@@ -373,6 +373,7 @@
 .timestamp{
 	font-size: 14px;
     float: right;
+	margin: 0;
 }
 .large-container{
 	max-width: 80rem !important;
@@ -588,6 +589,45 @@
     font-size: 15px !important;
     margin-bottom: 0 !important;
 }
+.postDeleteButton{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #777;
+    padding: 0.2rem;
+	cursor: pointer;
+    min-width: fit-content;
+    max-width: 100px;
+	background-color: #111;
+	opacity: 0.5;
+	margin: auto;
+	margin-top: 15px;
+}
+.postDeleteButtonText{
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	font-size: 18px;
+    margin-bottom: 0 !important;
+	user-select: none;
+}
+.postDeleteButton:hover{
+	opacity: 1;
+}
+.deleteConfirmButton{
+	user-select: none;
+	min-width: 20px;
+	width: 30px;
+	height: 30px;
+	border: 2px solid #777;
+	border-radius: 3px;
+	background-color: black;
+	color: white;
+	cursor: pointer;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	margin-left: 5px;
+	margin-right: 5px;
+}
 .commentContainer{
     display: inline-flex;
 	flex-direction: column;
@@ -732,6 +772,7 @@
 	max-height: 600px !important;
     max-width: 100% !important;
     width: auto !important;
+	user-select: none;
 }
 .postDescription{
 	background-color: #111;

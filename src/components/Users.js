@@ -96,7 +96,6 @@ const Users = (props) => {
                                 </div>
                                 : <div className="profile-buttons">
                                     {(user.authority === 'admin' || user.authority === 'super-admin') ? null : <button onClick={() => { removeUser(user.id) }}>Remove</button>}
-                                    {(user.authority === 'admin' || user.authority === 'super-admin') ? null : <button>Block Posts</button>}
                                     <button onClick={()=>{props.history.push('/inbox/' + user.displayname)}}>Send Message</button>
                                 </div>
                             }

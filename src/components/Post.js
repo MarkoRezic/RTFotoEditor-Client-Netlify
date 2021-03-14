@@ -4,7 +4,7 @@ import { Image } from 'cloudinary-react';
 import { AuthorityContext } from './AuthorityContext';
 import PROFILEICON from '../images/profile-icon.png';
 import BootstrapIcon from '../svg icons/BootstrapIcon';
-import { Form, InputGroup } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import { checkText } from 'smile2emoji';
 
 const Post = (props) => {
@@ -22,7 +22,8 @@ const Post = (props) => {
     const [numComments, setNumComments] = useState(0);
     const [comments, setComments] = useState([]);
     const [text, setText] = useState('');
-    const hour = 1*60*60*1000;
+    const [deleteState, setDeleteState] = useState('delete');
+    const hour = 1 * 60 * 60 * 1000;
     let mounted = false;
     const loadPost = () => {
         if (currentUser.loggedIn) {
@@ -107,17 +108,6 @@ const Post = (props) => {
         }
     }
 
-    function removeComment(commentID) {
-        Axios.delete(url + '/remove-comment', { data: { commentID: commentID } }).then((response) => {
-            Axios.get(url + '/post/comments/' + props.match.params.id).then((response) => {
-                setNumComments(response.data.length);
-                setComments([...response.data].sort(function (a, b) {
-                    return a.id - b.id;
-                }));
-            });
-        });
-    }
-
     function postComment() {
         if (text !== '') {
             Axios.post(url + '/post-comment/' + props.match.params.id, { userID: currentUser.id, text: text }).then((response) => {
@@ -131,6 +121,25 @@ const Post = (props) => {
                 });
             })
         }
+    }
+
+    function removeComment(commentID) {
+        Axios.delete(url + '/remove-comment', { data: { commentID: commentID } }).then((response) => {
+            Axios.get(url + '/post/comments/' + props.match.params.id).then((response) => {
+                setNumComments(response.data.length);
+                setComments([...response.data].sort(function (a, b) {
+                    return a.id - b.id;
+                }));
+            });
+        });
+    }
+
+    function removePost(postID) {
+        setIsLoading(true);
+        Axios.delete(url + '/remove-post/' + postID).then((response) => {
+            console.log(response);
+            props.history.replace('/posts');
+        })
     }
 
     function timeSince(miliseconds) {
@@ -190,6 +199,20 @@ const Post = (props) => {
                                             </div>
                                             <p className="postProfileName">{post.displayname}</p>
                                         </div>
+                                        {(post.poster_id === currentUser.id)
+                                            || (currentUser.authority === 'super-admin')
+                                            || (currentUser.authority === 'admin') ?
+                                            <div className={"postDeleteButton " + (deleteState === 'confirm' ? 'activeButton' : '')} onClick={() => { if (deleteState === 'delete') setDeleteState('confirm'); }}>
+                                                {deleteState === 'confirm' ?
+                                                    <div className="display-content">
+                                                        <div className="deleteConfirmButton" onClick={() => { removePost(post.id); setDeleteState('delete'); }}><BootstrapIcon type={86} /></div>
+                                                        <div className="deleteConfirmButton" onClick={() => { setDeleteState('delete'); }}><BootstrapIcon type={87} /></div>
+                                                    </div>
+                                                    : <p className="postDeleteButtonText">Delete</p>
+                                                }
+                                            </div>
+                                            : null
+                                        }
                                     </div>
                                     <div className="postPhotoContainer">
                                         <Image
@@ -229,16 +252,16 @@ const Post = (props) => {
                                                 return (
                                                     <div className="commentContainer" key={comment.id} onClick={
                                                         (e) => {
-                                                            if (!e.target.classList.contains('commentProfileBorder') 
-                                                            && !e.target.classList.contains('deleteCommentButton')
-                                                            && !e.target.classList.contains('removeCommentX')
+                                                            if (!e.target.classList.contains('commentProfileBorder')
+                                                                && !e.target.classList.contains('deleteCommentButton')
+                                                                && !e.target.classList.contains('removeCommentX')
                                                             ) {
                                                                 e.currentTarget.classList.toggle('flex-direction-column');
                                                                 e.currentTarget.childNodes[1].childNodes[0].classList.toggle('fullComment');
                                                             }
                                                         }
                                                     }>
-                                                        <p className="commentTimestamp">{timeSince((new Date(Date.now()).getTime()) - (new Date(comment.date).getTime() + hour) ) + ' ago'}</p>
+                                                        <p className="commentTimestamp">{timeSince((new Date(Date.now()).getTime()) - (new Date(comment.date).getTime() + hour)) + ' ago'}</p>
                                                         <div className="commentProfile">
                                                             <div className="profile-border commentProfileBorder" onClick={() => { props.history.push('/profil/' + comment.user_id); }}>
                                                                 {comment.public_id !== null ?

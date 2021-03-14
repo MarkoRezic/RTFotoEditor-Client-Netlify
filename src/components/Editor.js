@@ -163,6 +163,11 @@ const Editor = (props) => {
         motionBlurLayers: 0,    //   0 .. 6
     };
     const [userVerified, setUserVerified] = useState(false);
+    const [commandStack, setCommandStack] = useState([]);
+    const [redoStack, setRedoStack] = useState([]);
+    const [isUndoActive, setIsUndoActive] = useState(false);
+    const MAX_COMMAND_STACK = 30;
+    const commandCodes = ['fi', 'br', 'co', 'ex', 'ga', 'op', 'sa', 'vi', 'hu', 'in', 'se', 'cl', 're', 'gr', 'bl', 'gy', 'hex', 'coS', 'no', 'sh', 'blr', 'rblr', 'di', 'diA', 'mblr', 'mblrA', 'vin', 'vinS', 'cr', 'ro', 'aw', 'ah', 'mx', 'my'];
     var canvas, canvasCopy, presetCopy;
     var ctxPreset, ctxCopy;
 
@@ -184,16 +189,11 @@ const Editor = (props) => {
         canvas = document.getElementById("canvas");
         presetCopy = document.getElementById("presetCopy");
         canvasCopy = document.getElementById("canvasCopy");
-        let reactCrop = document.getElementsByClassName("ReactCrop");
         ctxPreset = presetCopy.getContext("2d");
         ctxCopy = canvasCopy.getContext("2d");
         img = new Image();
         setFileName("");
         window.addEventListener('resize', resizeClassCalculate);
-        if (reactCrop) reactCrop[0].addEventListener('dblclick', function () {
-            setCurrentCrop({ ...cropReset });
-            setIsResettingCrop(false);
-        })
         //Creating crop plugin
         window.Caman.Plugin.register("cloneCanvas", function (canvasCopy, newID) {
             var canvas, ctx;
@@ -564,7 +564,7 @@ const Editor = (props) => {
             }
             return this.processPlugin("dither", [algo]);
         });
-        
+
         setIsLoading(false);
         return () => mounted = false;
     }, []);
@@ -732,11 +732,11 @@ const Editor = (props) => {
         return () => mounted = false;
     }, [currentPreset]);
     useEffect(() => {
-        mounted = true;
         setCurrentVignetteSize(values.vignetteSize);
+    }, [values.vignetteSize]);
+    useEffect(() => {
         setCurrentVignetteStrength(values.vignetteStrength);
-        return () => mounted = false;
-    }, [values.vignetteSize, values.vignetteStrength]);
+    }, [values.vignetteStrength]);
     useEffect(() => {
         mounted = true;
         setMinimizedDimensions();
@@ -750,7 +750,6 @@ const Editor = (props) => {
     }, [isResettingCrop]);
 
 
-    /* eslint-enable */
 
     function cloneAttributes(sourceNode, element) {
         let attr;
@@ -786,6 +785,547 @@ const Editor = (props) => {
         }
         else setResizeClassCropped('');
         setMinimizedDimensions();
+    }
+
+    useEffect(() => {
+        if (!isUndoActive) addCommand('Fi:' + currentPreset);
+        else setIsUndoActive(false);
+    }, [currentPreset]);
+    useEffect(() => {
+        if (!isUndoActive) addCommand('br:' + values.brightness);
+        else setIsUndoActive(false);
+    }, [values.brightness]);
+    useEffect(() => {
+        if (!isUndoActive) addCommand('co:' + values.contrast);
+        else setIsUndoActive(false);
+    }, [values.contrast]);
+    useEffect(() => {
+        if (!isUndoActive) addCommand('ex:' + values.exposure);
+        else setIsUndoActive(false);
+    }, [values.exposure]);
+    useEffect(() => {
+        if (!isUndoActive) addCommand('ga:' + values.gamma);
+        else setIsUndoActive(false);
+    }, [values.gamma]);
+    useEffect(() => {
+        if (!isUndoActive) addCommand('op:' + values.opacity);
+        else setIsUndoActive(false);
+    }, [values.opacity]);
+    useEffect(() => {
+        if (!isUndoActive) addCommand('sa:' + values.saturation);
+        else setIsUndoActive(false);
+    }, [values.saturation]);
+    useEffect(() => {
+        if (!isUndoActive) addCommand('vi:' + values.vibrance);
+        else setIsUndoActive(false);
+    }, [values.vibrance]);
+    useEffect(() => {
+        if (!isUndoActive) addCommand('hu:' + values.hue);
+        else setIsUndoActive(false);
+    }, [values.hue]);
+    useEffect(() => {
+        if (!isUndoActive) addCommand('in:' + (values.invert ? 1 : 0));
+        else setIsUndoActive(false);
+    }, [values.invert]);
+    useEffect(() => {
+        if (!isUndoActive) addCommand('se:' + values.sepia);
+        else setIsUndoActive(false);
+    }, [values.sepia]);
+    useEffect(() => {
+        if (!isUndoActive) addCommand('cl:' + values.clip);
+        else setIsUndoActive(false);
+    }, [values.clip]);
+    useEffect(() => {
+        if (!isUndoActive) addCommand('re:' + values.channelR);
+        else setIsUndoActive(false);
+    }, [values.channelR]);
+    useEffect(() => {
+        if (!isUndoActive) addCommand('gr:' + values.channelG);
+        else setIsUndoActive(false);
+    }, [values.channelG]);
+    useEffect(() => {
+        if (!isUndoActive) addCommand('bl:' + values.channelB);
+        else setIsUndoActive(false);
+    }, [values.channelB]);
+    useEffect(() => {
+        if (!isUndoActive) addCommand('gy:' + (values.greyscale ? 1 : 0));
+        else setIsUndoActive(false);
+    }, [values.greyscale]);
+    useEffect(() => {
+        if (!isUndoActive) addCommand('hex:' + endColor);
+        else setIsUndoActive(false);
+    }, [endColor]);
+    useEffect(() => {
+        if (!isUndoActive) addCommand('coS:' + values.colorizeStrength);
+        else setIsUndoActive(false);
+    }, [values.colorizeStrength]);
+    useEffect(() => {
+        if (!isUndoActive) addCommand('no:' + values.noise);
+        else setIsUndoActive(false);
+    }, [values.noise]);
+    useEffect(() => {
+        if (!isUndoActive) addCommand('sh:' + values.sharpen);
+        else setIsUndoActive(false);
+    }, [values.sharpen]);
+    useEffect(() => {
+        if (!isUndoActive) addCommand('blr:' + values.stackBlur);
+        else setIsUndoActive(false);
+    }, [values.stackBlur]);
+    useEffect(() => {
+        if (!isUndoActive) addCommand('rblr:' + values.radialBlur);
+        else setIsUndoActive(false);
+    }, [values.radialBlur]);
+    useEffect(() => {
+        if (!isUndoActive) addCommand('di:' + (values.dither ? 1 : 0));
+        else setIsUndoActive(false);
+    }, [values.dither]);
+    useEffect(() => {
+        if (!isUndoActive) addCommand('diA:' + values.ditherAlgo);
+        else setIsUndoActive(false);
+    }, [values.ditherAlgo]);
+    useEffect(() => {
+        if (!isUndoActive) addCommand('mblr:' + values.motionBlurLayers);
+        else setIsUndoActive(false);
+    }, [values.motionBlurLayers]);
+    useEffect(() => {
+        if (!isUndoActive) addCommand('mblrA:' + values.motionBlurAngle);
+        else setIsUndoActive(false);
+    }, [values.motionBlurAngle]);
+    useEffect(() => {
+        if (!isUndoActive && (currentVignetteSize !== values.vignetteSize)) addCommand('vin:' + values.vignetteSize);
+        else setIsUndoActive(false);
+    }, [values.vignetteSize]);
+    useEffect(() => {
+        if (!isUndoActive && (currentVignetteStrength !== values.vignetteStrength)) addCommand('vinS:' + values.vignetteStrength);
+        else setIsUndoActive(false);
+    }, [values.vignetteStrength]);
+    function addCropCommand() {
+        addCommand('cr:' + currentCrop.width.toFixed(2) + ':' + currentCrop.height.toFixed(2) + ':' + currentCrop.x.toFixed(2) + ':' + currentCrop.y.toFixed(2));
+    }
+    useEffect(() => {
+        if (!isUndoActive) addCommand('ro:' + values.rotateAngle);
+        else setIsUndoActive(false);
+    }, [values.rotateAngle]);
+    useEffect(() => {
+        if (!isUndoActive) addCommand('aw:' + values.resizeWidth);
+        else setIsUndoActive(false);
+    }, [values.resizeWidth]);
+    useEffect(() => {
+        if (!isUndoActive) addCommand('ah:' + values.resizeHeight);
+        else setIsUndoActive(false);
+    }, [values.resizeHeight]);
+    useEffect(() => {
+        if (!isUndoActive) addCommand('mx:' + values.mirrorX);
+        else setIsUndoActive(false);
+    }, [values.mirrorX]);
+    useEffect(() => {
+        if (!isUndoActive) addCommand('my:' + values.mirrorY);
+        else setIsUndoActive(false);
+    }, [values.mirrorY]);
+
+
+    /* eslint-enable */
+
+
+    function addCommand(command) {
+        if (command !== commandStack[commandStack.length - 1]) {
+            let newCommandStack = [...commandStack];
+            if (newCommandStack.push(command) > MAX_COMMAND_STACK) newCommandStack.shift();
+            setCommandStack([...newCommandStack]);
+            setRedoStack([]);
+        }
+    }
+
+    function undoCommand() {
+        if (commandStack.length > 0) {
+            setIsUndoActive(true);
+            parseUndo(commandStack[commandStack.length - 1]);
+            let newCommandStack = [...commandStack];
+            let newRedoStack = [...redoStack, newCommandStack.pop()];
+            setRedoStack([...newRedoStack]);
+            setCommandStack([...newCommandStack]);
+        }
+    }
+
+    function redoCommand() {
+        if (redoStack.length > 0) {
+            setIsUndoActive(true);
+            parseRedo(redoStack[redoStack.length - 1]);
+            let newRedoStack = [...redoStack];
+            let newCommandStack = [...commandStack, newRedoStack.pop()];
+            setRedoStack([...newRedoStack]);
+            setCommandStack([...newCommandStack]);
+        }
+    }
+
+
+
+    function parseUndo(command) {
+        var i, commandValues;
+        for (i = commandStack.length - 2; i >= 0; i--) {
+            if (commandStack[i].split(':', 1)[0] === command.split(':', 1)[0]) {
+                break;
+            }
+        }
+        commandValues = i !== -1 ? commandStack[i].split(':') : [];
+        switch (command.split(':', 1)[0]) {
+            case 'Fi': setPreviousPreset(commandValues.length > 0 ? values.presetFilter : 'initial');
+                setCurrentPreset(commandValues.length > 0 ? commandValues[1] : resetValues.presetFilter)
+                break;
+            case 'br': setValues((prevState) => ({
+                ...prevState,
+                brightness: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.brightness
+            }))
+                break;
+            case 'co': setValues((prevState) => ({
+                ...prevState,
+                contrast: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.contrast
+            }))
+                break;
+            case 'ex': setValues((prevState) => ({
+                ...prevState,
+                exposure: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.exposure
+            }))
+                break;
+            case 'ga': setValues((prevState) => ({
+                ...prevState,
+                gamma: commandValues.length > 0 ? parseFloat((parseFloat(commandValues[1]).toFixed(1))) : resetValues.gamma
+            }))
+                break;
+            case 'op': setValues((prevState) => ({
+                ...prevState,
+                opacity: commandValues.length > 0 ? parseFloat((parseFloat(commandValues[1]).toFixed(2))) : resetValues.opacity
+            }))
+                break;
+            case 'sa': setValues((prevState) => ({
+                ...prevState,
+                saturation: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.saturation
+            }))
+                break;
+            case 'vi': setValues((prevState) => ({
+                ...prevState,
+                vibrance: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.vibrance
+            }))
+                break;
+            case 'hu': setValues((prevState) => ({
+                ...prevState,
+                hue: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.hue
+            }))
+                break;
+            case 'in': setValues((prevState) => ({
+                ...prevState,
+                invert: (commandValues.length > 0) && (parseInt(commandValues[1]) === 1) ? true : false
+            }))
+                break;
+            case 'se': setValues((prevState) => ({
+                ...prevState,
+                sepia: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.sepia
+            }))
+                break;
+            case 'cl': setValues((prevState) => ({
+                ...prevState,
+                clip: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.clip
+            }))
+                break;
+            case 're': setValues((prevState) => ({
+                ...prevState,
+                channelR: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.channelR
+            }))
+                break;
+            case 'gr': setValues((prevState) => ({
+                ...prevState,
+                channelG: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.channelG
+            }))
+                break;
+            case 'bl': setValues((prevState) => ({
+                ...prevState,
+                channelB: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.channelB
+            }))
+                break;
+            case 'gy': setValues((prevState) => ({
+                ...prevState,
+                greyscale: (commandValues.length > 0) && (parseInt(commandValues[1]) === 1) ? true : false
+            }))
+                break;
+            case 'hex': setCurrentColor(commandValues.length > 0 ? commandValues[1] : '#B3DEE5');
+                setEndColor(commandValues.length > 0 ? commandValues[1] : '#B3DEE5');
+                break;
+            case 'coS': setValues((prevState) => ({
+                ...prevState,
+                colorizeStrength: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.colorizeStrength
+            }))
+                break;
+            case 'no': setValues((prevState) => ({
+                ...prevState,
+                noise: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.noise
+            }))
+                break;
+            case 'sh': setValues((prevState) => ({
+                ...prevState,
+                sharpen: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.sharpen
+            }))
+                break;
+            case 'blr': setValues((prevState) => ({
+                ...prevState,
+                stackBlur: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.stackBlur
+            }))
+                break;
+            case 'rblr': setValues((prevState) => ({
+                ...prevState,
+                radialBlur: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.radialBlur
+            }))
+                break;
+            case 'di': setValues((prevState) => ({
+                ...prevState,
+                dither: (commandValues.length > 0) && (parseInt(commandValues[1]) === 1) ? true : false
+            }))
+                break;
+            case 'diA': setValues((prevState) => ({
+                ...prevState,
+                ditherAlgo: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.ditherAlgo
+            }))
+                break;
+            case 'mblr': setValues((prevState) => ({
+                ...prevState,
+                motionBlurLayers: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.motionBlurLayers
+            }))
+                break;
+            case 'mblrA': setValues((prevState) => ({
+                ...prevState,
+                motionBlurAngle: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.motionBlurAngle
+            }))
+                break;
+            case 'vin': setValues((prevState) => ({
+                ...prevState,
+                vignetteSize: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.vignetteSize
+            }))
+                break;
+            case 'vinS': setValues((prevState) => ({
+                ...prevState,
+                vignetteStrength: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.vignetteStrength
+            }))
+                break;
+            case 'cr': setCurrentCrop(commandValues.length > 0 ?
+                {
+                    unit: '%',
+                    width: parseInt(commandValues[1]),
+                    height: parseInt(commandValues[2]),
+                    x: parseInt(commandValues[3]),
+                    y: parseInt(commandValues[4]),
+                }
+                : { ...cropReset }
+            )
+                setIsResettingCrop(false);
+                break;
+            case 'ro': setValues((prevState) => ({
+                ...prevState,
+                rotateAngle: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.rotateAngle
+            }))
+                break;
+            case 'aw': setValues((prevState) => ({
+                ...prevState,
+                resizeWidth: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.resizeWidth
+            }))
+                break;
+            case 'ah': setValues((prevState) => ({
+                ...prevState,
+                resizeHeight: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.resizeHeight
+            }))
+                break;
+            case 'mx': setValues((prevState) => ({
+                ...prevState,
+                mirrorX: (commandValues.length > 0) && (parseInt(commandValues[1]) === 1) ? 1 : 0
+            }))
+                break;
+            case 'my': setValues((prevState) => ({
+                ...prevState,
+                mirrorY: (commandValues.length > 0) && (parseInt(commandValues[1]) === 1) ? 1 : 0
+            }))
+                break;
+            default: break;
+            //'fi', 'br', 'co', 'ex', 'ga', 'op', 'sa', 'vi', 'hu', 'in', 'se', 'cl', 're', 'gr', 'bl', 'gy', 'hex', 'coS', 'no', 'sh', 'blr', 'rblr', 'di', 'diA', 'mblr', 'mblrA', 'vin', 'vinS', 'cr', 'ro', 'aw', 'ah', 'mx', 'my'
+        }
+    }
+
+    function parseRedo(command) {
+        var commandValues = command.split(':');
+        switch (command.split(':', 1)[0]) {
+            case 'Fi': setPreviousPreset(commandValues.length > 0 ? values.presetFilter : 'initial');
+                setCurrentPreset(commandValues.length > 0 ? commandValues[1] : resetValues.presetFilter)
+                break;
+            case 'br': setValues((prevState) => ({
+                ...prevState,
+                brightness: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.brightness
+            }))
+                break;
+            case 'co': setValues((prevState) => ({
+                ...prevState,
+                contrast: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.contrast
+            }))
+                break;
+            case 'ex': setValues((prevState) => ({
+                ...prevState,
+                exposure: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.exposure
+            }))
+                break;
+            case 'ga': setValues((prevState) => ({
+                ...prevState,
+                gamma: commandValues.length > 0 ? parseFloat((parseFloat(commandValues[1]).toFixed(1))) : resetValues.gamma
+            }))
+                break;
+            case 'op': setValues((prevState) => ({
+                ...prevState,
+                opacity: commandValues.length > 0 ? parseFloat((parseFloat(commandValues[1]).toFixed(2))) : resetValues.opacity
+            }))
+                break;
+            case 'sa': setValues((prevState) => ({
+                ...prevState,
+                saturation: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.saturation
+            }))
+                break;
+            case 'vi': setValues((prevState) => ({
+                ...prevState,
+                vibrance: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.vibrance
+            }))
+                break;
+            case 'hu': setValues((prevState) => ({
+                ...prevState,
+                hue: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.hue
+            }))
+                break;
+            case 'in': setValues((prevState) => ({
+                ...prevState,
+                invert: (commandValues.length > 0) && (parseInt(commandValues[1]) === 1) ? true : false
+            }))
+                break;
+            case 'se': setValues((prevState) => ({
+                ...prevState,
+                sepia: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.sepia
+            }))
+                break;
+            case 'cl': setValues((prevState) => ({
+                ...prevState,
+                clip: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.clip
+            }))
+                break;
+            case 're': setValues((prevState) => ({
+                ...prevState,
+                channelR: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.channelR
+            }))
+                break;
+            case 'gr': setValues((prevState) => ({
+                ...prevState,
+                channelG: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.channelG
+            }))
+                break;
+            case 'bl': setValues((prevState) => ({
+                ...prevState,
+                channelB: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.channelB
+            }))
+                break;
+            case 'gy': setValues((prevState) => ({
+                ...prevState,
+                greyscale: (commandValues.length > 0) && (parseInt(commandValues[1]) === 1) ? true : false
+            }))
+                break;
+            case 'hex': setCurrentColor(commandValues.length > 0 ? commandValues[1] : '#B3DEE5');
+                setEndColor(commandValues.length > 0 ? commandValues[1] : '#B3DEE5');
+                break;
+            case 'coS': setValues((prevState) => ({
+                ...prevState,
+                colorizeStrength: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.colorizeStrength
+            }))
+                break;
+            case 'no': setValues((prevState) => ({
+                ...prevState,
+                noise: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.noise
+            }))
+                break;
+            case 'sh': setValues((prevState) => ({
+                ...prevState,
+                sharpen: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.sharpen
+            }))
+                break;
+            case 'blr': setValues((prevState) => ({
+                ...prevState,
+                stackBlur: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.stackBlur
+            }))
+                break;
+            case 'rblr': setValues((prevState) => ({
+                ...prevState,
+                radialBlur: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.radialBlur
+            }))
+                break;
+            case 'di': setValues((prevState) => ({
+                ...prevState,
+                dither: (commandValues.length > 0) && (parseInt(commandValues[1]) === 1) ? true : false
+            }))
+                break;
+            case 'diA': setValues((prevState) => ({
+                ...prevState,
+                ditherAlgo: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.ditherAlgo
+            }))
+                break;
+            case 'mblr': setValues((prevState) => ({
+                ...prevState,
+                motionBlurLayers: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.motionBlurLayers
+            }))
+                break;
+            case 'mblrA': setValues((prevState) => ({
+                ...prevState,
+                motionBlurAngle: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.motionBlurAngle
+            }))
+                break;
+            case 'vin': setValues((prevState) => ({
+                ...prevState,
+                vignetteSize: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.vignetteSize
+            }))
+                break;
+            case 'vinS': setValues((prevState) => ({
+                ...prevState,
+                vignetteStrength: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.vignetteStrength
+            }))
+                break;
+            case 'cr': setCurrentCrop(commandValues.length > 0 ?
+                {
+                    unit: '%',
+                    width: parseInt(commandValues[1]),
+                    height: parseInt(commandValues[2]),
+                    x: parseInt(commandValues[3]),
+                    y: parseInt(commandValues[4]),
+                }
+                : { ...cropReset }
+            )
+                setIsResettingCrop(false);
+                break;
+            case 'ro': setValues((prevState) => ({
+                ...prevState,
+                rotateAngle: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.rotateAngle
+            }))
+                break;
+            case 'aw': setValues((prevState) => ({
+                ...prevState,
+                resizeWidth: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.resizeWidth
+            }))
+                break;
+            case 'ah': setValues((prevState) => ({
+                ...prevState,
+                resizeHeight: commandValues.length > 0 ? parseInt(commandValues[1]) : resetValues.resizeHeight
+            }))
+                break;
+            case 'mx': setValues((prevState) => ({
+                ...prevState,
+                mirrorX: (commandValues.length > 0) && (parseInt(commandValues[1]) === 1) ? 1 : 0
+            }))
+                break;
+            case 'my': setValues((prevState) => ({
+                ...prevState,
+                mirrorY: (commandValues.length > 0) && (parseInt(commandValues[1]) === 1) ? 1 : 0
+            }))
+                break;
+            default: break;
+            //'fi', 'br', 'co', 'ex', 'ga', 'op', 'sa', 'vi', 'hu', 'in', 'se', 'cl', 're', 'gr', 'bl', 'gy', 'hex', 'coS', 'no', 'sh', 'blr', 'rblr', 'di', 'diA', 'mblr', 'mblrA', 'vin', 'vinS', 'cr', 'ro', 'aw', 'ah', 'mx', 'my'
+        }
     }
 
     // Download
@@ -870,6 +1410,8 @@ const Editor = (props) => {
                     setPreviousPreset('initial');
                     setCurrentPreset('');
                     setValues({ ...resetValues });
+                    setCommandStack([]);
+                    setRedoStack([]);
                     setRenderPaused(false);
                     setIsLoading(false);
                 };
@@ -993,7 +1535,7 @@ const Editor = (props) => {
 
                                         <div className={"toggle-expandContainer buttonCoupleContainer align-self-center" + (activeTransformContainer === 1 ? '' : ' display-none')}>
                                             <p className="toggle-expand-text">Select Crop Area</p>
-                                            <div id="crop-reset" onClick={() => { setCurrentCrop({ ...cropReset }); setIsResettingCrop(false); }} className="editorButton"><BootstrapIcon type={82} /></div>
+                                            <div id="crop-reset" onClick={() => { addCommand('cr:100:100:0:0'); setCurrentCrop({ ...cropReset }); setIsResettingCrop(false); }} className="editorButton"><BootstrapIcon type={82} /></div>
                                             <div onClick={() => { setExpand(!expand); resizeClassCalculate(); }} className={"editorButton" + (expand ? ' activeButton' : '')}><BootstrapIcon type={expand ? 75 : 74} /></div>
                                             <div id="crop-confirm" onClick={() => { setActiveTransformContainer(-1) }} className="editorButton"><BootstrapIcon type={83} /></div>
                                         </div>
@@ -1273,13 +1815,13 @@ const Editor = (props) => {
                                                     download(canvas, newFilename);
                                                 }
                                             }><div className="editorButtonInfoTop">Download</div><BootstrapIcon type={54} /></div>
-                                            <div id="reset" className="editorButton" onClick={() => { setPreviousPreset('initial'); setCurrentPreset(''); setCurrentCrop({ ...cropReset }); setValues({ ...resetValues }); setRenderPaused(false); }}><div className="editorButtonInfoTop infoRight">Reset</div><BootstrapIcon type={55} /></div>
+                                            <div id="reset" className="editorButton" onClick={() => { setPreviousPreset('initial'); setCurrentPreset(''); setCurrentCrop({ ...cropReset }); setValues({ ...resetValues }); setRenderPaused(false); setCommandStack([]); setRedoStack([]); }}><div className="editorButtonInfoTop infoRight">Reset</div><BootstrapIcon type={55} /></div>
                                         </div>
                                         <div id="canvasScreen" className={"originalImageContainer " + (expand ? (resizeClass + ' ' + resizeClassCropped) : '')}>
                                             <canvas data-caman-hidpi-disabled="true" id="presetCopy"></canvas>
                                             <img src={previewSource ? previewSource : ''} alt="selected file" className={"originalImage" + (activeTransformContainer === 0 ? '' : ' invisible')} />
                                             <canvas data-caman-hidpi-disabled="true" id="canvasCopy"></canvas>
-                                            <ReactCrop id="reactCropID" className={(activeTransformContainer === 1) ? '' : 'invisible'} src={previewSource} crop={currentCrop} onChange={(crop, percentCrop) => { setCurrentCrop(percentCrop) }} onComplete={cropCanvas} />
+                                            <ReactCrop id="reactCropID" className={(activeTransformContainer === 1) ? '' : 'invisible'} src={previewSource} crop={currentCrop} onChange={(crop, percentCrop) => { setCurrentCrop(percentCrop) }} onComplete={() => { cropCanvas(); addCropCommand(); }} />
                                             <canvas id="canvasCover" data-caman-hidpi-disabled="true" className={"blackCover " + ((activeTransformContainer !== 1) ? '' : 'invisible')}></canvas>
                                             <canvas id="canvas" data-caman-hidpi-disabled="true" className={((activeTransformContainer !== 0 && activeTransformContainer !== 1) ? '' : 'invisible')}></canvas>
                                         </div>
@@ -1291,8 +1833,8 @@ const Editor = (props) => {
                                             <div className={"editorButton" + (activeFilterContainer === 4 ? ' activeButton' : '')} onClick={() => { setActiveFilterContainer(activeFilterContainer === 4 ? -1 : 4) }}><div className="editorButtonInfoBottom">Colorize</div><BootstrapIcon type={48} /></div>
                                             <div className={"editorButton" + (activeFilterContainer === 5 ? ' activeButton' : '')} onClick={() => { setActiveFilterContainer(activeFilterContainer === 5 ? -1 : 5) }}><div className="editorButtonInfoBottom">Noise</div><BootstrapIcon type={49} /></div>
                                             <div className={"editorButton" + (activeFilterContainer === 6 ? ' activeButton' : '')} onClick={() => { setActiveFilterContainer(activeFilterContainer === 6 ? -1 : 6) }}><div className="editorButtonInfoBottom">Vignette</div><BootstrapIcon type={72} /></div>
-                                            <div className="editorButton" onClick={() => { }}><BootstrapIcon type={52} /><div className="editorButtonInfoBottom">Undo</div></div>
-                                            <div className="editorButton" onClick={() => { }}><BootstrapIcon type={53} /><div className="editorButtonInfoBottom infoRight">Redo</div></div>
+                                            <div className="editorButton" onClick={undoCommand}><BootstrapIcon type={52} /><div className="editorButtonInfoBottom">Undo</div></div>
+                                            <div className="editorButton" onClick={redoCommand}><BootstrapIcon type={53} /><div className="editorButtonInfoBottom infoRight">Redo</div></div>
                                         </div>
 
                                     </div>
@@ -1393,7 +1935,7 @@ const Editor = (props) => {
                                                     setValues((prevState) => ({
                                                         ...prevState,
                                                         brightness: (prevState.brightness < 95) ? (prevState.brightness + 5) : 100
-                                                    }))
+                                                    }));
                                                 }}>+</div>
                                                 <div id="brightness-remove" className="valueButton" onClick={() => {
                                                     setValues((prevState) => ({
@@ -1437,13 +1979,13 @@ const Editor = (props) => {
                                                 <div id="gamma-add" className="valueButton" onClick={() => {
                                                     setValues((prevState) => ({
                                                         ...prevState,
-                                                        gamma: (prevState.gamma < 4.9) ? (prevState.gamma + 0.1) : 5
+                                                        gamma: (prevState.gamma < 4.9) ? (parseFloat((prevState.gamma + 0.1).toFixed(1))) : 5
                                                     }))
                                                 }}>+</div>
                                                 <div id="gamma-remove" className="valueButton" onClick={() => {
                                                     setValues((prevState) => ({
                                                         ...prevState,
-                                                        gamma: (prevState.gamma > 0.1) ? (prevState.gamma - 0.1) : 0
+                                                        gamma: (prevState.gamma > 0.1) ? (parseFloat((prevState.gamma - 0.1).toFixed(1))) : 0
                                                     }))
                                                 }}>-</div>
                                             </div>
@@ -1452,7 +1994,7 @@ const Editor = (props) => {
                                                 <div id="opacity-add" onClick={() => {
                                                     setValues((prevState) => ({
                                                         ...prevState,
-                                                        opacity: prevState.opacity < 0.95 ? prevState.opacity + 0.05 : 1
+                                                        opacity: prevState.opacity < 0.95 ? (parseFloat((prevState.opacity + 0.05).toFixed(2))) : 1
                                                     }))
                                                 }} className="valueButton">
                                                     +
@@ -1460,7 +2002,7 @@ const Editor = (props) => {
                                                 <div id="opacity-remove" onClick={() => {
                                                     setValues((prevState) => ({
                                                         ...prevState,
-                                                        opacity: prevState.opacity > 0.05 ? prevState.opacity - 0.05 : 0
+                                                        opacity: prevState.opacity > 0.05 ? (parseFloat((prevState.opacity - 0.05).toFixed(2))) : 0
                                                     }))
                                                 }} className="valueButton">
                                                     -
@@ -1787,7 +2329,6 @@ const Editor = (props) => {
                                         <div className={"sliderCoupleContainer" + (activeFilterContainer === 6 ? '' : ' display-none')}>
                                             <div className="sliderCouple">
                                                 <div id="vignetteSize-add" onClick={() => {
-                                                    setCurrentVignetteSize(values.vignetteSize < 99 ? values.vignetteSize + 1 : 100);
                                                     setValues((prevState) => ({
                                                         ...prevState,
                                                         vignetteSize: prevState.vignetteSize < 99 ? prevState.vignetteSize + 1 : 100
@@ -1797,7 +2338,6 @@ const Editor = (props) => {
                                                 </div>
                                                 <p>V Size</p>
                                                 <div id="vignetteSize-remove" onClick={() => {
-                                                    setCurrentVignetteSize(values.vignetteSize > 1 ? values.vignetteSize - 1 : 0);
                                                     setValues((prevState) => ({
                                                         ...prevState,
                                                         vignetteSize: prevState.vignetteSize > 1 ? prevState.vignetteSize - 1 : 0
@@ -1853,7 +2393,6 @@ const Editor = (props) => {
                                                     />
                                                 </div>
                                                 <div id="vignetteStrength-add" onClick={() => {
-                                                    setCurrentVignetteStrength(values.vignetteStrength < 99 ? values.vignetteStrength + 1 : 100);
                                                     setValues((prevState) => ({
                                                         ...prevState,
                                                         vignetteStrength: prevState.vignetteStrength < 99 ? prevState.vignetteStrength + 1 : 100
@@ -1863,7 +2402,6 @@ const Editor = (props) => {
                                                 </div>
                                                 <p>Effect</p>
                                                 <div id="vignetteStrength-remove" onClick={() => {
-                                                    setCurrentVignetteStrength(values.vignetteStrength > 1 ? values.vignetteStrength - 1 : 0);
                                                     setValues((prevState) => ({
                                                         ...prevState,
                                                         vignetteStrength: prevState.vignetteStrength > 1 ? prevState.vignetteStrength - 1 : 0
