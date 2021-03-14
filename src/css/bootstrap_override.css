@@ -36,6 +36,7 @@
 }
 .break{
 	min-height: fit-content;
+	box-shadow: 0 10px 20px black;
 }
 .teh{
 	border: 2px solid rgba(210,210,230, 0.2);
@@ -65,6 +66,13 @@
 }
 .blog-masthead{
 	margin-bottom: 1.5rem !important;
+	position: fixed;
+    width: 100%;
+    z-index: 100;
+    top: 0;
+}
+.blog-masthead .container{
+	max-width: unset !important;
 }
 .blog-header{
 	border-bottom: 5px solid #555 !important;
