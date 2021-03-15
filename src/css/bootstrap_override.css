@@ -242,6 +242,9 @@ input[type="checkbox"]{
 .fileUpload label{ 
 	font-size: 25px;
 } 
+#fileUploadID{
+	cursor: pointer;
+} 
 .form-control-file{
 	border: 2px solid #999999 !important;
 	border-radius: 2px !important;
