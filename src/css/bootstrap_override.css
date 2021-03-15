@@ -406,6 +406,7 @@ input[type="checkbox"]{
     padding: 0;
     vertical-align: top;
     float: right;
+	line-height: initial;
 }
 .small-num{
 	width: 22px !important;
