@@ -1759,7 +1759,7 @@ svg{
 		font-size: 17px;
 	}
 }
-@media only screen and (min-width: 850px) and  (min-height: 850px){
+@media only screen and (min-width: 1000px) and  (min-height: 1000px){
 	/* Desktop: */
 	[class*="originalImageContainer"] {
 	  	max-height: 460px !important;
