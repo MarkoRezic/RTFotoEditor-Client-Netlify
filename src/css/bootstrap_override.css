@@ -1805,7 +1805,7 @@ svg{
 		height: 20px !important;
 	}
 }
-@media only screen and (max-width: 360px){
+@media only screen and (max-width: 375px){
 	/* Mobile: */
 	.nav-link{
 		padding: 10px !important;
